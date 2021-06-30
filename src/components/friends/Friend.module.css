@@ -1,0 +1,20 @@
+.friendBlock {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.friendItem {
+    font-size: 120%;
+    color: #002aff;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.friendItem img {
+    width: 100px;
+    height: auto;
+    border-radius: 50px;
+}

@@ -1,0 +1,30 @@
+.nav {
+    grid-area: n;
+    background-color: rgb(117,235,283);
+    min-width: 235px;
+}
+
+.nav a {
+    text-decoration: none;
+    color: #3616ab;
+}
+
+.item {
+    margin: 20px;
+    padding-left: 10px;
+    font-size: 40px;
+
+    box-shadow: 4px 2px 3px 2px rgba(0, 174, 217, 0.35);
+    border-radius: 10px;
+}
+
+.nav a.activeLink {
+    color: #ebffff;
+}
+
+.item:hover {
+    cursor: pointer;
+    box-shadow: 6px 4px 5px 4px rgb(0, 174, 217);
+    font-weight: 500;
+    transform: rotate(-2deg);
+}

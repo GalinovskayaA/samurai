@@ -1,0 +1,9 @@
+.selectedPage {
+    font-weight: bold;
+    font-size: 16px;
+    margin: 15px 2px 15px 15px;
+}
+
+.page {
+    margin: 15px 2px 15px 15px;
+}
