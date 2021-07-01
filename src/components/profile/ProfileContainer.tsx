@@ -5,7 +5,7 @@ import {
   addPostAC, getUserProfileTC,
   MyPostsType,
   NetworkDataType,
-  ProfileInfoDataType, ProfileType, setStatusTC,
+  ProfileInfoDataType, ProfileType, savePhotoTC, setStatusTC,
   updateNewPostTextAC, updateStatusTC, userIsFetching
 } from "../../redux/ProfileReduser";
 import {StoreStateType} from "../../redux/redux-store";
@@ -18,28 +18,38 @@ import {AuthPropsType} from "../../redux/AuthReduser";
 
 class ProfileContainer extends React.Component<PropsType> {
 
-  componentDidMount() {
-   // this.props.userIsFetching(true);
+  refreshProfile() {
+    // this.props.userIsFetching(true);
     let meId = this.props.user.id;
     let userId = this.props.match.params.userId;
     console.log(this.props)
     console.log(userId)
     if (!userId) {
-     userId = meId.toString() // !!! что это за переменная ???
+      userId = meId.toString() // !!! что это за переменная ???
     }
-   this.props.getUserProfileTC(userId);
-   this.props.setStatusTC(userId)
+    this.props.getUserProfileTC(userId);
+    this.props.setStatusTC(userId)
+  }
+
+  componentDidMount() {
+    this.refreshProfile()
+  }
+
+  componentDidUpdate(prevProps: Readonly<PropsType>, prevState: Readonly<{}>, snapshot?: any) {
+    if (this.props.match.params.userId !== prevProps.match.params.userId) {
+      this.refreshProfile()
+    }
   }
 
   render() {
     let preloader =
-      this.props.isFetching ? <Preloader /> : null
+      this.props.isFetching ? <Preloader/> : null
 
     return (<>
       <div>
-        { preloader }
+        {preloader}
       </div>
-      <Profile/>
+      <Profile isOwner={!this.props.match.params.userId} savePhotoTC={this.props.savePhotoTC}/>
     </>)
   }
 }
@@ -58,13 +68,14 @@ type MapStatePropsType = {
   status: string
 }
 type MapDispatchPropsType = {
-  addPostAC: (message: string)  => void
+  addPostAC: (message: string) => void
   updateNewPostTextAC: (text: string) => void
   getUserProfileTC: (userId: string) => void
   setStatusTC: (userId: string) => void
   updateStatusTC: (status: string) => void
   /*setUserProfileAC: (profile: ProfileType) => void*/
   userIsFetching: (isFetching: boolean) => void
+  savePhotoTC: (file: string) => void
 }
 export type ProfileContainerPropsType = MapStatePropsType & MapDispatchPropsType
 type PropsType = RouteComponentProps<UserIdType> & ProfileContainerPropsType & AuthPropsType
@@ -83,7 +94,15 @@ const mapStateToProps = (state: StoreStateType): MapStatePropsType => {
 }
 
 export default compose<React.ComponentType>(
-  connect(mapStateToProps, {addPostAC, updateNewPostTextAC, getUserProfileTC, userIsFetching, setStatusTC, updateStatusTC}),
+  connect(mapStateToProps, {
+    addPostAC,
+    updateNewPostTextAC,
+    getUserProfileTC,
+    userIsFetching,
+    setStatusTC,
+    updateStatusTC,
+    savePhotoTC
+  }),
   withRouter,
   withAuthRedirect
 )(ProfileContainer)

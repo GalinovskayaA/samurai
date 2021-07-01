@@ -7,6 +7,7 @@ const UPDATE_NEW_MESSAGE = 'UPDATE-NEW-MESSAGE';
 const SET_USER_PROFILE = 'SET-USER-PROFILE';
 const USER_IS_FETCHING = 'USER-IS-FETCHING'; // у Димыча этого нет
 const SET_STATUS = 'SET-STATUS';
+const SET_SAVE_PHOTO = 'SET-SAVE-PHOTO';
 
 export type NetworkDataType = {
   logo: string,
@@ -102,8 +103,11 @@ export type DeletePostType = { type: 'DELETE-POST', id: string }
 export type UserProfile = { type: 'SET-USER-PROFILE', profile: ProfileType }
 export type UserIsFetching = { type: 'USER-IS-FETCHING', isFetching: boolean }
 export type SetStatusType = { type: 'SET-STATUS', status: string }
+export type SetSavePhoto = { type: 'SET-SAVE-PHOTO', photos: PhotosUserProfileType }
 
-export type ProfileActionType = UpdateNewPostTextActionCreatorType | AddPostType | DeletePostType | UserProfile | UserIsFetching | SetStatusType
+export type ProfileActionType = UpdateNewPostTextActionCreatorType | AddPostType | DeletePostType
+                                | UserProfile | UserIsFetching | SetStatusType
+                                | SetSavePhoto
 
 export const addPostAC = (message: string)  => {
   return { type: 'ADD-POST', message: message } as const
@@ -122,6 +126,9 @@ export const userIsFetching = (isFetching: boolean) => {
 }
 export const setStatusAC = (status: string) => {
   return { type: 'SET-STATUS', status: status } as const
+}
+export const setSavePhotoAC = (photos: PhotosUserProfileType) => {
+  return { type: 'SET-SAVE-PHOTO', photos: photos } as const
 }
 
 export const profileReduser = (state: ProfilePageType = initialState, action: ProfileActionType): ProfilePageType => {
@@ -161,6 +168,12 @@ export const profileReduser = (state: ProfilePageType = initialState, action: Pr
         status: action.status
       }
     }
+    case SET_SAVE_PHOTO: {
+      return {
+        ...state,
+        profile: {...state.profile, photos: action.photos}
+      }
+    }
     default:
       return state;
   }
@@ -179,6 +192,12 @@ export const updateStatusTC = (status: string) => async (dispatch: Dispatch) => 
   let response = await profileAPI.updateStatus(status);
   if (response.data.resultCode === 0) {
     dispatch(setStatusAC(status));
+  }
+}
+export const savePhotoTC = (file: string) => async (dispatch: Dispatch) => {
+  let response = await profileAPI.savePhoto(file);
+  if (response.data.resultCode === 0) {
+    dispatch(setSavePhotoAC(response.data.data.photos));
   }
 }
 
