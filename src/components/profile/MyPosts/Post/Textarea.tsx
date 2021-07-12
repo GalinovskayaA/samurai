@@ -4,6 +4,8 @@ import {TextareaFormType} from "../MyPosts";
 import {maxLengthCreator, required} from "../../../../utils/validators/validators";
 import {TextareaFormsController} from "../../../common/FormsControls";
 
+
+
 const maxLength50 = maxLengthCreator(50)
 
 const AddMessageForm: React.FC<InjectedFormProps<TextareaFormType>> = (props) => {
