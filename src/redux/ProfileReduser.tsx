@@ -1,6 +1,8 @@
 import {v1} from "uuid";
 import {Dispatch} from "redux";
 import {profileAPI} from "../api/api";
+import {StoreStateType} from "./redux-store";
+import {stopSubmit} from "redux-form";
 const ADD_POST = 'ADD-POST';
 const DELETE_POST = 'DELETE-POST';
 const UPDATE_NEW_MESSAGE = 'UPDATE-NEW-MESSAGE';
@@ -25,14 +27,22 @@ export type MyPostsType = {
   amount: number
 }
 export type ContactsUserProfileType = {
-  facebook: null | string,
-  website: null | string,
-  vk: null | string,
-  twitter: null | string,
-  instagram: null | string,
-  youtube: null | string,
-  github: null | string,
-  mainLink: null | string,
+ /* facebook?: any,
+  website?: any,
+  vk?: any,
+  twitter?: any,
+  instagram?: any
+  youtube?: any
+  github?: any
+  mainLink?: any*/
+  facebook?: null | string,
+  website?: null | string,
+  vk?: null | string,
+  twitter?: null | string,
+  instagram?: null | string,
+  youtube?: null | string,
+  github?: null | string,
+  mainLink?: null | string,
 }
 export type PhotosUserProfileType = {
   small: string,
@@ -40,7 +50,7 @@ export type PhotosUserProfileType = {
 }
 export type ProfileType = {
   aboutMe: string,
-  contacts: ContactsUserProfileType,
+  contacts: {[key: string]: string}/*{[key: string]: any}*/,
   lookingForAJob: boolean,
   lookingForAJobDescription: string,
   fullName: string,
@@ -198,6 +208,19 @@ export const savePhotoTC = (file: string) => async (dispatch: Dispatch) => {
   let response = await profileAPI.savePhoto(file);
   if (response.data.resultCode === 0) {
     dispatch(setSavePhotoAC(response.data.data.photos));
+  }
+}
+export const saveProfileTC = (profile: ProfileType) => async (dispatch: Dispatch, getState: () => StoreStateType) => {
+  const userId = getState().auth.id
+  let response = await profileAPI.saveProfileTC(profile);
+  if (response.data.resultCode === 0) {
+    dispatch(setUserProfileAC(profile))
+    // @ts-ignore
+    dispatch(getUserProfileTC(userId))
+  } else {
+    let messages = response.data.messages.length > 0 ? response.data.messages[0] : "Some error";
+    dispatch(stopSubmit('error', {_error: messages}));
+    alert(response.data.messages[0])
   }
 }
 

@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent} from "react";
+import React, {KeyboardEvent} from "react";
 import Message from "./Messege/Message";
 import {DialogsContainerPropsType} from "./DialogsContainer";
 import {TextareaFormType} from "../profile/MyPosts/MyPosts";
@@ -11,9 +11,6 @@ const DialogsMessages = (props: DialogsContainerPropsType) => {
     props.addSendMessageClick(values.textarea)
   }
 
-  /*const onNewMessageChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-     props.updateNewMessageCreator(e.currentTarget.value)
-  }*/
   const onKeyPressHandler = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter") {
       props.addSendMessageClick(message);
@@ -24,11 +21,6 @@ const DialogsMessages = (props: DialogsContainerPropsType) => {
 
     return (
           <div>
-            {/*<div><textarea value={message}
-                           onChange={onNewMessageChange}
-                           onKeyPress={onKeyPressHandler}
-                           placeholder={'Enter your message'}> </textarea></div>
-            <div><button onClick={ () => props.addSendMessageClick(message) }> add </button></div>*/}
             <AddMessageReduxForm onSubmit={addNewMessage} />
             <div> { messageElements } </div>
           </div>

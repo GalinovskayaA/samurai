@@ -5,7 +5,7 @@ import {
   addPostAC, getUserProfileTC,
   MyPostsType,
   NetworkDataType,
-  ProfileInfoDataType, ProfileType, savePhotoTC, setStatusTC,
+  ProfileInfoDataType, ProfileType, savePhotoTC, saveProfileTC, setStatusTC,
   updateNewPostTextAC, updateStatusTC, userIsFetching
 } from "../../redux/ProfileReduser";
 import {StoreStateType} from "../../redux/redux-store";
@@ -49,7 +49,9 @@ class ProfileContainer extends React.Component<PropsType> {
       <div>
         {preloader}
       </div>
-      <Profile isOwner={!this.props.match.params.userId} savePhotoTC={this.props.savePhotoTC}/>
+      <Profile isOwner={!this.props.match.params.userId}
+               savePhotoTC={this.props.savePhotoTC}
+               saveProfileTC={this.props.saveProfileTC}/>
     </>)
   }
 }
@@ -76,6 +78,7 @@ type MapDispatchPropsType = {
   /*setUserProfileAC: (profile: ProfileType) => void*/
   userIsFetching: (isFetching: boolean) => void
   savePhotoTC: (file: string) => void
+  saveProfileTC: (profile: ProfileType) => void
 }
 export type ProfileContainerPropsType = MapStatePropsType & MapDispatchPropsType
 type PropsType = RouteComponentProps<UserIdType> & ProfileContainerPropsType & AuthPropsType
@@ -101,7 +104,8 @@ export default compose<React.ComponentType>(
     userIsFetching,
     setStatusTC,
     updateStatusTC,
-    savePhotoTC
+    savePhotoTC,
+    saveProfileTC
   }),
   withRouter,
   withAuthRedirect

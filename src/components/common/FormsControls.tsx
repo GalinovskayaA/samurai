@@ -1,18 +1,20 @@
 import React from "react";
 import s from "./FormsControls.module.css"
-import {InjectedFormProps} from "redux-form";
-import {FormDataType} from "../login/Login";
-
-type TextereaFormsControllerPropsType = {
-  input: any
-  meta: MetaType
-}
 
 type MetaType = {
   meta: {
     touched: boolean,
     error: string
   }
+}
+
+export const TextareaFormsController = (props: any) => {
+  const {input, meta, children, ...restProps} = props;
+  return <FormsController {...props}><textarea {...props.input} {...restProps}/></FormsController>
+}
+export const InputFormsController = (props: any) => {
+  const {input, meta, children, ...restProps} = props;
+  return <FormsController {...props}><input {...props.input} {...restProps}/></FormsController>
 }
 
 const FormsController: React.FC<MetaType> = (
@@ -28,14 +30,5 @@ const FormsController: React.FC<MetaType> = (
       {hasError && <span> {error} </span>}
     </div>
   )
-}
-
-export const TextereaFormsController = (props: any) => {
-  const {input, meta, children, ...restProps} = props;
-  return <FormsController {...props}><textarea {...props.input} {...restProps}/></FormsController>
-}
-export const InputFormsController = (props: any) => {
-  const {input, meta, children, ...restProps} = props;
-  return <FormsController {...props}><input {...props.input} {...restProps}/></FormsController>
 }
 
