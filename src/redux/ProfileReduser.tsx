@@ -218,9 +218,11 @@ export const saveProfileTC = (profile: ProfileType) => async (dispatch: Dispatch
     // @ts-ignore
     dispatch(getUserProfileTC(userId))
   } else {
-    let messages = response.data.messages.length > 0 ? response.data.messages[0] : "Some error";
-    dispatch(stopSubmit('error', {_error: messages}));
-    alert(response.data.messages[0])
+    let message = response.data.messages.length > 0 ? response.data.messages[0] : "Some error";
+    dispatch(stopSubmit('error', {_error: message})); // через специальную форму 'error'
+    return Promise.reject(message)
+    //dispatch(stopSubmit('edit-profile', {"contacts": {"facebook": response.data.messages[0]}})); // ошибка будет под определенной текстерией
+    //alert(response.data.messages[0])
   }
 }
 

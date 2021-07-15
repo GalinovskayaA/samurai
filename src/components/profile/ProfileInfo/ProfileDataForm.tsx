@@ -7,11 +7,12 @@ import {StoreStateType} from "../../../redux/redux-store";
 import {ProfileType} from "../../../redux/ProfileReduser";
 import s from "./ProfileInfo.module.css";
 
-const ProfileDataForm: React.FC<InjectedFormProps> = ({handleSubmit}) => {
+const ProfileDataForm: React.FC<InjectedFormProps> = ({handleSubmit, error}) => {
   let profile = useSelector<StoreStateType, ProfileType>(state => state.profilePage.profile)
   return <>
     <form onSubmit={handleSubmit}>
       <div> <button onClick={()=> {}}> save </button> </div>
+      {error && <div className={s.formSummaryError}> {error} </div>}
       <div>
         <b>Full name:</b> <Field placeholder={'Full name'} name={'fullName'} component={InputFormsController}/>
       </div>

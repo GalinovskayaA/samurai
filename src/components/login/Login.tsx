@@ -9,13 +9,14 @@ export type FormDataType = {
   email: string
   password: string
   rememberMe: boolean
+  captchaUrl: string | null
 }
 
 const Login = ({isAuth}: MapStatePropsType) => {
   const dispatch = useDispatch()
-  const onSubmit = ({email, password, rememberMe}: FormDataType) => {
-    console.log(email, password, rememberMe)
-    dispatch(loginTC(email, password, rememberMe))
+  const onSubmit = ({email, password, rememberMe, captchaUrl}: FormDataType) => {
+    console.log(email, password, rememberMe, captchaUrl)
+    dispatch(loginTC(email, password, rememberMe, captchaUrl))
   }
 
   if (isAuth) {
@@ -24,7 +25,7 @@ const Login = ({isAuth}: MapStatePropsType) => {
 
   return <> <div>
     <h1> Login </h1>
-    <LoginReduxForm onSubmit={onSubmit} />
+    <LoginReduxForm onSubmit={onSubmit}/>
   </div>
   </>
 }
