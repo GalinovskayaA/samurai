@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, Switch} from "react-router-dom"
+import {Redirect, Route, Switch} from "react-router-dom"
 import classes from './App.module.css';
 import ProfileContainer from "./components/profile/ProfileContainer";
 import UsersContainer from "./components/users/UsersContainer";
@@ -26,7 +26,7 @@ const Routes = () => {
     return (
         <div className={classes.appWrapperContent}>
             <Switch>
-                <Route exact path={'/'} render={() => <ProfileContainer/>}/>
+                <Route exact path={'/'} render={() => <Redirect to={PATH.PROFILE}/>}/>
                 {/*<Route path={'/profile/:userId?'} render={() => <ProfileContainer/>}/>*/}
                 <Route path={PATH.PROFILE + '/:userId?'} render={() => <ProfileContainer/>}/>
                 <Route path={PATH.LOGIN} render={() => <Login/>}/>

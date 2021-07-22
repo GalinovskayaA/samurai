@@ -1,5 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import s from "./Paginator.module.css"
+import cn from "classnames";
 
 
 type PaginatorPropsType = {
@@ -115,8 +116,7 @@ type ShowButtonPropsType = {
 }
 
 const ShowButton = ({currentPage, page, onPageChanged}: ShowButtonPropsType) => {
-  let className = currentPage === page ? s.selectedPage : s.page
-  return <button className={className}
+  return <button className={cn({[s.selectedPage]: currentPage === page}, s.page)}
                  key={page}
                  onClick={() => {
                    onPageChanged(page)
