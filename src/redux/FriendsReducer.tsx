@@ -18,7 +18,7 @@ const initialState: FriendsPropsType = {
     ] as Array<FriendsType>
 }
 
-export const friendReduser = (state: FriendsPropsType = initialState, action: any) => {
+export const friendReducer = (state: FriendsPropsType = initialState, action: any) => {
   return state;
 }
 

@@ -7,19 +7,18 @@ import {
     NetworkDataType,
     ProfileInfoDataType, ProfileType, savePhotoTC, saveProfileTC, setStatusTC,
     updateNewPostTextAC, updateStatusTC, userIsFetching
-} from "../../redux/ProfileReduser";
+} from "../../redux/ProfileReducer";
 import {StoreStateType} from "../../redux/redux-store";
 import {compose} from "redux";
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import Preloader from "../common/preloader";
 import {withAuthRedirect} from "../../Hoc/withAuthRedirect";
-import {AuthPropsType} from "../../redux/AuthReduser";
+import {AuthPropsType} from "../../redux/AuthReducer";
 
 
 class ProfileContainer extends React.Component<PropsType> {
 
     refreshProfile() {
-        // this.props.userIsFetching(true);
         let meId = this.props.user.id;
         let userId = this.props.match.params.userId; // благодаря withRouter, который законектил к URL, взялись
         console.log(this.props)                      // данные из match

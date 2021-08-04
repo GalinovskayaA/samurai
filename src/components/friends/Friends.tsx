@@ -1,7 +1,7 @@
 import React from "react";
 import Friend from "./Friend";
 import classes from './Friend.module.css'
-import {FriendsPropsType} from "../../redux/FriendsReduser";
+import {FriendsPropsType} from "../../redux/FriendsReducer";
 
 const Friends = (props: FriendsPropsType) => {
   const friend = props.friend.map ((f) => (

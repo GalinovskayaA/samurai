@@ -13,7 +13,7 @@ const AddMessageForm: React.FC<InjectedFormProps<TextareaFormType>> = (props) =>
   return (
     <form onSubmit={props.handleSubmit} >
       <div>
-        <Field name={"textarea"} component={TextareaFormsController} autoFocus placeholder={'Enter your message'} validate={[required, maxLength50]}/>
+        <Field name={"textarea"} component={TextareaFormsController} placeholder={'Enter your message'} validate={[required, maxLength50]}/>
       </div>
       <div>
         <button>Send</button>

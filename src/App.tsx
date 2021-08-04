@@ -2,16 +2,16 @@ import React from 'react';
 import {withRouter} from "react-router-dom"
 import classes from './App.module.css';
 import Nav from "./components/nav/nav";
-import {DialogsPropsType} from "./redux/DialogsReduser";
-import {FriendsPropsType} from "./redux/FriendsReduser";
-import {ProfilePageType} from "./redux/ProfileReduser";
+import {DialogsPropsType} from "./redux/DialogsReducer";
+import {FriendsPropsType} from "./redux/FriendsReducer";
+import {ProfilePageType} from "./redux/ProfileReducer";
 import HeaderContainer from "./components/header/HeaderContainer";
 import {connect} from "react-redux";
 import {compose} from "redux";
-import {initializeApp} from "./redux/AppReduser";
+import {initializeApp} from "./redux/AppReducer";
 import {StoreStateType} from "./redux/redux-store";
 import Preloader from "./components/common/preloader";
-import {getAuthUserData} from "./redux/AuthReduser";
+import {getAuthUserData} from "./redux/AuthReducer";
 import Routes from "./Routes";
 
 

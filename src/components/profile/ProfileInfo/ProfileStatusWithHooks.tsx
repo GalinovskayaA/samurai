@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
 import {StoreStateType} from "../../../redux/redux-store";
 import {useDispatch, useSelector} from "react-redux";
-import {getUserProfileTC, updateStatusTC} from "../../../redux/ProfileReduser";
+import {getUserProfileTC, updateStatusTC} from "../../../redux/ProfileReducer";
 
 
 const ProfileStatusWithHooks = () => {

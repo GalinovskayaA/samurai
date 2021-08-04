@@ -3,7 +3,7 @@ import classes from './nav.module.css';
 import NavBar from "./navBar";
 import {NavLink} from "react-router-dom";
 import Friends from "../friends/Friends";
-import {FriendsPropsType} from "../../redux/FriendsReduser";
+import {FriendsPropsType} from "../../redux/FriendsReducer";
 
 export type NavType = {
   friendsProps: FriendsPropsType

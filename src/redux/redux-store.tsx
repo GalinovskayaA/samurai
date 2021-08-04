@@ -1,22 +1,22 @@
 import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import thunkMiddleware from 'redux-thunk';
-import {profileReduser} from "./ProfileReduser";
-import {friendReduser} from "./FriendsReduser";
-import {dialogsReduser} from "./DialogsReduser";
-import {usersReduser} from "./UsersReduser";
-import {authReduser} from "./AuthReduser";
+import {profileReducer} from "./ProfileReducer";
+import {friendReducer} from "./FriendsReducer";
+import {dialogsReducer} from "./DialogsReducer";
+import {usersReducer} from "./UsersReducer";
+import {authReducer} from "./AuthReducer";
 import { reducer as formReducer } from 'redux-form';
-import {appReduser} from "./AppReduser";
+import {appReducer} from "./AppReducer";
 
 
 export const rootReducer = combineReducers ({
-  profilePage: profileReduser,
-  dialogPage: dialogsReduser,
-  friendPage: friendReduser,
-  usersPage: usersReduser,
-  auth: authReduser,
+  profilePage: profileReducer,
+  dialogPage: dialogsReducer,
+  friendPage: friendReducer,
+  usersPage: usersReducer,
+  auth: authReducer,
   form: formReducer,
-  app: appReduser
+  app: appReducer
 });
 
 export type RootReducerType = typeof rootReducer

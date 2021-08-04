@@ -1,5 +1,5 @@
 import React from "react";
-import {UsersPropsType} from "../../redux/UsersReduser";
+import {UsersPropsType} from "../../redux/UsersReducer";
 import Paginator from "../common/paginator/Paginator";
 import User from "./User";
 

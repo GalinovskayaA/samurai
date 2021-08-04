@@ -1,7 +1,7 @@
 import React from 'react';
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
-import {ProfileType} from "../../redux/ProfileReduser";
+import {ProfileType} from "../../redux/ProfileReducer";
 
 export type ProfilePropsType = {
   isOwner: boolean

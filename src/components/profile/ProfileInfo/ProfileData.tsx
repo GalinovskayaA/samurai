@@ -1,6 +1,6 @@
 import {useSelector} from "react-redux";
 import {StoreStateType} from "../../../redux/redux-store";
-import {ProfileType} from "../../../redux/ProfileReduser";
+import {ProfileType} from "../../../redux/ProfileReducer";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 import {Contacts} from "./Contacts";
 import React from "react";

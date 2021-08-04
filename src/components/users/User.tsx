@@ -1,5 +1,5 @@
 import React from "react";
-import {UsersType} from "../../redux/UsersReduser";
+import {UsersType} from "../../redux/UsersReducer";
 import {NavLink} from "react-router-dom";
 import Avatar from "../common/avatar";
 

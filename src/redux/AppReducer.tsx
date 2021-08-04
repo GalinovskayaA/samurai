@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import {getAuthUserData} from "./AuthReduser";
+import {getAuthUserData} from "./AuthReducer";
 
 type AppPropsType = {
     initialized: boolean,
@@ -9,7 +9,7 @@ const initialState: AppPropsType = {
     initialized: false,
 }
 
-export const appReduser = (state: AppPropsType = initialState, action: AppActionType) => {
+export const appReducer = (state = initialState, action: AppActionType): AppPropsType => {
     switch (action.type) {
         case "INITIALIZED-SUCCESS": {
             return {

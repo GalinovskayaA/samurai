@@ -6,7 +6,7 @@ import {DialogsDataType} from "../components/dialogs/DialogItem/DialogsItem";
 const SEND_MESSAGE = 'SEND-MESSAGE';
 
 
-export const dialogsReduser = (state: DialogsPropsType = initialState, action: SendMessageCreatorType): DialogsPropsType => {
+export const dialogsReducer = (state: DialogsPropsType = initialState, action: SendMessageCreatorType): DialogsPropsType => {
   switch (action.type) {
     /*case UPDATE_NEW_MESSAGE_BODY: { // не нужно, так как есть Redux-form
       return {

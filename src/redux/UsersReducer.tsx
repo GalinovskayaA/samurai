@@ -38,7 +38,7 @@ const initialState: UsersPropsType = {
   followingInProgress: []
 }
 
-export const usersReduser = (state: UsersPropsType = initialState, action: UsersActionType) => {
+export const usersReducer = (state = initialState, action: UsersActionType): UsersPropsType => {
   switch (action.type) {
     case "FOLLOW": {
       return {
@@ -107,29 +107,29 @@ export const usersReduser = (state: UsersPropsType = initialState, action: Users
   }
 }
 
-export const followSuccess = (userID: string) => {
+export const followSuccess = (userID: string): FollowACType => {
   return {type: "FOLLOW", userID: userID}
 }
-export const unfollowSuccess = (userID: string) => {
+export const unfollowSuccess = (userID: string): UnfollowACType => {
   return {type: "UNFOLLOW", userID: userID}
 }
-export const setUsers = (users: Array<UsersType>) => {
+export const setUsers = (users: Array<UsersType>): SetUsersAC => {
   return {type: "SET-USERS", users: users}
 }
-export const setCurrentPage = (currentPage: number) => {
+export const setCurrentPage = (currentPage: number): SetCurrentPageAC => {
   return {type: "SET-CURRENT-PAGE", currentPage: currentPage}
 }
-export const setPageSize = (pageSize: number) => {
+export const setPageSize = (pageSize: number): SetPageSizeAC => {
   return {type: "SET-PAGE-SIZE", pageSize: pageSize}
 }
-export const setUsersTotalCount = (count: number) => {
+export const setUsersTotalCount = (count: number): SetUsersTotalCountAC => {
   return {type: "SET-TOTAL-USERS-COUNT", count: count}
 }
-export const toggleIsFetching = (isFetching: boolean) => {
+export const toggleIsFetching = (isFetching: boolean): ToggleIsFetching => {
   return {type: "TOGGLE-IS-FETCHING", isFetching: isFetching}
 }
-export const followingInProgressAC = (isFetching: boolean, userID: string) => {
-  return {type: "TOGGLE-IS-FETCHING", isFetching, userID}
+export const followingInProgressAC = (isFetching: boolean, userID: string): FollowingInProgressAC => {
+  return {type: "FOLLOWING-IN-PROGRESS", isFetching, userID}
 }
 export type FollowACType = {
   type: "FOLLOW", userID: string
@@ -182,38 +182,12 @@ const followUnfollowFlow =
 
 export const followThunkCreator = (userID: string) => {
   return async (dispatch: Dispatch) => {
-    followUnfollowFlow(dispatch, userID, usersAPI.follow.bind(usersAPI), followSuccess)
+    await followUnfollowFlow(dispatch, userID, usersAPI.follow.bind(usersAPI), followSuccess)
   }
 }
 
 export const unfollowThunkCreator = (userID: string) => {
   return async (dispatch: Dispatch) => {
-    followUnfollowFlow(dispatch, userID, usersAPI.unfollow.bind(usersAPI), unfollowSuccess)
+    await followUnfollowFlow(dispatch, userID, usersAPI.unfollow.bind(usersAPI), unfollowSuccess)
   }
 }
-
-
-/*props.setUsersAC([{
-            id: v1(),
-            avatar: avatar,
-            followed: true,
-            name: "Dmitriy K.",
-            status: "I am a boss",
-            location: {city: "Minsk", country: "Belarus"}
-          },
-            {
-              id: v1(),
-              avatar: avatar,
-              followed: true,
-              name: "Sasha G.",
-              status: "I am a student",
-              location: {city: "Minsk", country: "Belarus"}
-            },
-            {
-              id: v1(),
-              avatar: avatar,
-              followed: false,
-              name: "Andrew P.",
-              status: "I am a boss too",
-              location: {city: "Kiev", country: "Ukraine"}
-            }])*/

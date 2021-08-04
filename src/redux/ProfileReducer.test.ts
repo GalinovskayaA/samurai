@@ -1,4 +1,4 @@
-import {addPostAC, deletePostAC, profileReduser, ProfileType} from "./ProfileReduser";
+import {addPostAC, deletePostAC, profileReducer, ProfileType} from "./ProfileReducer";
 import {v1} from "uuid";
 
   let avatar = "https://www.anypics.ru/download.php?file=201210/1440x900/anypics.ru-5910.jpg"
@@ -27,7 +27,7 @@ import {v1} from "uuid";
 test('length of posts should be incremented', () => {
   let action = addPostAC('Heeey')
 
-  let newState = profileReduser(state, action);
+  let newState = profileReducer(state, action);
 
   expect(newState.arrayMyPosts.length).toBe(4)
   expect(newState.arrayMyPosts[0].message).toBe('Heeey')
@@ -39,7 +39,7 @@ it('length of posts should be decremented', () => {
 
   let action = deletePostAC(one)
 
-  let newState = profileReduser(state, action);
+  let newState = profileReducer(state, action);
 
   expect(newState.arrayMyPosts.length).toBe(2)
   expect(newState.arrayMyPosts[0].message).toBe('How are you?')
@@ -51,7 +51,7 @@ it('after deleting length of posts should be decrement if id is incorrect', () =
 
   let action = deletePostAC('1')
 
-  let newState = profileReduser(state, action);
+  let newState = profileReducer(state, action);
 
   expect(newState.arrayMyPosts.length).toBe(3)
   expect(newState.arrayMyPosts[0].message).toBe('Hi')

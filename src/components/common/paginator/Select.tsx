@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from "react";
-import s from "./Paginator.module.css"
 import {
   getUsersThunkCreator,
   setPageSize
-} from "../../../redux/UsersReduser";
+} from "../../../redux/UsersReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {StoreStateType} from "../../../redux/redux-store";
 

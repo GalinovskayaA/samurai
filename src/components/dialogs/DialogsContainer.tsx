@@ -1,16 +1,11 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import classes from "./Dialogs.module.css";
-import Message, {MessageDataType} from "./Messege/Message";
-import DialogItem, {DialogsDataType} from "./DialogItem/DialogsItem";
-import {v1} from "uuid";
-import DialogsMessages from "./DialogsElements";
+import React from "react";
+import {MessageDataType} from "./Messege/Message";
+import {DialogsDataType} from "./DialogItem/DialogsItem";
 import {connect} from "react-redux";
 import Dialogs from "./Dialogs";
-import StoreContext from "../../StoreContext";
-import {DialogsPropsType, sendMessageCreator} from "../../redux/DialogsReduser";
+import {sendMessageCreator} from "../../redux/DialogsReducer";
 import {StoreStateType} from "../../redux/redux-store";
 import {compose, Dispatch} from "redux";
-import {Redirect} from "react-router-dom";
 import {withAuthRedirect} from "../../Hoc/withAuthRedirect";
 
 

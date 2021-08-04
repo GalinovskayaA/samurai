@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import s from './ProfileInfo.module.css';
-import {ProfileType} from "../../../redux/ProfileReduser";
+import {ProfileType} from "../../../redux/ProfileReducer";
 import Preloader from "../../common/preloader";
 import {useSelector} from "react-redux";
 import {StoreStateType} from "../../../redux/redux-store";

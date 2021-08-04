@@ -7,7 +7,7 @@ import {
   ProfileInfoDataType,
   ProfileType,
   updateNewPostTextAC, userIsFetching
-} from "../../../redux/ProfileReduser";
+} from "../../../redux/ProfileReducer";
 import {StoreStateType} from "../../../redux/redux-store";
 
 type MapStatePropsType = {

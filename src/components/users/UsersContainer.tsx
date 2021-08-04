@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {connect} from "react-redux";
 import {StoreStateType} from "../../redux/redux-store";
 import {compose} from "redux";
@@ -9,7 +9,7 @@ import {
   setUsersTotalCount, toggleIsFetching,
   unfollowSuccess,
   UsersType, unfollowThunkCreator, followThunkCreator, setPageSize
-} from "../../redux/UsersReduser";
+} from "../../redux/UsersReducer";
 import Users from "./Users";
 import Preloader from "../common/preloader";
 import {withAuthRedirect} from "../../Hoc/withAuthRedirect";

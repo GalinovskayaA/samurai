@@ -2,7 +2,6 @@ import { Dispatch } from "redux";
 import {authAPI, securityAPI} from "../api/api";
 import {stopSubmit} from "redux-form";
 
-
 export type DataType = {
   userId: number,
   login: string,
@@ -26,7 +25,7 @@ const initialState: AuthPropsType = {
     captchaUrl: null
 }
 
-export const authReduser = (state: AuthPropsType = initialState, action: AuthActionType) => {
+export const authReducer = (state = initialState, action: AuthActionType): AuthPropsType => {
   switch (action.type) {
     case "auth/SET-AUTH-USER-DATA": {
       return {
@@ -52,12 +51,12 @@ export const authReduser = (state: AuthPropsType = initialState, action: AuthAct
   }
 };
 
-export const setAuthUserDataAC = (id: number, email: string, login: string, isAuth: boolean) => {
+export const setAuthUserDataAC = (id: number, email: string, login: string, isAuth: boolean): SetUserDataACType => {
   return {
     type: "auth/SET-AUTH-USER-DATA", data: {id, email, login, isAuth }
   }
 }
-export const getCaptchaUrlAC = (captchaUrl: string) => {
+export const getCaptchaUrlAC = (captchaUrl: string): GetCaptchaUrlACType => {
   return {
     type: "auth/GET-CAPTCHA-URL", captchaUrl
   }
@@ -118,6 +117,6 @@ export type GetCaptchaUrlACType = {
   type: "SET-IS-FETCHING-USER-DATA", isFetching: boolean
 }*/
 
-export default authReduser;
+export default authReducer;
 
 

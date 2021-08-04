@@ -4,7 +4,7 @@ import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {InputFormsController, TextareaFormsController} from "../../common/FormsControls";
 import {useSelector} from "react-redux";
 import {StoreStateType} from "../../../redux/redux-store";
-import {ProfileType} from "../../../redux/ProfileReduser";
+import {ProfileType} from "../../../redux/ProfileReducer";
 import s from "./ProfileInfo.module.css";
 
 const ProfileDataForm: React.FC<InjectedFormProps> = ({handleSubmit, error}) => {

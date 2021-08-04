@@ -27,14 +27,6 @@ export type MyPostsType = {
   amount: number
 }
 export type ContactsUserProfileType = {
- /* facebook?: any,
-  website?: any,
-  vk?: any,
-  twitter?: any,
-  instagram?: any
-  youtube?: any
-  github?: any
-  mainLink?: any*/
   facebook?: null | string,
   website?: null | string,
   vk?: null | string,
@@ -50,7 +42,7 @@ export type PhotosUserProfileType = {
 }
 export type ProfileType = {
   aboutMe: string,
-  contacts: {[key: string]: string}/*{[key: string]: any}*/,
+  contacts: {[key: string]: string},
   lookingForAJob: boolean,
   lookingForAJobDescription: string,
   fullName: string,
@@ -106,7 +98,6 @@ const initialState: ProfilePageType = {
 export type UpdateNewPostTextActionCreatorType = { // = ReturnType<typeof addPostAC> но тогда
   type: 'UPDATE-NEW-MESSAGE',                      // в функции не надо указывать тип,
   newMessage: string,                              // который он возвращает
-  message: string,
 }
 export type AddPostType = { type: 'ADD-POST', message: string }
 export type DeletePostType = { type: 'DELETE-POST', id: string }
@@ -119,29 +110,29 @@ export type ProfileActionType = UpdateNewPostTextActionCreatorType | AddPostType
                                 | UserProfile | UserIsFetching | SetStatusType
                                 | SetSavePhoto
 
-export const addPostAC = (message: string)  => {
+export const addPostAC = (message: string): AddPostType  => {
   return { type: 'ADD-POST', message: message } as const
 }
-export const deletePostAC = (id: string)  => {
+export const deletePostAC = (id: string): DeletePostType => {
   return { type: 'DELETE-POST', id: id } as const
 }
-export const updateNewPostTextAC = (message: string)  => {
-  return { type: 'UPDATE-NEW-MESSAGE', message: message } as const
+export const updateNewPostTextAC = (message: string): UpdateNewPostTextActionCreatorType => {
+  return { type: 'UPDATE-NEW-MESSAGE', newMessage: message } as const
 }
-export const setUserProfileAC = (profile: ProfileType) => {
+export const setUserProfileAC = (profile: ProfileType): UserProfile => {
   return { type: 'SET-USER-PROFILE', profile: profile } as const
 }
-export const userIsFetching = (isFetching: boolean) => {
+export const userIsFetching = (isFetching: boolean): UserIsFetching => {
   return { type: 'USER-IS-FETCHING', isFetching: isFetching } as const
 }
-export const setStatusAC = (status: string) => {
+export const setStatusAC = (status: string): SetStatusType => {
   return { type: 'SET-STATUS', status: status } as const
 }
-export const setSavePhotoAC = (photos: PhotosUserProfileType) => {
+export const setSavePhotoAC = (photos: PhotosUserProfileType): SetSavePhoto => {
   return { type: 'SET-SAVE-PHOTO', photos: photos } as const
 }
 
-export const profileReduser = (state: ProfilePageType = initialState, action: ProfileActionType): ProfilePageType => {
+export const profileReducer = (state = initialState, action: ProfileActionType): ProfilePageType => {
   switch (action.type) {
     case ADD_POST: {
       return {
@@ -160,7 +151,7 @@ export const profileReduser = (state: ProfilePageType = initialState, action: Pr
     case UPDATE_NEW_MESSAGE: {
       return {
         ...state,
-        newMessage: action.message
+        newMessage: action.newMessage
       };
     }
     case SET_USER_PROFILE: {
@@ -191,8 +182,8 @@ export const profileReduser = (state: ProfilePageType = initialState, action: Pr
 
 export const getUserProfileTC = (userId: string) => async (dispatch: Dispatch) => {
   let response = await profileAPI.getProfile(userId);
-//this.props.userIsFetching(false); на удаление
   dispatch(setUserProfileAC(response.data));
+  dispatch(userIsFetching(false)); //можно удалить)
 }
 export const setStatusTC = (userId: string) => async (dispatch: Dispatch) => {
   let response = await profileAPI.getStatus(userId);
@@ -202,6 +193,7 @@ export const updateStatusTC = (status: string) => async (dispatch: Dispatch) => 
   let response = await profileAPI.updateStatus(status);
   if (response.data.resultCode === 0) {
     dispatch(setStatusAC(status));
+    dispatch(userIsFetching(false)); //можно удалить)
   }
 }
 export const savePhotoTC = (file: string) => async (dispatch: Dispatch) => {
