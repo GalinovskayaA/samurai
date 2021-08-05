@@ -1,5 +1,5 @@
-import { Dispatch } from "redux";
-import {authAPI, securityAPI} from "../api/api";
+import {Dispatch} from "redux";
+import {authAPI, ResultCodeForCaptchaEnum, ResultCodesEnum, securityAPI} from "../api/api";
 import {stopSubmit} from "redux-form";
 
 export type DataType = {
@@ -64,7 +64,7 @@ export const getCaptchaUrlAC = (captchaUrl: string): GetCaptchaUrlACType => {
 export const getAuthUserData = () => async (dispatch: Dispatch) => {
   let response = await authAPI.me();
   // this.props.setIsFetchingAC(false);
-  if (response.data.resultCode === 0) {
+  if (response.data.resultCode === ResultCodesEnum.Success) {
     let {id, email, login} = response.data.data
     console.log(response.data.data)
     dispatch(setAuthUserDataAC(id, email, login, true));
@@ -72,11 +72,11 @@ export const getAuthUserData = () => async (dispatch: Dispatch) => {
 }
 export const loginTC = (email: string, password: string, rememberMe: boolean, captchaUrl: string | null) => async (dispatch: Dispatch) => {
   let response = await authAPI.login(email, password, rememberMe, captchaUrl);
-  if (response.data.resultCode === 0) {
+  if (response.data.resultCode === ResultCodesEnum.Success) {
     // @ts-ignore
     dispatch(getAuthUserData())
   } else {
-    if (response.data.resultCode === 10) {
+    if (response.data.resultCode === ResultCodeForCaptchaEnum.CaptchaIsRequired) {
       // @ts-ignore
       dispatch(getCaptchaUrlTC())
     }
@@ -93,7 +93,7 @@ export const getCaptchaUrlTC = () => async (dispatch: Dispatch) => {
 
 export const logoutTC = () => async (dispatch: Dispatch) => {
   let response = await authAPI.logout();
-  if (response.data.resultCode === 0) {
+  if (response.data.resultCode === ResultCodesEnum.Success) {
     dispatch(setAuthUserDataAC(NaN, '', '', false))
   }
 }

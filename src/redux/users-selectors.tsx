@@ -1,4 +1,3 @@
-import React from "react";
 import {StoreStateType} from "./redux-store";
 import {createSelector} from "reselect";
 

@@ -1,4 +1,5 @@
 import axios from "axios";
+import {ProfileType} from "../redux/ProfileReducer";
 
 
 const instance = axios.create({
@@ -14,27 +15,27 @@ export const usersAPI = {
     return instance.get(`users?page=${currentPage}&count=${pageSize}`)
       .then(response => response.data)
   },
-  unfollow(id) {
+  unfollow(id: string) {
     return instance.delete(`follow/${id}`)
     //  .then(response => response.data) - на удаление
   },
-  follow(id) {
+  follow(id: string) {
     return instance.post(`follow/${id}`)
     //  .then(response => response.data) - на удаление
   },
 }
 
 export const profileAPI = {
-  getProfile(id) {
+  getProfile(id: string) {
     return instance.get(`profile/` + id);
   },
-  getStatus(id) {
+  getStatus(id: string) {
     return instance.get(`profile/status/` + id);
   },
-  updateStatus(status) {
+  updateStatus(status: string) {
     return instance.put(`profile/status`, {status: status} );
   },
-  savePhoto(photoFile) {
+  savePhoto(photoFile: string) {
     const formData = new FormData();
     formData.append("image", photoFile);
     return instance.put(`profile/photo`, formData, {
@@ -43,7 +44,7 @@ export const profileAPI = {
       }
     });
   },
-  saveProfileTC(profile) {
+  saveProfileTC(profile: ProfileType) {
     return instance.put(`profile`, profile);
   }
 }
@@ -56,10 +57,10 @@ export const getUsers = (currentPage = 1, pageSize = 10) => {
 
 export const authAPI = {
   me() {
-    return instance.get(`auth/me`)
+    return instance.get<MeResponseType>(`auth/me`)
   },
-  login(email, password, rememberMe = false, captcha = null) {
-    return instance.post(`auth/login`, { email, password, rememberMe, captcha })
+  login(email: string, password: string, rememberMe = false, captcha: string | null = null) {
+    return instance.post<LoginMeResponseType>(`auth/login`, { email, password, rememberMe, captcha })
   },
   logout() {
     return instance.delete(`auth/login`)
@@ -70,4 +71,23 @@ export const securityAPI = {
   getCaptchaUrl() {
     return instance.get(`security/get-captcha-url`)
   }
+}
+
+export enum ResultCodesEnum {
+  Success = 0,
+  Error = 1
+}
+export enum ResultCodeForCaptchaEnum {
+  CaptchaIsRequired = 10
+}
+
+type MeResponseType = {
+  data: { id: number, email: string, login: string }
+  resultCode: ResultCodesEnum | ResultCodeForCaptchaEnum
+  messages: Array<string>
+}
+type LoginMeResponseType = {
+  data: { userId: number }
+  resultCode: ResultCodesEnum | ResultCodeForCaptchaEnum
+  messages: Array<string>
 }

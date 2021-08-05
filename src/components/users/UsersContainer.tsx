@@ -25,7 +25,7 @@ class UsersContainer extends React.Component<UsersContainerPropsType> {
 
   componentDidMount() {
     this.props.getUsersThunkCreator(this.props.currentPage, this.props.pageSize);
-    this.props.setPageSize( this.props.pageSize)
+    this.props.setPageSize(this.props.pageSize)
   }
 
   onPageChanged = (currentPage: number) => {
@@ -51,8 +51,6 @@ class UsersContainer extends React.Component<UsersContainerPropsType> {
              followingInProgress={this.props.followingInProgress}
              followThunkCreator={this.props.followThunkCreator}
              unfollowThunkCreator={this.props.unfollowThunkCreator}/>
-
-
     </>
   }
 }
