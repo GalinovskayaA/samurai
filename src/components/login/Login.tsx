@@ -5,7 +5,7 @@ import {loginTC, logoutTC} from "../../redux/AuthReducer";
 import {StoreStateType} from "../../redux/redux-store";
 import {Redirect} from "react-router-dom";
 
-export type FormDataType = {
+export type FormLoginDataType = {
   email: string
   password: string
   rememberMe: boolean
@@ -14,8 +14,7 @@ export type FormDataType = {
 
 const Login = ({isAuth}: MapStatePropsType) => {
   const dispatch = useDispatch()
-  const onSubmit = ({email, password, rememberMe, captchaUrl}: FormDataType) => {
-    console.log(email, password, rememberMe, captchaUrl)
+  const onSubmit = ({email, password, rememberMe, captchaUrl}: FormLoginDataType) => {
     dispatch(loginTC(email, password, rememberMe, captchaUrl))
   }
 

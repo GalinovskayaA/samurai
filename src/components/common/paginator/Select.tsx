@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {
-  getUsersThunkCreator,
-  setPageSize
+  getUsersTC,
+  setPageSizeAC
 } from "../../../redux/UsersReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {StoreStateType} from "../../../redux/redux-store";
@@ -16,12 +16,12 @@ const Select = () => {
   let dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getUsersThunkCreator(currentPage, currentPageSize))
+    dispatch(getUsersTC(currentPage, currentPageSize))
   }, [dispatch, currentPage, currentPageSize])
 
   const onChangePageSize = (p: number) => {
     setCurrentPageSize(p)
-    dispatch(setPageSize(p))
+    dispatch(setPageSizeAC(p))
   }
 
   return <div>

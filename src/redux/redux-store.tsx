@@ -1,5 +1,5 @@
-import {applyMiddleware, combineReducers, compose, createStore} from "redux";
-import thunkMiddleware from 'redux-thunk';
+import {Action, applyMiddleware, combineReducers, compose, createStore} from "redux";
+import thunkMiddleware, {ThunkAction} from 'redux-thunk';
 import {profileReducer} from "./ProfileReducer";
 import {friendReducer} from "./FriendsReducer";
 import {dialogsReducer} from "./DialogsReducer";
@@ -21,6 +21,11 @@ export const rootReducer = combineReducers ({
 
 export type RootReducerType = typeof rootReducer
 export type StoreStateType = ReturnType<RootReducerType>
+
+// типизация для actions
+type PropertiesType<T> = T extends { [key: string]: infer U } ? U : never
+export type InferActionsType<T extends { [key: string]: (...args: any[]) => any }> = ReturnType<PropertiesType<T>>
+export type BaseThunkType<A extends Action, R = Promise<void>> = ThunkAction<R, StoreStateType, unknown, A>
 
 // @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

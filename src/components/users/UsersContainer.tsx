@@ -3,12 +3,12 @@ import {connect} from "react-redux";
 import {StoreStateType} from "../../redux/redux-store";
 import {compose} from "redux";
 import {
-  followSuccess, getUsersThunkCreator,
-  setCurrentPage,
-  setUsers,
-  setUsersTotalCount, toggleIsFetching,
-  unfollowSuccess,
-  UsersType, unfollowThunkCreator, followThunkCreator, setPageSize
+  followSuccessAC, getUsersTC,
+  setCurrentPageAC,
+  setUsersAC,
+  setUsersTotalCountAC, toggleIsFetchingAC,
+  unfollowSuccessAC,
+  UsersType, unfollowTC, followTC, setPageSizeAC
 } from "../../redux/UsersReducer";
 import Users from "./Users";
 import Preloader from "../common/preloader";
@@ -90,9 +90,9 @@ const mapStateToProps = (state: StoreStateType): MapStatePropsType => {
 
 export default compose<React.ComponentType>(
   connect(mapStateToProps, {
-    followSuccess, unfollowSuccess, setUsers,
-    setCurrentPage, setPageSize, setUsersTotalCount, toggleIsFetching,
-    followThunkCreator, unfollowThunkCreator, getUsersThunkCreator,
+    followSuccess: followSuccessAC, unfollowSuccess: unfollowSuccessAC, setUsers: setUsersAC,
+    setCurrentPage: setCurrentPageAC, setPageSize: setPageSizeAC, setUsersTotalCount: setUsersTotalCountAC, toggleIsFetching: toggleIsFetchingAC,
+    followThunkCreator: followTC, unfollowThunkCreator: unfollowTC, getUsersThunkCreator: getUsersTC,
   }),
   withAuthRedirect
 )(UsersContainer)

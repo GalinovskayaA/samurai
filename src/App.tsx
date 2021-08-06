@@ -8,10 +8,10 @@ import {ProfilePageType} from "./redux/ProfileReducer";
 import HeaderContainer from "./components/header/HeaderContainer";
 import {connect} from "react-redux";
 import {compose} from "redux";
-import {initializeApp} from "./redux/AppReducer";
+import {initializeAppTC} from "./redux/AppReducer";
 import {StoreStateType} from "./redux/redux-store";
 import Preloader from "./components/common/preloader";
-import {getAuthUserData} from "./redux/AuthReducer";
+import {getAuthUserDataTC} from "./redux/AuthReducer";
 import Routes from "./Routes";
 
 
@@ -67,4 +67,4 @@ const mapStateToProps = (state: StoreStateType): MapStateToPropsType => {
 
 export default compose<React.ComponentType>(
     withRouter,
-    connect(mapStateToProps, {initializeApp, getAuthUserData}))(App);
+    connect(mapStateToProps, {initializeApp: initializeAppTC, getAuthUserData: getAuthUserDataTC}))(App);

@@ -6,7 +6,7 @@ import {
     MyPostsType,
     NetworkDataType,
     ProfileInfoDataType, ProfileType, savePhotoTC, saveProfileTC, setStatusTC,
-    updateNewPostTextAC, updateStatusTC, userIsFetching
+    updateNewPostTextAC, updateStatusTC, userIsFetchingAC
 } from "../../redux/ProfileReducer";
 import {StoreStateType} from "../../redux/redux-store";
 import {compose} from "redux";
@@ -100,7 +100,7 @@ export default compose<React.ComponentType>(
         addPostAC,
         updateNewPostTextAC,
         getUserProfileTC,
-        userIsFetching,
+        userIsFetching: userIsFetchingAC,
         setStatusTC,
         updateStatusTC,
         savePhotoTC,

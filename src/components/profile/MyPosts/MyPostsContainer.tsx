@@ -6,7 +6,7 @@ import {
   NetworkDataType,
   ProfileInfoDataType,
   ProfileType,
-  updateNewPostTextAC, userIsFetching
+  updateNewPostTextAC, userIsFetchingAC,
 } from "../../../redux/ProfileReducer";
 import {StoreStateType} from "../../../redux/redux-store";
 
@@ -34,7 +34,7 @@ const MyPostsContainer = connect(mapStateToProps, {
   addPostAC,
   updateNewPostTextAC,
   getUserProfileTC,
-  userIsFetching
+  userIsFetchingAC
 })(MyPosts);
 
 export default MyPostsContainer;

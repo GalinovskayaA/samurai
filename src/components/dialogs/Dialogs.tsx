@@ -9,8 +9,6 @@ const Dialogs = (props: DialogsContainerPropsType) => {
 
   const dialogsElements = props.dialogsData.map ((d) => (<DialogItem key={d.id} id={d.id} name={d.name}/>))
 
-  /*if (!props.isAuth) return <Redirect to={"/login"}/>*/
-
     return (
       <div className={classes.dialogsContent}>
         <div className={classes.dialogItems}>
@@ -20,7 +18,7 @@ const Dialogs = (props: DialogsContainerPropsType) => {
         </div>
         <div className={classes.messages}>
           <div>
-            <DialogsMessages messageData={props.messageData} dialogsData={props.dialogsData} newMessageBody={props.newMessageBody} addSendMessageClick={props.addSendMessageClick} />
+            <DialogsMessages messageData={props.messageData} dialogsData={props.dialogsData} addSendMessageClick={props.addSendMessageClick} />
           </div>
         </div>
       </div>

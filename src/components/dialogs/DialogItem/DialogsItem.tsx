@@ -1,11 +1,8 @@
 import React from "react";
 import classes from "./../Dialogs.module.css"
 import {NavLink} from "react-router-dom";
+import {DialogsDataType} from "../../../redux/DialogsReducer";
 
-export type DialogsDataType = {
-  name: string,
-  id: string
-}
 
 const DialogItem = (props: DialogsDataType) => {
   const Path = "/dialogs/" + props.id // это прописывается в url /dialogs/1-7
