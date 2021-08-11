@@ -11,37 +11,38 @@ import ProfileDataFormReduxForm from "./ProfileDataForm";
 
 
 const ProfileInfo = ({isOwner, savePhotoTC, saveProfileTC}: ProfilePropsType) => {
-  let profile = useSelector<StoreStateType, ProfileType>(state => state.profilePage.profile)
-  let [editMode, setEditMode] = useState(false);
+    let profile = useSelector<StoreStateType, ProfileType>(state => state.profilePage.profile)
+    let [editMode, setEditMode] = useState(false);
 
-  if (!profile) {
-    return <Preloader />
-  }
-
-  const onMainPhotoSelected = (e: React.SyntheticEvent<EventTarget>) => {
-    const formInput = (e.target as HTMLFormElement).files;
-    if (formInput.length) {
-      savePhotoTC(formInput[0])
+    if (!profile) {
+        return <Preloader/>
     }
-  }
 
-  const goToEditMode = () => {
-    setEditMode(true)
-  }
+    const onMainPhotoSelected = (e: React.SyntheticEvent<EventTarget>) => {
+        const formInput = (e.target as HTMLFormElement).files;
+        if (formInput.length) {
+            savePhotoTC(formInput[0])
+        }
+    }
 
-  const onSubmit = (formData: any) => {
-    console.log(formData)
-    saveProfileTC(formData)
-    setEditMode(false)
-  }
+    const goToEditMode = () => {
+        setEditMode(true)
+    }
 
-  return <div>
-    <div className={s.ava}>
-      {profile.photos?.large ? <img src={profile.photos?.large} alt={''}/> : <Avatar width={250}/>}
-      {isOwner && <input type="file" onChange={onMainPhotoSelected}/>}
-      { editMode ? <ProfileDataFormReduxForm initialValues={profile} onSubmit={onSubmit}/> : <ProfileData isOwner={isOwner} goToEditMode={goToEditMode}/> }
+    const onSubmit = (formData: ProfileType) => {
+        console.log(formData)
+        saveProfileTC(formData)
+        setEditMode(false)
+    }
+
+    return <div>
+        <div className={s.ava}>
+            {profile.photos?.large ? <img src={profile.photos?.large} alt={''}/> : <Avatar width={250}/>}
+            {isOwner && <input type="file" onChange={onMainPhotoSelected}/>}
+            {editMode ? <ProfileDataFormReduxForm initialValues={profile} onSubmit={onSubmit}/> :
+                <ProfileData isOwner={isOwner} goToEditMode={goToEditMode}/>}
+        </div>
     </div>
-  </div>
 }
 
 export default ProfileInfo;

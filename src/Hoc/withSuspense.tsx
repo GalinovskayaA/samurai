@@ -1,5 +1,4 @@
-import React, {Component, ComponentType} from "react";
-import {connect} from "react-redux";
+import React, {ComponentType} from "react";
 import Preloader from "../components/common/preloader";
 
 type MapStatePropsType = {

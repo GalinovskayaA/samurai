@@ -7,35 +7,35 @@ import React from "react";
 import Error from "../../common/FormErrorMessage";
 
 type ProfileDataFormPropsType = {
-  isOwner: boolean
-  goToEditMode: () => void
+    isOwner: boolean
+    goToEditMode: () => void
 }
 
 export const ProfileData = ({isOwner, goToEditMode}: ProfileDataFormPropsType) => {
-  let profile = useSelector<StoreStateType, ProfileType>(state => state.profilePage.profile)
-  return <div>
-    { isOwner && <div> <button onClick={()=> {
-      goToEditMode()
-    }}> edit </button> </div> }
-    <Error />
-    <div>
-      <b>Full name:</b> {profile.fullName}
-    </div>
-    <ProfileStatusWithHooks />
-    <div>
-      <b>Looking for a job:</b> {profile.lookingForAJob ? 'yes' : 'no'}
-    </div>
-    { profile.lookingForAJob &&
-    <div>
-      <b>My professionals skills:</b> {profile.lookingForAJobDescription}
-    </div> }
-    <div>
-      <b>About me:</b> {profile.aboutMe}
-    </div>
-    { profile.contacts && <div>
-      <b>Contacts:</b> {Object.keys(profile.contacts).map(key => {
-      return <Contacts key={key} contactTitle={key} contactValue={profile.contacts[key]}/>
-    })}
-    </div>}
-  </div>
+    let profile = useSelector<StoreStateType, ProfileType>(state => state.profilePage.profile)
+    return <>
+        {isOwner && <div>
+          <button onClick={() => { goToEditMode() }}> edit </button>
+        </div>}
+        <Error/>
+        <div>
+            <b>Full name:</b> {profile.fullName}
+        </div>
+        <ProfileStatusWithHooks/>
+        <div>
+            <b>Looking for a job:</b> {profile.lookingForAJob ? 'yes' : 'no'}
+        </div>
+        {profile.lookingForAJob &&
+        <div>
+          <b>My professionals skills:</b> {profile.lookingForAJobDescription}
+        </div>}
+        <div>
+            <b>About me:</b> {profile.aboutMe}
+        </div>
+        {profile.contacts && <div>
+          <b>Contacts:</b> {Object.keys(profile.contacts).map(key => {
+          return <Contacts key={key} contactTitle={key} contactValue={profile.contacts[key]}/>
+        })}
+        </div>}
+    </>
 }

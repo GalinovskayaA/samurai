@@ -8,30 +8,30 @@ import {withAuthRedirect} from "../../Hoc/withAuthRedirect";
 
 
 type MapStatePropsType = {
-  dialogsData: Array<DialogsDataType>
-  messageData: Array<MessageDataType>
+    dialogsData: Array<DialogsDataType>
+    messageData: Array<MessageDataType>
 }
 type MapDispatchPropsType = {
-  addSendMessageClick: (message: string) => void
+    addSendMessageClick: (message: string) => void
 }
 export type DialogsContainerPropsType = MapStatePropsType & MapDispatchPropsType
 
 let mapStateToProps = (state: StoreStateType): MapStatePropsType => {
-  console.log(state)
-  return {
-    dialogsData: state.dialogPage.dialogsData,
-    messageData: state.dialogPage.messageData,
-  }
+    console.log(state)
+    return {
+        dialogsData: state.dialogPage.dialogsData,
+        messageData: state.dialogPage.messageData,
+    }
 }
 let mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
-  return {
-    addSendMessageClick: (message: string) => {
-      dispatch(sendMessageAC(message));
+    return {
+        addSendMessageClick: (message: string) => {
+            dispatch(sendMessageAC(message));
+        }
     }
-  }
 }
 
 export default compose<React.ComponentType>(
-  connect(mapStateToProps, mapDispatchToProps),
-  withAuthRedirect
+    connect(mapStateToProps, mapDispatchToProps),
+    withAuthRedirect
 )(Dialogs);

@@ -6,11 +6,11 @@ import {HashRouter} from "react-router-dom";
 
 
 const SamuraiAppContainer = () => {
-  return <HashRouter>
-    <Provider store={store}>
-      <App/>
-    </Provider>
-  </HashRouter>
+    return <HashRouter>
+        <Provider store={store}>
+            <App/>
+        </Provider>
+    </HashRouter>
 }
 
 export default SamuraiAppContainer;

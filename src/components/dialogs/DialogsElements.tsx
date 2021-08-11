@@ -7,18 +7,19 @@ import {AddMessageReduxForm} from "../profile/MyPosts/Post/Textarea";
 
 const DialogsMessages = (props: DialogsContainerPropsType) => {
 
-  const addNewMessage = (values: TextareaFormType) => {
-    props.addSendMessageClick(values.textarea)
-  }
+    const addNewMessage = (values: TextareaFormType) => {
+        props.addSendMessageClick(values.textarea)
+        values.textarea = ''
+    }
 
-  const messageElements = props.messageData.map((m) => (<Message key={m.id} id={m.id} message={m.message}/>))
+    const messageElements = props.messageData.map((m) => (<Message key={m.id} id={m.id} message={m.message}/>))
 
-  return (
-    <div>
-      <AddMessageReduxForm onSubmit={addNewMessage}/>
-      <div> {messageElements} </div>
-    </div>
-  )
+    return (
+        <div>
+            <AddMessageReduxForm onSubmit={addNewMessage}/>
+            <div> {messageElements} </div>
+        </div>
+    )
 }
 
 export default DialogsMessages;

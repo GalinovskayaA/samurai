@@ -34,7 +34,7 @@ class ProfileContainer extends React.Component<PropsType> {
         this.refreshProfile()
     }
 
-    componentDidUpdate(prevProps: Readonly<PropsType>, prevState: Readonly<{}>, snapshot?: any) {
+    componentDidUpdate(prevProps: Readonly<PropsType>, prevState: Readonly<{}>) {
         if (this.props.match.params.userId !== prevProps.match.params.userId) {
             this.refreshProfile()
         }
@@ -74,7 +74,6 @@ type MapDispatchPropsType = {
     getUserProfileTC: (userId: string) => void
     setStatusTC: (userId: string) => void
     updateStatusTC: (status: string) => void
-    /*setUserProfileAC: (profile: ProfileType) => void*/
     userIsFetching: (isFetching: boolean) => void
     savePhotoTC: (file: string) => void
     saveProfileTC: (profile: ProfileType) => void

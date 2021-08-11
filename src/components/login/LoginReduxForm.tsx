@@ -5,26 +5,25 @@ import {required} from "../../utils/validators/validators";
 import {FormLoginDataType} from "./Login";
 import s from "./../common/FormsControls.module.css"
 import {useSelector} from "react-redux";
-import {StoreStateType} from "../../redux/redux-store";
+import {ForCreateFieldPropertiesType, StoreStateType} from "../../redux/redux-store";
 import {createField} from "../../utils/createField";
 
-type PropertiesType = Extract<keyof FormLoginDataType, string>
 
 const LoginForm: React.FC<InjectedFormProps<FormLoginDataType>> = ({handleSubmit, error}) => {
     const captchaUrl = useSelector<StoreStateType, string | null>(state => state.auth.captchaUrl)
     return <>
         <form onSubmit={handleSubmit}>
             <div>
-                {createField<PropertiesType>("Email", "email", [required], InputFormsController)}
+                {createField<ForCreateFieldPropertiesType<FormLoginDataType>>("Email", "email", [required], InputFormsController)}
             </div>
             <div>
-                {createField<PropertiesType>("Password", "password", [required], InputFormsController, {type: "password"})}
+                {createField<ForCreateFieldPropertiesType<FormLoginDataType>>("Password", "password", [required], InputFormsController, {type: "password"})}
             </div>
             <div>
-                {createField<PropertiesType>("", "rememberMe", [], InputFormsController, {type: "checkbox"}, 'remember me')}
+                {createField<ForCreateFieldPropertiesType<FormLoginDataType>>("", "rememberMe", [], InputFormsController, {type: "checkbox"}, 'remember me')}
             </div>
             {captchaUrl && <img src={captchaUrl} alt={'captcha'}/>}
-            {captchaUrl && createField<PropertiesType>("Symbols from image", "captchaUrl", [required], InputFormsController)}
+            {captchaUrl && createField<ForCreateFieldPropertiesType<FormLoginDataType>>("Symbols from image", "captchaUrl", [required], InputFormsController)}
             {error && <div className={s.formSummaryError}> {error} </div>}
             <div>
                 <button>Login</button>

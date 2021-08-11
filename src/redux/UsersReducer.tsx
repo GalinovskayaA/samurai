@@ -1,7 +1,8 @@
 import {Dispatch} from "redux";
-import {usersAPI} from "../api/users-api";
+import {getUsersAPI, usersAPI} from "../api/users-api";
 import {updateObjectArray} from "../utils/objects-helper";
 import {BaseThunkType} from "./redux-store";
+import {APIDataResponseType} from "../api/api";
 
 export type UsersType = {
     id: string,
@@ -20,26 +21,35 @@ export type PhotoUsersType = {
     small: string,
     big: string
 }
+export type FilterType = {
+    term: string,
+    friend: null | boolean
+}
 
-export type UsersPropsType = {
+export type UsersStatePropsType = {
     users: Array<UsersType>,
     pageSize: number,
     totalUsersCount: number,
     currentPage: number,
     isFetching: boolean,
-    followingInProgress: Array<string>
+    followingInProgress: Array<string>,
+    filter: FilterType
 }
 
-const initialState: UsersPropsType = {
+const initialState: UsersStatePropsType = {
     users: [] as Array<UsersType>,
     pageSize: 10,
     totalUsersCount: 20,
     currentPage: 1,
     isFetching: true,
-    followingInProgress: []
+    followingInProgress: [],
+    filter: {
+        term: '',
+        friend: null,
+    } as FilterType
 }
 
-export const usersReducer = (state = initialState, action: UsersActionType): UsersPropsType => {
+export const usersReducer = (state = initialState, action: UsersActionType): UsersStatePropsType => {
     switch (action.type) {
         case 'SN/USERS/FOLLOW': {
             return {
@@ -91,6 +101,12 @@ export const usersReducer = (state = initialState, action: UsersActionType): Use
                     : state.followingInProgress.filter(id => id !== action.userID)
             }
         }
+        case 'SN/USERS/SET-FILTER': {
+            return {
+                ...state,
+                filter: action.payload,
+            }
+        }
         default:
             return state;
     }
@@ -122,14 +138,19 @@ export const toggleIsFetchingAC = (isFetching: boolean): ToggleIsFetchingType =>
 export const followingInProgressAC = (isFetching: boolean, userID: string): FollowingInProgressACType => {
     return {type: 'SN/USERS/FOLLOWING-IN-PROGRESS', isFetching, userID}
 }
+export const setFilterAC = (filter: FilterType): SetFilterACType => {
+    return {type: 'SN/USERS/SET-FILTER', payload: filter}
+}
 
 // ----- Thunk -----
 
-export const getUsersTC = (page: number, pageSize: number): ThunkType => { // requestUsers у Димыча
+export const getUsersTC = (page: number, pageSize: number, filter: FilterType): ThunkType => { // requestUsers у Димыча
     return async (dispatch) => {
         dispatch(toggleIsFetchingAC(true));
         dispatch(setCurrentPageAC(page));
-        let data = await usersAPI.getUsers(page, pageSize);
+        dispatch(setPageSizeAC(pageSize));
+        dispatch(setFilterAC(filter));
+        let data = await getUsersAPI.getUsers(page, pageSize, filter.term, filter.friend);
         dispatch(toggleIsFetchingAC(false));
         dispatch(setUsersAC(data.items));
         dispatch(setUsersTotalCountAC(data.totalCount));
@@ -151,7 +172,7 @@ export const unfollowTC = (userID: string): ThunkType => {
 // ----- Helper -----
 
 const _followUnfollowFlow =
-    async (dispatch: Dispatch, userID: string, apiMethod: any, actionCreator: (userID: string) => FollowACType | UnfollowACType) => {
+    async (dispatch: Dispatch<UsersActionType>, userID: string, apiMethod: (userID: string) => Promise<APIDataResponseType>, actionCreator: (userID: string) => FollowACType | UnfollowACType) => {
         dispatch(followingInProgressAC(true, userID));
         let response = await apiMethod(userID);
         if (response.data.resultCode === 0) {
@@ -164,7 +185,7 @@ const _followUnfollowFlow =
 
 export type UsersActionType = FollowACType | UnfollowACType | SetUsersACType |
                               SetPageSizeACType | SetCurrentPageACType | SetUsersTotalCountACType |
-                              ToggleIsFetchingType | FollowingInProgressACType
+                              ToggleIsFetchingType | FollowingInProgressACType | SetFilterACType
 type ThunkType = BaseThunkType<UsersActionType>
 
 export type FollowACType = { type: 'SN/USERS/FOLLOW', userID: string }
@@ -175,3 +196,4 @@ export type SetPageSizeACType = { type: 'SN/USERS/SET-PAGE-SIZE', pageSize: numb
 export type SetUsersTotalCountACType = { type: 'SN/USERS/SET-TOTAL-USERS-COUNT', count: number }
 export type ToggleIsFetchingType = { type: 'SN/USERS/TOGGLE-IS-FETCHING', isFetching: boolean }
 export type FollowingInProgressACType = { type: 'SN/USERS/FOLLOWING-IN-PROGRESS', isFetching: boolean, userID: string }
+export type SetFilterACType = { type: 'SN/USERS/SET-FILTER', payload: FilterType }

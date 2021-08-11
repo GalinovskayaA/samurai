@@ -1,5 +1,5 @@
 import React from 'react';
-import classes from './MyPosts.module.css';
+import s from './MyPosts.module.css';
 import Post, {MyPostsType} from "./Post/Post";
 import {AddMessageReduxForm} from "./Post/Textarea";
 
@@ -16,24 +16,20 @@ export type TextareaFormType = {
 
 const MyPosts = React.memo((props: MyPostsPropsType) => {
 
-  let message = props.newMessage
-  const onSubmit = (formData: TextareaFormType) => {
-
-  }
-
   const onAddPost = (value: TextareaFormType) => {
-    if (value.textarea.trim() !== "") {
+    if (value.textarea.trim() !== '') {
       props.addPostAC(value.textarea);
+      value.textarea = ''
     }
   }
 
   return (
-    <div className={classes.MyPosts}>
+    <div className={s.MyPosts}>
       <h3>My posts</h3>
       <div>
         <AddMessageReduxForm onSubmit={onAddPost}/>
       </div>
-      <div className={classes.posts}>
+      <div className={s.posts}>
         <Post arrayMyPosts={props.arrayMyPosts}/>
       </div>
     </div>
