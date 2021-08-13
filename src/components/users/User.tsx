@@ -6,19 +6,19 @@ import Avatar from "../common/avatar";
 type PropsType = {
     user: UsersType
     followingInProgress: Array<string>
-    followThunkCreator: (userID: string) => void
-    unfollowThunkCreator: (userID: string) => void
+    follow: (userID: string) => void
+    unfollow: (userID: string) => void
 }
 
 const User = (
     {
         user, followingInProgress,
-        followThunkCreator, unfollowThunkCreator
+        follow, unfollow
     }: PropsType
 ) => {
 
     return (
-        <div>
+        <>
             <div>
                 <div>
                     <NavLink to={'/profile/' + user.id}>
@@ -29,10 +29,10 @@ const User = (
                     {
                         user.followed ?
                             <button disabled={followingInProgress.some(id => id === user.id)} onClick={() => {
-                                unfollowThunkCreator(user.id)
+                                unfollow(user.id)
                             }}> Unfollow </button>
                             : <button disabled={followingInProgress.some(id => id === user.id)} onClick={() => {
-                                followThunkCreator(user.id)
+                                follow(user.id)
                             }}> Follow </button>
                     }
                 </div>
@@ -47,7 +47,7 @@ const User = (
           <div> {"user.location.city"} </div>
         </span>
       </span>
-        </div>)
+        </>)
 }
 
 export default User;

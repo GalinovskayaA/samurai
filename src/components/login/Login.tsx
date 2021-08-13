@@ -1,7 +1,7 @@
 import React from 'react';
 import {LoginReduxForm} from "./LoginReduxForm";
-import {connect, useDispatch} from "react-redux";
-import {loginTC, logoutTC} from "../../redux/AuthReducer";
+import {useDispatch, useSelector} from "react-redux";
+import {loginTC} from "../../redux/AuthReducer";
 import {StoreStateType} from "../../redux/redux-store";
 import {Redirect} from "react-router-dom";
 
@@ -12,8 +12,9 @@ export type FormLoginDataType = {
   captchaUrl: string | null
 }
 
-const Login = ({isAuth}: MapStatePropsType) => {
+export const Login = () => {
   const dispatch = useDispatch()
+  const isAuth = useSelector<StoreStateType, boolean>(state => state.auth.isAuth)
   const onSubmit = ({email, password, rememberMe, captchaUrl}: FormLoginDataType) => {
     dispatch(loginTC(email, password, rememberMe, captchaUrl))
   }
@@ -28,13 +29,3 @@ const Login = ({isAuth}: MapStatePropsType) => {
   </div>
   </>
 }
-type MapStatePropsType = {
-  isAuth: boolean
-}
-let mapStateToProps = (state: StoreStateType): MapStatePropsType => {
-  return {
-    isAuth: state.auth.isAuth
-  }
-}
-
-export default connect(mapStateToProps, {loginTC, logoutTC})(Login);

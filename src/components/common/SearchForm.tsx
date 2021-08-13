@@ -16,7 +16,6 @@ export const SearchForm = React.memo(({onFilterChanged}: SearchFormPropsType) =>
         return errors;
     }
     const onSubmit = (values: FormType) => {
-        debugger
         const filter: FilterType = {
             term: values.term,
             friend: values.friend === 'null' ? null : values.friend === 'true'

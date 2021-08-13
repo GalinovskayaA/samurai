@@ -1,29 +1,30 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, useEffect, useState} from "react";
 import s from "./Paginator.module.css"
 import cn from "classnames";
-import {useSelector} from "react-redux";
-import {setCurrentPageAC} from "../../../redux/UsersReducer";
+import {useDispatch, useSelector} from "react-redux";
+import {getUsersTC, setCurrentPageAC} from "../../../redux/UsersReducer";
 import {StoreStateType} from "../../../redux/redux-store";
 
 
 type PaginatorPropsType = {
-    pageSize: number,
-    totalItemsCount: number,
-    currentPage: number,
     portionSize: number,
     onPageChanged: (selectedPage: number) => void
 }
 
 
-const Paginator = ({totalItemsCount, pageSize, currentPage, portionSize, onPageChanged}: PaginatorPropsType) => {
-    const totalUsersCount = useSelector<StoreStateType, number>(state => state.usersPage.totalUsersCount)
+const Paginator = ({portionSize, onPageChanged}: PaginatorPropsType) => {
+    let dispatch = useDispatch()
+    const {totalUsersCount, pageSize, currentPage, filter} = useSelector((state: StoreStateType) => state.usersPage)
+    useEffect(() => {
+        dispatch(getUsersTC(currentPage, pageSize, filter))
+    }, [dispatch, currentPage, pageSize, filter])
 
     /*  let [portionNumber, setPortionNumber] = useState(1) // номер порции*/
     let [value, setValue] = useState('')
 
     let currentValue = +value
 
-    const pagesCount = Math.ceil(totalItemsCount / pageSize) // число всего / число отобр на странице = кол-во страниц
+    const pagesCount = Math.ceil(totalUsersCount / pageSize) // число всего / число отобр на странице = кол-во страниц
     const pages = [];
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)
@@ -38,13 +39,13 @@ const Paginator = ({totalItemsCount, pageSize, currentPage, portionSize, onPageC
     }
     const onClickButtonGo = () => {
         onPageChanged(currentValue)
-        setCurrentPageAC(currentValue)
+        dispatch(setCurrentPageAC(currentValue))
         setValue('')
     }
 
     const onClickPageChanged = (p: number) => {
         onPageChanged(p)
-        setCurrentPageAC(p)
+        dispatch(setCurrentPageAC(p))
     }
     const onChangeSliderPage = () => {
         onPageChanged(currentPage)
@@ -52,7 +53,7 @@ const Paginator = ({totalItemsCount, pageSize, currentPage, portionSize, onPageC
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
             onPageChanged(currentValue)
-            setCurrentPageAC(currentValue)
+            dispatch(setCurrentPageAC(currentValue))
             setValue('')
         }
     }
@@ -85,7 +86,7 @@ const Paginator = ({totalItemsCount, pageSize, currentPage, portionSize, onPageC
                 <button onClick={() => onClickPageChanged(currentPage + 1)}> next </button>}
             </div>
             <input type="range" id="range" value={currentPage} step={1}
-                   onChange={e => setCurrentPageAC(Number(e.currentTarget.value))}
+                   onChange={e => dispatch(setCurrentPageAC(Number(e.currentTarget.value)))}
                    onClick={onChangeSliderPage} min={1} max={pagesCount} style={{width: '50%'}}/>
             <label htmlFor="range"> {'current page: ' + currentPage} </label>
         </div>
