@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import s from './ProfileInfo.module.css';
-import {ProfileType} from "../../../redux/ProfileReducer";
+import {ProfileType, savePhotoTC, saveProfileTC} from "../../../redux/ProfileReducer";
 import Preloader from "../../common/preloader";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {StoreStateType} from "../../../redux/redux-store";
 import Avatar from "../../common/avatar";
 import {ProfilePropsType} from "../profile";
@@ -10,8 +10,10 @@ import {ProfileData} from "./ProfileData";
 import ProfileDataFormReduxForm from "./ProfileDataForm";
 
 
-const ProfileInfo = ({isOwner, savePhotoTC, saveProfileTC}: ProfilePropsType) => {
+const ProfileInfo = ({isOwner}: ProfilePropsType) => {
+    let dispatch = useDispatch()
     let profile = useSelector<StoreStateType, ProfileType>(state => state.profilePage.profile)
+
     let [editMode, setEditMode] = useState(false);
 
     if (!profile) {
@@ -21,7 +23,7 @@ const ProfileInfo = ({isOwner, savePhotoTC, saveProfileTC}: ProfilePropsType) =>
     const onMainPhotoSelected = (e: React.SyntheticEvent<EventTarget>) => {
         const formInput = (e.target as HTMLFormElement).files;
         if (formInput.length) {
-            savePhotoTC(formInput[0])
+            dispatch(savePhotoTC(formInput[0]))
         }
     }
 
@@ -31,7 +33,7 @@ const ProfileInfo = ({isOwner, savePhotoTC, saveProfileTC}: ProfilePropsType) =>
 
     const onSubmit = (formData: ProfileType) => {
         console.log(formData)
-        saveProfileTC(formData)
+        dispatch(saveProfileTC(formData))
         setEditMode(false)
     }
 

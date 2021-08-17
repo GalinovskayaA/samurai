@@ -3,7 +3,6 @@ import {
     FilterType,
     followTC,
     getUsersTC,
-    setCurrentPageAC,
     unfollowTC
 } from "../../redux/UsersReducer";
 import Paginator from "../common/paginator/Paginator";
@@ -12,8 +11,16 @@ import {SearchForm} from "../common/SearchForm";
 import Select from "../common/paginator/Select";
 import {useDispatch, useSelector} from "react-redux";
 import {StoreStateType} from "../../redux/redux-store";
+import { useHistory } from "react-router-dom";
+import * as queryString from "querystring";
 
 
+type QueryParamsType = {
+    term?: string,
+    friend?: string,
+    page?: string,
+    pageSize?: string
+}
 export const Users = () => {
     let dispatch = useDispatch()
 
@@ -21,10 +28,33 @@ export const Users = () => {
         pageSize, currentPage,
         followingInProgress, users, filter
     } = useSelector((state: StoreStateType) => state.usersPage)
+    const history = useHistory()
 
     useEffect(() => {
-        dispatch(getUsersTC(currentPage, pageSize, filter))
-    }, [dispatch, currentPage, pageSize, filter])
+        const parsed = queryString.parse(history.location.search.substring(1)) as
+            {term: string, friend: string, page: string, pageSize: string}
+        let actualPage = currentPage;
+        let actualPageSize = pageSize;
+        let actualFilter = filter;
+        if (!!parsed.page) actualPage = Number(parsed.page)
+        if (!!parsed.pageSize) actualPageSize = Number(parsed.pageSize)
+        if (!!parsed.term) actualFilter = {...actualFilter, term: parsed.term as string}
+        if (!!parsed.friend) actualFilter = {...actualFilter, friend: parsed.friend === 'null' ? null : parsed.friend === 'true' ? true : false}
+
+        dispatch(getUsersTC(actualPage, actualPageSize, actualFilter))
+    }, []);
+    useEffect(() => {
+        const query: QueryParamsType = {}
+        if(!!filter.term) query.term = filter.term
+        if(filter.friend !== null) query.friend = String(filter.friend)
+        if (currentPage !== 1) query.page = String(currentPage)
+        if (pageSize !== 10) query.pageSize = String(pageSize)
+
+        history.push({
+            pathname: '/users',
+            search: queryString.stringify(query)
+        })
+    }, [filter, currentPage, pageSize])
 
     const onPageChanged = (currentPage: number) => {
         dispatch(getUsersTC(currentPage, pageSize, filter));

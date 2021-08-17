@@ -1,10 +1,10 @@
 import React from 'react';
 import {Redirect, Route, Switch} from "react-router-dom"
 import classes from './App.module.css';
-import ProfileContainer from "./components/profile/ProfileContainer";
 import {UsersPageComponent} from "./components/users/UsersContainer";
 import {withSuspense} from "./Hoc/withSuspense";
 import {Login} from "./components/login/Login";
+import {ProfileComponent} from "./components/profile/ProfileComponent";
 
 const DialogsContainer = React.lazy(() => import('./components/dialogs/DialogsContainer'));
 const News = React.lazy(() => import('./components/news/News'));
@@ -27,7 +27,7 @@ const Routes = () => {
         <div className={classes.appWrapperContent}>
             <Switch>
                 <Route exact path={'/'} render={() => <Redirect to={PATH.PROFILE}/>}/>
-                <Route path={PATH.PROFILE + '/:userId?'} render={() => <ProfileContainer/>}/>
+                <Route path={PATH.PROFILE + '/:userId?'} render={() => <ProfileComponent/>}/>
                 <Route path={PATH.LOGIN} render={() => <Login/>}/>
                 <Route path={PATH.DIALOGS} render={withSuspense(DialogsContainer)}/>
                 <Route path={PATH.NEWS} render={withSuspense(News)}/>

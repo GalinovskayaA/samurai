@@ -16,7 +16,7 @@ import {withAuthRedirect} from "../../Hoc/withAuthRedirect";
 import {AuthPropsType} from "../../redux/AuthReducer";
 
 
-class ProfileContainer extends React.Component<PropsType> {
+class ProfileClassContainer extends React.Component<PropsType> {
 
     refreshProfile() {
         let meId = this.props.user.id;
@@ -48,9 +48,7 @@ class ProfileContainer extends React.Component<PropsType> {
             <div>
                 {preloader}
             </div>
-            <Profile isOwner={!this.props.match.params.userId}
-                     savePhotoTC={this.props.savePhotoTC}
-                     saveProfileTC={this.props.saveProfileTC}/>
+            <Profile isOwner={!this.props.match.params.userId}/>
         </>)
     }
 }
@@ -107,4 +105,4 @@ export default compose<React.ComponentType>(
     }),
     withRouter,
     withAuthRedirect
-)(ProfileContainer)
+)(ProfileClassContainer)

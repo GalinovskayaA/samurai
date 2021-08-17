@@ -22,7 +22,7 @@ const User = (
             <div>
                 <div>
                     <NavLink to={'/profile/' + user.id}>
-                        {<img src={user.photos.small} alt={''} width={75}/> && <Avatar width={75}/>}
+                        {user.photos.small ? <img src={user.photos.small} alt={''} width={75}/> : user.photos.big ? <img src={user.photos.big} alt={''} width={75}/> : <Avatar width={75}/>}
                     </NavLink>
                 </div>
                 <div>
