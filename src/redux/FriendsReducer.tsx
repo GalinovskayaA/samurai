@@ -7,11 +7,11 @@ export type FriendsType = {
 }
 
 export type FriendsPropsType = {
-    friend: Array<FriendsType>
+    friends: Array<FriendsType>
 }
 
 const initialState: FriendsPropsType = {
-    friend: [
+    friends: [
         {
             id: v1(),
             avatar: "https://img1.goodfon.ru/original/1920x1172/4/bc/kunfu-panda-2-multfilm.jpg",

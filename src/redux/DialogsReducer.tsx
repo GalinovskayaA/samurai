@@ -28,6 +28,12 @@ const initialState: DialogsPropsType = {
         {id: v1(), message: "Hi"},
         {id: v1(), message: "How"},
         {id: v1(), message: "Fine"},
+        {id: v1(), message: "Hi"},
+        {id: v1(), message: "How"},
+        {id: v1(), message: "Fine"},
+        {id: v1(), message: "Hi"},
+        {id: v1(), message: "How"},
+        {id: v1(), message: "Fine"},
     ] as Array<MessageDataType>
 }
 

@@ -2,24 +2,21 @@ import React from 'react';
 import classes from './nav.module.css';
 import NavBar from "./navBar";
 import {NavLink} from "react-router-dom";
+import {PATH} from "../../Routes";
 import Friends from "../friends/Friends";
-import {FriendsPropsType} from "../../redux/FriendsReducer";
 
-export type NavType = {
-  friendsProps: FriendsPropsType
-}
 
-const Nav = (props: NavType) => {
-
-  return <nav className={classes.nav}>
-    <NavLink to="/Profile" activeClassName={classes.activeLink}> <NavBar name={"Profile"} /> </NavLink>
-    <NavLink to="/Dialogs" activeClassName={classes.activeLink}> <NavBar name={"Message"} /> </NavLink>
-    <NavLink to="/News" activeClassName={classes.activeLink}> <NavBar name={"News"} /> </NavLink>
-    <NavLink to="/Music" activeClassName={classes.activeLink}> <NavBar name={"Music"} /> </NavLink>
-    <NavLink to="/Setting" activeClassName={classes.activeLink}> <NavBar name={"Setting"} /> </NavLink>
-    <NavLink to="/Users" activeClassName={classes.activeLink}> <NavBar name={"Users"} /> </NavLink>
-    <NavLink to="/Friend" activeClassName={classes.activeLink}> <Friends friend={props.friendsProps.friend}/> </NavLink>
-  </nav>
+const Nav = () => {
+    return <nav className={classes.nav}>
+        <NavLink to={PATH.PROFILE} activeClassName={classes.activeLink}> <NavBar name={"Profile"}/> </NavLink>
+        <NavLink to={PATH.DIALOGS} activeClassName={classes.activeLink}> <NavBar name={"Message"}/> </NavLink>
+        <NavLink to={PATH.CHAT} activeClassName={classes.activeLink}> <NavBar name={"Chat"}/> </NavLink>
+        <NavLink to={PATH.NEWS} activeClassName={classes.activeLink}> <NavBar name={"News"}/> </NavLink>
+        <NavLink to={PATH.MUSIC} activeClassName={classes.activeLink}> <NavBar name={"Music"}/> </NavLink>
+        <NavLink to={PATH.SETTING} activeClassName={classes.activeLink}> <NavBar name={"Setting"}/> </NavLink>
+        <NavLink to={PATH.USERS} activeClassName={classes.activeLink}> <NavBar name={"Users"}/> </NavLink>
+        <NavLink to={PATH.FRIENDS} activeClassName={classes.activeLink}> <Friends/> </NavLink>
+    </nav>
 }
 
 export default Nav;

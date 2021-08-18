@@ -12,7 +12,7 @@ const DialogsMessages = (props: DialogsContainerPropsType) => {
         values.textarea = ''
     }
 
-    const messageElements = props.messageData.map((m) => (<Message key={m.id} id={m.id} message={m.message}/>))
+    const messageElements = props.messageData.map((m) => (<Message key={m.id} userId={m.id} message={m.message} userName={''} photo={''}/>))
 
     return (
         <div>

@@ -49,7 +49,7 @@ class App extends React.Component<AppType> {
         return (
             <div className={classes.appWrapper}>
                 <HeaderContainer/>
-                <Nav friendsProps={this.props.friendPage}/>
+                <Nav/>
                 <Routes/>
             </div>
         );
