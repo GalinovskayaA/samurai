@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./../Dialogs.module.css"
-import {ChatMessageType} from "../../chat/ChatPage";
 import Avatar from "../../common/avatar";
+import {ChatMessageType} from "../../../api/chat-api";
 
 
 const Message = ({message, photo, userId, userName}: ChatMessageType) => {
