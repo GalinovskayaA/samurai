@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@brianmcallister/react-auto-scroll": "^1.1.0",
     "@reach/slider": "^0.15.0",
     "@shwilliam/react-rubber-slider": "^0.1.4",
     "@testing-library/jest-dom": "^5.11.4",
@@ -16,6 +17,7 @@
     "@types/react-router-dom": "^5.1.7",
     "@types/uuid": "^8.3.0",
     "antd": "^4.16.12",
+    "autoscroll-react": "^3.2.0",
     "axios": "^0.21.1",
     "classnames": "^2.3.1",
     "d3": "^7.0.0",
