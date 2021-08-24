@@ -7,7 +7,7 @@ import {Login} from "./components/login/Login";
 import {ProfileComponent} from "./components/profile/ProfileComponent";
 
 
-const DialogsContainer = React.lazy(() => import('./components/dialogs/DialogsContainer'));
+const Messages = React.lazy(() => import('./components/dialogs/MessagesPage'));
 const ChatPage = React.lazy(() => import('./components/chat/ChatPage'));
 const News = React.lazy(() => import('./components/news/News'));
 const Music = React.lazy(() => import('./components/music/Music'));
@@ -17,7 +17,7 @@ const Friends = React.lazy(() => import('./components/friends/Friends'));
 export const PATH = {
     PROFILE: "/profile",
     LOGIN: "/login",
-    DIALOGS: "/dialogs",
+    MESSAGES: "/dialogs",
     CHAT: "/chat",
     NEWS: "/news",
     MUSIC: "/music",
@@ -34,7 +34,7 @@ const Routes = () => {
                 <Route exact path={'/'} render={() => <Redirect to={PATH.PROFILE}/>}/>
                 <Route path={PATH.PROFILE + '/:userId?'} render={() => <ProfileComponent/>}/>
                 <Route path={PATH.LOGIN} render={() => <Login/>}/>
-                <Route path={PATH.DIALOGS} render={withSuspense(DialogsContainer)}/>
+                <Route path={PATH.MESSAGES + '/:userId?'} render={withSuspense(Messages)}/>
                 <Route path={PATH.CHAT} render={withSuspense(ChatPage)}/>
                 <Route path={PATH.NEWS} render={withSuspense(News)}/>
                 <Route path={PATH.MUSIC} render={withSuspense(Music)}/>

@@ -20,7 +20,7 @@ const Paginator = ({portionSize, onPageChanged}: PaginatorPropsType) => {
     }, [dispatch, currentPage, pageSize, filter])
 
     /*  let [portionNumber, setPortionNumber] = useState(1) // номер порции*/
-    let [value, setValue] = useState('')
+    let [value, setValue] = useState(() => '')
 
     let currentValue = +value
 

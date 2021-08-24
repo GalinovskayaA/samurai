@@ -2,7 +2,7 @@ import React from 'react';
 import {withRouter} from "react-router-dom"
 import classes from './App.module.css';
 import Nav from "./components/nav/nav";
-import {DialogsPropsType} from "./redux/DialogsReducer";
+import {DialogsType} from "./redux/DialogsReducer";
 import {FriendsPropsType} from "./redux/FriendsReducer";
 import {ProfilePageType} from "./redux/ProfileReducer";
 import HeaderContainer from "./components/header/HeaderContainer";
@@ -18,7 +18,7 @@ import Routes from "./Routes";
 export type MapStateToPropsType = {
     initialized: boolean
     profilePage: ProfilePageType
-    dialogPage: DialogsPropsType
+    dialogPage: DialogsType
     friendPage: FriendsPropsType
 }
 type MapDispatchToPropsType = {

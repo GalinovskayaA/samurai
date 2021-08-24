@@ -13,6 +13,10 @@ import {useDispatch, useSelector} from "react-redux";
 import {StoreStateType} from "../../redux/redux-store";
 import { useHistory } from "react-router-dom";
 import * as queryString from "querystring";
+import PhotoAction from "./PhotoAction";
+import {startDialogAC} from "../../redux/DialogsReducer";
+import s from "../dialogs/Dialogs.module.css";
+import DialogsMessages from "../dialogs/DialogsMessages";
 
 
 type QueryParamsType = {
@@ -28,6 +32,9 @@ export const Users = () => {
         pageSize, currentPage,
         followingInProgress, users, filter
     } = useSelector((state: StoreStateType) => state.usersPage)
+    const {
+        isStartDialog, page, count
+    } = useSelector((state: StoreStateType) => state.dialogPage)
     const history = useHistory()
 
     useEffect(() => {
@@ -68,13 +75,24 @@ export const Users = () => {
     const unfollow = (usersID: string) => {
         dispatch(unfollowTC(usersID))
     }
+    const startDialog = () => {
+        dispatch(startDialogAC(true))
+    }
 
     return <div>
         <Select/>
         <SearchForm onFilterChanged={onFilterChanged}/>
         <Paginator portionSize={10}
                    onPageChanged={onPageChanged}/>
-        {users.map(u => <User user={u} key={u.id} followingInProgress={followingInProgress}
-                              follow={follow} unfollow={unfollow}/>)}
+
+        {users.map((u, index) => <div>
+                <PhotoAction key={index} navLink={'/profile/'} user={u}/>
+                <User user={u} key={u.id} followingInProgress={followingInProgress}
+                      follow={follow} unfollow={unfollow} startDialog={startDialog} page={page} count={count}/>
+        </div>
+            )}
+        {isStartDialog && <div className={s.messages}>
+          <DialogsMessages /> {/*диалоговая часть*/}
+        </div>}
     </div>
 }

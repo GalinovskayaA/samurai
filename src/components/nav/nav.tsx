@@ -9,7 +9,7 @@ import Friends from "../friends/Friends";
 const Nav = () => {
     return <nav className={classes.nav}>
         <NavLink to={PATH.PROFILE} activeClassName={classes.activeLink}> <NavBar name={"Profile"}/> </NavLink>
-        <NavLink to={PATH.DIALOGS} activeClassName={classes.activeLink}> <NavBar name={"Message"}/> </NavLink>
+        <NavLink to={PATH.MESSAGES} activeClassName={classes.activeLink}> <NavBar name={"Message"}/> </NavLink>
         <NavLink to={PATH.CHAT} activeClassName={classes.activeLink}> <NavBar name={"Chat"}/> </NavLink>
         <NavLink to={PATH.NEWS} activeClassName={classes.activeLink}> <NavBar name={"News"}/> </NavLink>
         <NavLink to={PATH.MUSIC} activeClassName={classes.activeLink}> <NavBar name={"Music"}/> </NavLink>

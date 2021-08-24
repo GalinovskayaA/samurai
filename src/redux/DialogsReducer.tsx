@@ -1,48 +1,41 @@
-import {v1} from "uuid";
+import {Dispatch} from "redux";
+import {dialogsAPI} from "../api/dialogs-api";
 
 
-export type DialogsDataType = {
-    name: string,
-    id: string
-}
 export type MessageDataType = {
-    id: string,
-    message: string
+    messageId: string,
+    body: string,
+    date: string
 }
 
-export type DialogsPropsType = {
-    dialogsData: Array<DialogsDataType>
+export type DialogsType = {
     messageData: Array<MessageDataType>
+    page: number
+    count: number
+    isStartDialog: boolean
+    isViewed: boolean | null
 }
 
-const initialState: DialogsPropsType = {
-    dialogsData: [
-        {id: v1(), name: "Dimych"},
-        {id: v1(), name: "Andrey"},
-        {id: v1(), name: "Sveta"},
-        {id: v1(), name: "Sasha"},
-        {id: v1(), name: "Victor"},
-        {id: v1(), name: "Valera"},
-    ] as Array<DialogsDataType>,
-    messageData: [
-        {id: v1(), message: "Hi"},
-        {id: v1(), message: "How"},
-        {id: v1(), message: "Fine"},
-        {id: v1(), message: "Hi"},
-        {id: v1(), message: "How"},
-        {id: v1(), message: "Fine"},
-        {id: v1(), message: "Hi"},
-        {id: v1(), message: "How"},
-        {id: v1(), message: "Fine"},
-    ] as Array<MessageDataType>
+const initialState: DialogsType = {
+    messageData: [] as Array<MessageDataType>,
+    page: 1,
+    count: 20,
+    isStartDialog: false,
+    isViewed: null as boolean | null
 }
 
-export const dialogsReducer = (state: DialogsPropsType = initialState, action: SendMessageCreatorType): DialogsPropsType => {
+export const dialogsReducer = (state = initialState, action: ActionDialogType): DialogsType => {
     switch (action.type) {
-        case 'SN/DIALOGS/SEND-MESSAGE': {
+        case 'SN/DIALOGS/START-DIALOG': {
             return {
                 ...state,
-                messageData: [{id: v1(), message: action.message}, ...state.messageData]
+                isStartDialog: action.isStartDialog,
+            }
+        }
+        case 'SN/DIALOGS/SET-MESSAGES': {
+            return {
+                ...state,
+                messageData: action.messageData,
             }
         }
         default:
@@ -52,14 +45,40 @@ export const dialogsReducer = (state: DialogsPropsType = initialState, action: S
 
 // ----- Actions -----
 
-export const sendMessageAC = (message: string): SendMessageCreatorType => {
+export const startDialogAC = (isStartDialog: boolean) => {
     return {
-        type: 'SN/DIALOGS/SEND-MESSAGE', message: message
+        type: 'SN/DIALOGS/START-DIALOG', isStartDialog: isStartDialog
     } as const
+}
+export const setMessagesAC = (messageData: Array<MessageDataType>) => {
+    return {
+        type: 'SN/DIALOGS/SET-MESSAGES', messageData: messageData
+    } as const
+}
+
+
+// ----- Thunk -----
+
+export const getAllDialogsTC = () => {
+    return async (dispatch: Dispatch) => {
+        let data = await dialogsAPI.getAllDialogsGET()
+        dispatch(setMessagesAC(data.data))
+        console.log('Санка: все диалоги ' + data)
+    }
+}
+export const getFriendMessagesTC = (userId: number, page: number, count: number) => {
+    return async (dispatch: Dispatch) => {
+        let data = await dialogsAPI.getFriendMessagesGET(userId, page, count)
+        dispatch(setMessagesAC(data.data.items))
+        console.log('Санка: получить сообщения друга ' + data.data.items)
+    }
 }
 
 // ----- Types -----
 
-type SendMessageCreatorType = { type: 'SN/DIALOGS/SEND-MESSAGE', message: string }
+type ActionDialogType = StartDialogACType | SetMessagesACType
+type StartDialogACType = ReturnType<typeof startDialogAC>
+type SetMessagesACType = ReturnType<typeof setMessagesAC>
+
 
 
