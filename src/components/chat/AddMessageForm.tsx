@@ -1,31 +1,35 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import Picker, {IEmojiData} from 'emoji-picker-react';
+import {IEmojiData} from 'emoji-picker-react';
 import {StatusChatType} from "../../api/chat-api";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {StoreStateType} from "../../redux/redux-store";
-import {sendMessagesTC} from "../../redux/ChatReducer";
 import {ModalInfo} from "../common/Modals/ModalInfo";
+import {Emoji} from "../common/Emoji";
 
+type AddMessageFormType = {
+    sendMessageForm: (message: string) => void
+    status?: StatusChatType
+    userId?: string
+}
 
-export const AddMessageForm: React.FC = () => {
-    const status = useSelector<StoreStateType, StatusChatType>(state => state.chat.status)
+export const AddMessageForm = ({sendMessageForm, status, userId}: AddMessageFormType) => {
+
     const [message, setMessage] = useState<string>('')
     const [img, setImage] = useState<string>()
     const [chosenEmoji, setChosenEmoji] = useState<IEmojiData>();
     const [modalActive, setModalActive] = useState<boolean>(false);
-    const dispatch = useDispatch()
     const fr = new FileReader();
-    fr.onload = function(){
+    fr.onload = function () {
         setImage(fr.result as string)
     }
 
     const sendMessage = () => {
         if (img) {
             setModalActive(true)
-        } else if(!message) {
+        } else if (!message) {
             return
         } else {
-            dispatch(sendMessagesTC(message))
+            sendMessageForm(message)
             setMessage('')
         }
     }
@@ -51,7 +55,7 @@ export const AddMessageForm: React.FC = () => {
     }
 
     return <>
-        <div>
+        <div style={{marginTop: '20px'}}>
             <textarea onChange={onChange} onKeyPress={onKeyPressHandler} value={message}> </textarea>
         </div>
         <input multiple type='file' onChange={onFileSelected}/>
@@ -59,15 +63,7 @@ export const AddMessageForm: React.FC = () => {
         <div>
             <button onClick={sendMessage} disabled={status !== 'ready'}>Send</button>
         </div>
-
-        <div>
-            {chosenEmoji ? (
-                <span>You chose: {chosenEmoji.emoji}</span>
-            ) : (
-                <span>No emoji Chosen</span>
-            )}
-            <Picker onEmojiClick={onEmojiClick} preload={true}/>
-        </div>
+        <Emoji chosenEmoji={chosenEmoji} onEmojiClick={onEmojiClick}/>
         <ModalInfo title={'Отправка файлов не реализовано'} active={modalActive} setActive={setModalActive}/>
     </>
 }

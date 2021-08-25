@@ -13,7 +13,7 @@ const AddMessageForm: React.FC<InjectedFormProps<TextareaFormType>> = (props) =>
 
     return (
         <form onSubmit={props.handleSubmit}>
-            <div>
+            <div style={{marginTop: '20px'}}>
                 {createField<ForCreateFieldPropertiesType<TextareaFormType>>('Enter your message', "textarea", [required, maxLength50], TextareaFormsController)}
             </div>
             <div>

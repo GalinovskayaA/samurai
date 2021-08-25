@@ -3,7 +3,7 @@ import Message from "../dialogs/Messege/Message";
 import {StatusChatType} from "../../api/chat-api";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    ChatMessageType,
+    ChatMessageType, sendMessagesTC,
     startMessagesListenerTC,
     stopMessagesListenerTC
 } from "../../redux/ChatReducer";
@@ -28,11 +28,14 @@ const Chat: React.FC = () => {
             dispatch(stopMessagesListenerTC())
         }
     }, [dispatch])
+    const sendMessageForm = (message: string) => {
+        dispatch(sendMessagesTC(message))
+    }
 
     return <>
         {status === 'error' && <div> Some error occurred. Please refresh the page </div>}
         <MessagesChat/>
-        <AddMessageForm/>
+        <AddMessageForm sendMessageForm={sendMessageForm} status={status}/>
     </>
 }
 

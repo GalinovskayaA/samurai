@@ -2,7 +2,7 @@ import {instance} from "./api"
 
 
 export const dialogsAPI = {
-    dialogPUT(userId: number) {
+    dialogPUT(userId: number) { // начало диолога
         return instance.put(`dialogs/${userId}`)
     },
     getAllDialogsGET() {
@@ -11,8 +11,9 @@ export const dialogsAPI = {
     getFriendMessagesGET(userId: number, page: number, count: number) {
         return instance.get(`dialogs/${userId}/messages?page=${page}&count=${count}`)
     },
-    sendFriendMessagePOST(userId: number, body: string) {
-        return instance.post(`dialogs/${userId}/messages`, {body})
+    sendFriendMessagePOST(userId: number, message: string) {
+        debugger
+        return instance.post(`dialogs/${userId}/messages`, {body: message})
     },
     isViewedMessageGET(messageId: number) {
         return instance.get(`dialogs/messages/${messageId}/viewed`)

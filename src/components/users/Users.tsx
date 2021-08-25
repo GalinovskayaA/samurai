@@ -16,7 +16,7 @@ import * as queryString from "querystring";
 import PhotoAction from "./PhotoAction";
 import {startDialogAC} from "../../redux/DialogsReducer";
 import s from "../dialogs/Dialogs.module.css";
-import DialogsMessages from "../dialogs/DialogsMessages";
+import {DialogsMessages} from "../dialogs/DialogsMessages";
 
 
 type QueryParamsType = {
@@ -86,9 +86,8 @@ export const Users = () => {
                    onPageChanged={onPageChanged}/>
 
         {users.map((u, index) => <div>
-                <PhotoAction key={index} navLink={'/profile/'} user={u}/>
                 <User user={u} key={u.id} followingInProgress={followingInProgress}
-                      follow={follow} unfollow={unfollow} startDialog={startDialog} page={page} count={count}/>
+                      follow={follow} unfollow={unfollow} startDialog={startDialog} page={page} count={count}  navLink={'/profile/'}/>
         </div>
             )}
         {isStartDialog && <div className={s.messages}>
