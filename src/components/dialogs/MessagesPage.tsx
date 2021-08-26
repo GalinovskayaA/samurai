@@ -1,13 +1,25 @@
 import React, {useEffect} from "react";
 import s from "./Dialogs.module.css"
 import {useDispatch, useSelector} from "react-redux";
-import {followTC, getUsersTC, unfollowTC} from "../../redux/UsersReducer";
+import {followTC, getUsersTC, LocationUsersType, PhotoUsersType, unfollowTC, UsersType} from "../../redux/UsersReducer";
 import {StoreStateType} from "../../redux/redux-store";
 import User from "../users/User";
 import PhotoAction from "../users/PhotoAction";
 import {getAllDialogsTC, getFriendMessagesTC, startDialogAC, startDialogsTC} from "../../redux/DialogsReducer";
 import {Redirect, useParams} from "react-router-dom";
 import {DialogsMessages} from "./DialogsMessages";
+
+export type FriendNewMessageType = {
+    id: string,
+    avatar: string,
+    followed: boolean,
+    name: string,
+    status: string,
+    location: LocationUsersType,
+    photos: PhotoUsersType
+    hasNewMessages: boolean
+    newMessagesCount: number
+}
 
 
 const MessagesPage = () => {
@@ -43,14 +55,38 @@ const MessagesPage = () => {
         dispatch(getFriendMessagesTC(Number(usersID), page, count))
     }
 
+    const usersFithNewMessages = users.reduce((acc, u) => {
+        friendsDialogs.some(function (f) {
+            if (f.id === +u.id) {
+                // @ts-ignore
+                acc.push({...u, hasNewMessages: f.hasNewMessages, newMessagesCount: f.newMessagesCount})
+            }
+        })
+        return acc
+    }, [])
+    // @ts-ignore
+    const usersNoMessages = users.filter(a => usersFithNewMessages.every(b => a.id !== b.id))
+
+    // @ts-ignore
+    const usersAll: FriendNewMessageType[] = [...usersNoMessages, ...usersFithNewMessages]
+    const numberOfNewMessages: number = usersAll.reduce((acc, u) => {
+        if (u.newMessagesCount === undefined) {
+            return acc
+        } else {
+            return acc + u.newMessagesCount
+        }
+    }, 0)
+
     if (!isAuth) return <Redirect to={'/login'}/>
 
     return (
         <div className={s.dialogsContent}>
             <div className={s.dialogItems}> {/*имена друзей*/}
-                {friendsDialogs.map(fd => users.map((u, index) => <div>
+                <div> {'Number of friends: ' + usersAll.length} </div>
+                <div> {'New messages: ' + numberOfNewMessages} </div>
+                {usersAll.map((u, index) => <div>
                     <User user={u} key={u.id} followingInProgress={followingInProgress}
-                                           follow={follow} unfollow={unfollow} startDialog={startDialog} page={page} count={count} navLink={'/dialogs/'} hasNewMessages={fd.hasNewMessages} newMessagesCount={fd.newMessagesCount}/></div>))}
+                                           follow={follow} unfollow={unfollow} startDialog={startDialog} page={page} count={count} navLink={'/dialogs/'} hasNewMessages={u.hasNewMessages} newMessagesCount={u.newMessagesCount}/></div>).sort(function(b, a) { return a.props.newMessagesCount - b.props.newMessagesCount})}
             </div>
             {isStartDialog && <div className={s.messages}>
                 <DialogsMessages userId={userId}/> {/*диалоговая часть*/}

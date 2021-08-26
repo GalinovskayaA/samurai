@@ -87,7 +87,7 @@ export const Users = () => {
 
         {users.map((u, index) => <div>
                 <User user={u} key={u.id} followingInProgress={followingInProgress}
-                      follow={follow} unfollow={unfollow} startDialog={startDialog} page={page} count={count}  navLink={'/profile/'}/>
+                      follow={follow} unfollow={unfollow} startDialog={startDialog} page={page} count={count} navLink={'/profile/'}/>
         </div>
             )}
         {isStartDialog && <div className={s.messages}>

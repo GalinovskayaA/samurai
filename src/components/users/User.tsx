@@ -3,9 +3,10 @@ import {UsersType} from "../../redux/UsersReducer";
 import {NavLink} from "react-router-dom";
 import Avatar from "../common/avatar";
 import email from './../../image/email3.png'
+import {FriendNewMessageType} from "../dialogs/MessagesPage";
 
 type PropsType = {
-    user: UsersType
+    user: FriendNewMessageType | UsersType
     followingInProgress: Array<string>
     page: number
     count: number
@@ -53,7 +54,7 @@ const User = (
                         <img src={email} alt={''} height={25}/>
                        <span style={{
                            borderRadius: '50%',
-                           boxShadow: '3px 4px 5px rgba(0,0,0,.5)',
+                           textShadow: '3px 4px 5px rgba(0,0,0,.5)',
                            height: '10px',
                            width: '10px'
                        }}> {newMessagesCount} </span>
