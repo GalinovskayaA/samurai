@@ -4,7 +4,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {followTC, getUsersTC, LocationUsersType, PhotoUsersType, unfollowTC, UsersType} from "../../redux/UsersReducer";
 import {StoreStateType} from "../../redux/redux-store";
 import User from "../users/User";
-import PhotoAction from "../users/PhotoAction";
 import {getAllDialogsTC, getFriendMessagesTC, startDialogAC, startDialogsTC} from "../../redux/DialogsReducer";
 import {Redirect, useParams} from "react-router-dom";
 import {DialogsMessages} from "./DialogsMessages";
@@ -37,10 +36,12 @@ const MessagesPage = () => {
     useEffect(() => {
         dispatch(getUsersTC(1, 100, {term: '', friend: true}))
         dispatch(getAllDialogsTC())
+        userId && dispatch(startDialogsTC(Number(userId)))
+        dispatch(getFriendMessagesTC(Number(userId), 1, 100))
         return function cleanUp() {
             dispatch(startDialogAC(false))
         }
-    },[dispatch])
+    },[dispatch, userId])
 
     /*const dialogsElements = props.dialogsData.map((d) => (<DialogItem key={d.id} id={d.id} name={d.name}/>))*/
     const follow = (usersID: string) => {
@@ -76,20 +77,33 @@ const MessagesPage = () => {
             return acc + u.newMessagesCount
         }
     }, 0)
+    usersAll.sort(function(b, a) {
+        if(!a.newMessagesCount) {
+            a.newMessagesCount = 0
+        } else if (!b.newMessagesCount) {
+            b.newMessagesCount = 0
+        }
+        return a.newMessagesCount - b.newMessagesCount
+    })
+    const scrollHandler = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
+        const element = e.currentTarget
+    }
 
     if (!isAuth) return <Redirect to={'/login'}/>
 
     return (
         <div className={s.dialogsContent}>
-            <div className={s.dialogItems}> {/*имена друзей*/}
+            <div className={s.dialogItems} style={{height: '45em', overflowY: 'auto'}}> {/*имена друзей*/}
                 <div> {'Number of friends: ' + usersAll.length} </div>
                 <div> {'New messages: ' + numberOfNewMessages} </div>
+
                 {usersAll.map((u, index) => <div>
                     <User user={u} key={u.id} followingInProgress={followingInProgress}
-                                           follow={follow} unfollow={unfollow} startDialog={startDialog} page={page} count={count} navLink={'/dialogs/'} hasNewMessages={u.hasNewMessages} newMessagesCount={u.newMessagesCount}/></div>).sort(function(b, a) { return a.props.newMessagesCount - b.props.newMessagesCount})}
+                                           follow={follow} unfollow={unfollow} startDialog={startDialog} page={page} count={count} navLink={'/dialogs/'} hasNewMessages={u.hasNewMessages} newMessagesCount={u.newMessagesCount}/>
+                    </div>)}
             </div>
             {isStartDialog && <div className={s.messages}>
-                <DialogsMessages userId={userId}/> {/*диалоговая часть*/}
+              <DialogsMessages userId={userId}/> {/*диалоговая часть*/}
             </div>}
         </div>
     )

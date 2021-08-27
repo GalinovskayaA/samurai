@@ -1,11 +1,11 @@
 import React from "react";
-import classes from "./../Dialogs.module.css"
-import Avatar from "../../common/avatar";
-import {ChatMessageAPIType} from "../../../api/chat-api";
+import classes from "../dialogs/Dialogs.module.css"
+import Avatar from "../common/avatar";
+import {ChatMessageAPIType} from "../../api/chat-api";
 import { NavLink } from "react-router-dom";
 
 
-const Message = React.memo(({message, photo, userId, userName}: ChatMessageAPIType) => {
+const MessageChat = React.memo(({message, photo, userId, userName}: ChatMessageAPIType) => {
     return <>
         <NavLink to={'/profile/' + userId}>
             <div style={{fontWeight: "bold"}}>{userName}</div>
@@ -15,4 +15,4 @@ const Message = React.memo(({message, photo, userId, userName}: ChatMessageAPITy
     </>
 })
 
-export default Message
+export default MessageChat

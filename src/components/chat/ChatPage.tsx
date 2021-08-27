@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import Message from "../dialogs/Messege/Message";
+import MessageChat from "./MessageChat";
 import {StatusChatType} from "../../api/chat-api";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -62,8 +62,8 @@ export const MessagesChat: React.FC = React.memo(() => {
 
     return <>
         <div style={{height: '25em', overflowY: 'auto'}} onScroll={scrollHandler}>
-            {messages.map((m) => <Message key={m.id} userId={m.userId} message={m.message}
-                                          userName={m.userName} photo={m.photo}/>)}
+            {messages.map((m) => <MessageChat key={m.id} userId={m.userId} message={m.message}
+                                              userName={m.userName} photo={m.photo}/>)}
             <div ref={messageAnchorRef}> </div>
         </div>
     </>

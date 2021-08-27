@@ -12,7 +12,6 @@ export const dialogsAPI = {
         return instance.get(`dialogs/${userId}/messages?page=${page}&count=${count}`)
     },
     sendFriendMessagePOST(userId: number, message: string) {
-        debugger
         return instance.post(`dialogs/${userId}/messages`, {body: message})
     },
     isViewedMessageGET(messageId: number) {
