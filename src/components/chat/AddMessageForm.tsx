@@ -63,7 +63,7 @@ export const AddMessageForm = ({sendMessageForm, status, userId}: AddMessageForm
         <div>
             <button onClick={sendMessage} disabled={status !== 'ready'}>Send</button>
         </div>
-        <Emoji chosenEmoji={chosenEmoji} onEmojiClick={onEmojiClick}/>
+        <Emoji chosenEmoji={chosenEmoji} onEmojiClick={onEmojiClick} />
         <ModalInfo title={'Отправка файлов не реализовано'} active={modalActive} setActive={setModalActive}/>
     </>
 }

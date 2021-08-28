@@ -16,7 +16,7 @@ export const Emoji = ({chosenEmoji, onEmojiClick}: EmojiType) => {
             ) : (
                 <span>No emoji Chosen</span>
             )}
-            <Picker onEmojiClick={onEmojiClick} preload={true}/>
+            <Picker onEmojiClick={onEmojiClick} preload={true} pickerStyle={{width: '450px', height: '250px'}}/>
         </div>
     </>
 }

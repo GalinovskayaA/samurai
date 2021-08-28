@@ -90,8 +90,8 @@ export const Users = () => {
                       follow={follow} unfollow={unfollow} startDialog={startDialog} page={page} count={count} navLink={'/profile/'}/>
         </div>
             )}
-        {isStartDialog && <div className={s.messages}>
-          <DialogsMessages /> {/*диалоговая часть*/}
-        </div>}
+        {/*{isStartDialog && <div className={s.messages}>
+          <DialogsMessages /> диалоговая часть
+        </div>}*/}
     </div>
 }

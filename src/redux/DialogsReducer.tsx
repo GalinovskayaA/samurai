@@ -107,7 +107,7 @@ export const getAllDialogsTC = () => { // активность, наличие �
     }
 }
 export const getFriendMessagesTC = (userId: number, page: number, count: number) => {
-    return async (dispatch: Dispatch) => { // сообщения друга
+    return async (dispatch: Dispatch) => { // сообщения друга не больше 20
         let data = await dialogsAPI.getFriendMessagesGET(userId, page, count)
         dispatch(setMessagesAC(data.data.items))
         console.log('Санка: получить сообщения друга ' + data.data.items)
