@@ -60,8 +60,8 @@ export const DialogsMessages = ({userId, friendsAll}: DialogsMessagesType) => {
                     </NavLink>
 
 <div style={{height: '28em', overflowY: 'auto'}}  onScroll={scrollHandler}>
-                            {messageData && messageData.map(m => <div style={{display: 'flex'}}>
-                                <MessagePrivate messageData={m} key={m.id} photos={itIsCompanion[0].photos}
+                            {messageData && messageData.map((m, index) => <div style={{display: 'flex'}}>
+                                <MessagePrivate messageData={m} key={index} photos={itIsCompanion[0].photos}
                                                 userId={userId}/></div>)}
     <div ref={messageAnchorRef}> </div>
 

@@ -14,7 +14,7 @@ export const dialogsAPI = {
     sendFriendMessagePOST(userId: number, message: string) {
         return instance.post(`dialogs/${userId}/messages`, {body: message})
     },
-    isViewedMessageGET(messageId: number) {
+    isViewedMessageGET(messageId: string) {
         return instance.get(`dialogs/messages/${messageId}/viewed`)
     },
     sendMessageSpamPOST(messageId: number) {

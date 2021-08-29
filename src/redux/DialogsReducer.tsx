@@ -16,6 +16,7 @@ export type MessageDataType = {
     senderId: number //15444
     senderName: string //"GalinovskayaA"
     translatedBody: null
+    isViewed: boolean
 }
 export type FriendDialogsType = {
     hasNewMessages: boolean
@@ -33,7 +34,6 @@ export type DialogsType = {
     page: number
     count: number
     isStartDialog: boolean
-    isViewed: boolean | null
 }
 
 const initialState: DialogsType = {
@@ -42,7 +42,6 @@ const initialState: DialogsType = {
     page: 1,
     count: 20,
     isStartDialog: false,
-    isViewed: null as boolean | null
 }
 
 export const dialogsReducer = (state = initialState, action: ActionDialogType): DialogsType => {
@@ -65,6 +64,14 @@ export const dialogsReducer = (state = initialState, action: ActionDialogType): 
                 messageData: action.messageData,
             }
         }
+        case 'SN/DIALOGS/IS-VIEWED': {
+            return {
+                ...state,
+                messageData: state.messageData.map(m => {
+                    return {...m, ...{isViewed: action.isViewed}}
+                }),
+            }
+        }
         default:
             return state;
     }
@@ -85,6 +92,11 @@ export const getAllDialogsAC = (friendsDialogs: Array<FriendDialogsType>) => {
 export const setMessagesAC = (messageData: Array<MessageDataType>) => {
     return {
         type: 'SN/DIALOGS/SET-MESSAGES', messageData: messageData
+    } as const
+}
+export const setIsViewedAC = (isViewed: boolean) => {
+    return {
+        type: 'SN/DIALOGS/IS-VIEWED', isViewed: isViewed
     } as const
 }
 
@@ -114,17 +126,25 @@ export const getFriendMessagesTC = (userId: number, page: number, count: number)
     }
 }
 export const sendFriendMessageTC = (userId: number, message: string) => {
-    return async (dispatch: Dispatch) => {
+    return async (dispatch: Dispatch) => { // отправить сообщение
         await dialogsAPI.sendFriendMessagePOST(userId, message)
+    }
+}
+
+export const isViewedMessageTC = (messageId: string) => {
+    return async (dispatch: Dispatch) => { //
+        let data = await dialogsAPI.isViewedMessageGET(messageId)
+        dispatch(setIsViewedAC(data.data))
     }
 }
 
 // ----- Types -----
 
-type ActionDialogType = StartDialogACType | GetAllDialogACType | SetMessagesACType
+type ActionDialogType = StartDialogACType | GetAllDialogACType | SetMessagesACType | SetIsViewedACType
 type StartDialogACType = ReturnType<typeof startDialogAC>
 type GetAllDialogACType = ReturnType<typeof getAllDialogsAC>
 type SetMessagesACType = ReturnType<typeof setMessagesAC>
+type SetIsViewedACType = ReturnType<typeof setIsViewedAC>
 
 
 
