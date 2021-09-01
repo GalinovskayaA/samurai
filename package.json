@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^4.6.4",
     "@brianmcallister/react-auto-scroll": "^1.1.0",
     "@reach/slider": "^0.15.0",
     "@shwilliam/react-rubber-slider": "^0.1.4",

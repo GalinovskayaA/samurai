@@ -22,16 +22,25 @@
     padding: 20px;
     border-radius: 12px;
     background-color: white;
-    width: 50vw;
+    width: 30vw;
     transform: scale(.5);
     transition: .4s all;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 }
 
 .modal_content_active {
     transform: scale(1);
+}
+
+.buttonsQuestion {
+    margin: 15px 20px 0;
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
 }
 
 
