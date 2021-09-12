@@ -10,9 +10,10 @@ type AddMessageFormType = {
     sendMessageForm: (message: string) => void
     status?: StatusChatType
     userId?: string
+    showEmoji: boolean
 }
 
-export const AddMessageForm = ({sendMessageForm, status, userId}: AddMessageFormType) => {
+export const AddMessageForm = ({sendMessageForm, status, userId, showEmoji}: AddMessageFormType) => {
 
     const [message, setMessage] = useState<string>('')
     const [img, setImage] = useState<string>()
@@ -63,7 +64,7 @@ export const AddMessageForm = ({sendMessageForm, status, userId}: AddMessageForm
         <div>
             <button onClick={sendMessage} disabled={status !== 'ready'}>Send</button>
         </div>
-        <Emoji chosenEmoji={chosenEmoji} onEmojiClick={onEmojiClick} />
+        {showEmoji && <Emoji chosenEmoji={chosenEmoji} onEmojiClick={onEmojiClick}/>}
         <ModalInfo title={'Отправка файлов не реализовано'} active={modalActive} setActive={setModalActive}/>
     </>
 }

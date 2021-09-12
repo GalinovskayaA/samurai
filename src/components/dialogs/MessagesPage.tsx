@@ -33,6 +33,7 @@ export type FriendNewMessageType = {
 
 
 const MessagesPage = () => {
+    console.log('MessagesPage MessagesPage MessagesPage') // все ок !!!
     let dispatch = useDispatch()
     let {userId} = useParams<{ userId?: string | undefined }>()
     console.log(userId)
@@ -47,7 +48,7 @@ const MessagesPage = () => {
     useEffect(() => {
         dispatch(getUsersTC(1, 100, {term: '', friend: true}))
         dispatch(getAllDialogsTC())
-    },[dispatch, userId])
+    },[])
 
     const follow = (usersID: string) => { // FIXME: !!! дублирование
         dispatch(followTC(usersID))
@@ -56,9 +57,9 @@ const MessagesPage = () => {
         dispatch(unfollowTC(usersID))
     }
     const startDialog = (usersID: string) => {
+        dispatch(startDialogAC(false)) // show dialog window
+        dispatch(startDialogsTC(+usersID))
         dispatch(startDialogAC(true)) // show dialog window
-    //    dispatch(startDialogsTC(+usersID))
-    //    dispatch(getFriendMessagesTC(Number(usersID), 1, 100))
     }
 
     const friendsWithNewMessages = users.reduce((acc, u) => {
@@ -102,14 +103,14 @@ const MessagesPage = () => {
                     <div style={style}> {'Number of friends: ' + friendsAll.length} </div>
                     <div style={style}> {'New messages: ' + numberOfNewMessages} </div>
                     {friendsAll.map((u, index) => <div>
-                        <User user={u} key={index} followingInProgress={followingInProgress}
+                        <User key={index} user={u} followingInProgress={followingInProgress}
                               follow={follow} unfollow={unfollow} startDialog={startDialog} page={page} count={count}
                               navLink={'/dialogs/'} hasNewMessages={u.hasNewMessages}
                               newMessagesCount={u.newMessagesCount}/>
                     </div>)}
                     <div style={style}>{'Action dialogs: '}</div>
                     {friendsDialogs.filter(f => f.hasNewMessages).map((u, index) => <div>
-                        <ActionDialogs user={u} key={index} followingInProgress={followingInProgress}
+                        <ActionDialogs key={index} user={u} followingInProgress={followingInProgress}
                                        follow={follow} unfollow={unfollow} startDialog={startDialog} page={page} count={count}
                                        navLink={'/dialogs/'} />
                     </div>)}

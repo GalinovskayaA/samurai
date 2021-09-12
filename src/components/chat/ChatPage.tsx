@@ -35,7 +35,7 @@ const Chat: React.FC = () => {
     return <>
         {status === 'error' && <div> Some error occurred. Please refresh the page </div>}
         <MessagesChat/>
-        <AddMessageForm sendMessageForm={sendMessageForm} status={status}/>
+        <AddMessageForm sendMessageForm={sendMessageForm} status={status} showEmoji/>
     </>
 }
 

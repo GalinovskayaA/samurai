@@ -17,6 +17,7 @@ export type MessageDataType = {
     senderName: string //"GalinovskayaA"
     translatedBody: null
     isViewed: boolean
+    viewed: boolean
 }
 export type FriendDialogsType = {
     hasNewMessages: boolean
@@ -106,8 +107,7 @@ export const setIsViewedAC = (isViewed: boolean) => {
 export const startDialogsTC = (userId: number) => {
     return async (dispatch: Dispatch) => {
         let data = await dialogsAPI.dialogPUT(userId)
-        dispatch(setMessagesAC(data.data.messages)) // массив сообщений
-        console.log('Санка: начало диолога ' + data.data.messages)
+    //    dispatch(setMessagesAC(data.data.messages)) // массив сообщений
     }
 }
 
@@ -115,14 +115,12 @@ export const getAllDialogsTC = () => { // активность, наличие �
     return async (dispatch: Dispatch) => {
         let data = await dialogsAPI.getAllDialogsGET()
         dispatch(getAllDialogsAC(data.data))
-        console.log('Санка: все диалоги ' + data.data)
     }
 }
 export const getFriendMessagesTC = (userId: number, page: number, count: number) => {
     return async (dispatch: Dispatch) => { // сообщения друга не больше 20
         let data = await dialogsAPI.getFriendMessagesGET(userId, page, count)
         dispatch(setMessagesAC(data.data.items))
-        console.log('Санка: получить сообщения друга ' + data.data.items)
     }
 }
 export const sendFriendMessageTC = (userId: number, message: string) => {
@@ -132,9 +130,21 @@ export const sendFriendMessageTC = (userId: number, message: string) => {
 }
 
 export const isViewedMessageTC = (messageId: string) => {
-    return async (dispatch: Dispatch) => { //
+    return async (dispatch: Dispatch) => {
         let data = await dialogsAPI.isViewedMessageGET(messageId)
         dispatch(setIsViewedAC(data.data))
+    }
+}
+
+export const messageIsSpamTC = (messageId: string) => {
+    return async () => {
+        await dialogsAPI.sendMessageSpamPOST(messageId)
+    }
+}
+
+export const messageDeleteTC = (messageId: string) => {
+    return async () => {
+        await dialogsAPI.deleteOnlyForMeDELETE(messageId)
     }
 }
 

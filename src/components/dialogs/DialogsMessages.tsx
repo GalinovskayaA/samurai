@@ -1,10 +1,10 @@
 import React, {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {getFriendMessagesTC, MessageDataType, sendFriendMessageTC, startDialogsTC} from "../../redux/DialogsReducer";
+import {getFriendMessagesTC, MessageDataType, sendFriendMessageTC} from "../../redux/DialogsReducer";
 import {AddMessageForm} from "../chat/AddMessageForm";
 import {StoreStateType} from "../../redux/redux-store";
 import MessagePrivate from "./Messege/MessagePrivate";
-import {getUsersTC, PhotoUsersType, UsersType} from "../../redux/UsersReducer";
+import {UsersType} from "../../redux/UsersReducer";
 import {NavLink} from "react-router-dom";
 import Avatar from "../common/avatar";
 import {FriendNewMessageType} from "./MessagesPage";
@@ -13,7 +13,8 @@ type DialogsMessagesType = {
     userId: string,
     friendsAll: FriendNewMessageType[]
 }
-export const DialogsMessages = ({userId, friendsAll}: DialogsMessagesType) => {
+export const DialogsMessages = React.memo(({userId, friendsAll}: DialogsMessagesType) => {
+    console.log('DialogsMessages DialogsMessages DialogsMessages')
     const dispatch = useDispatch()
     const messageData = useSelector<StoreStateType, Array<MessageDataType>>(state => state.dialogPage.messageData)
     const users = useSelector<StoreStateType, Array<UsersType>>(state => state.usersPage.users)
@@ -30,7 +31,6 @@ export const DialogsMessages = ({userId, friendsAll}: DialogsMessagesType) => {
     }
 
     useEffect(() => {
-        dispatch(startDialogsTC(Number(userId))) // получаем messageData
         dispatch(getFriendMessagesTC(Number(userId), 1, 20))
     }, [dispatch, userId])
 
@@ -40,13 +40,14 @@ export const DialogsMessages = ({userId, friendsAll}: DialogsMessagesType) => {
 
     const addNewMessage = (message: string) => {
         dispatch(sendFriendMessageTC(Number(userId), message))
+        dispatch(getFriendMessagesTC(Number(userId), 1, 20))
     }
     useEffect(() => {
         if (isAutoScroll) {
             messageAnchorRef.current?.scrollIntoView({behavior: 'smooth'})
         }
     }, [isAutoScroll, messageData])
-    /*const messageElements = props.messageData.map((m) => (<Message key={m.id} userId={m.id} message={m.message} userName={''} photo={''}/>))*/
+
 
     return (
         <div>
@@ -68,10 +69,7 @@ export const DialogsMessages = ({userId, friendsAll}: DialogsMessagesType) => {
 </div>
                 </div>
             </div>
-            <AddMessageForm sendMessageForm={addNewMessage} status={'ready'}/>
-            {/*<AddMessageReduxForm onSubmit={addNewMessage}/>
-            <Emoji chosenEmoji={chosenEmoji} onEmojiClick={onEmojiClick}/>*/}
-            {/*<div> {messageElements} </div>*/}
+            <AddMessageForm sendMessageForm={addNewMessage} status={'ready'} showEmoji={false}/>
         </div>
     )
-}
+})

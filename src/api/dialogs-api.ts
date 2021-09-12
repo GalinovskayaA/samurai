@@ -17,10 +17,10 @@ export const dialogsAPI = {
     isViewedMessageGET(messageId: string) {
         return instance.get(`dialogs/messages/${messageId}/viewed`)
     },
-    sendMessageSpamPOST(messageId: number) {
+    sendMessageSpamPOST(messageId: string) {
         return instance.post(`dialogs/messages/${messageId}/spam`)
     },
-    deleteOnlyForMeDELETE(messageId: number) {
+    deleteOnlyForMeDELETE(messageId: string) {
         return instance.delete(`dialogs/messages/${messageId}`)
     },
     restoreMessagePUT(messageId: number) {
