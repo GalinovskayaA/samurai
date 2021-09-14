@@ -1,48 +1,32 @@
-import React, {CSSProperties, useEffect, useState} from "react";
-import classes from "./../Dialogs.module.css"
-import Avatar from "../../common/avatar";
+import React, {useState} from "react"
+import s from "./../Messege/Messages.module.css"
+import Avatar from "../../common/Avatar"
 import {
     getFriendMessagesTC,
-    isViewedMessageTC,
     MessageDataType,
     messageDeleteTC,
     messageIsSpamTC,
-} from "../../../redux/DialogsReducer";
-import {PhotoUsersType} from "../../../redux/UsersReducer";
-import mePhoto from './../../../image/smile.png'
+} from "../../../redux/DialogsReducer"
+import {PhotoUsersType} from "../../../redux/UsersReducer"
 import deleteScr from './../../../image/deleteSrc.png'
 import spamScr from './../../../image/spamSrc.png'
-import {useDispatch} from "react-redux";
-import {ModalQuestion} from "../../common/Modals/ModalQuestion";
+import {useDispatch} from "react-redux"
+import {ModalQuestion} from "../../common/modals/ModalQuestion"
 
 
 type PropsType = {
     messageData: MessageDataType
     photos?: PhotoUsersType
     userId?: string
+    myPhoto?: string
 }
 
-const MessagePrivate = React.memo(({messageData, photos, userId}: PropsType) => {
-    console.log(messageData)
-    console.log('MessagePrivate MessagePrivate MessagePrivate')
+const MessagePrivate = React.memo(({messageData, photos, userId, myPhoto}: PropsType) => {
     const dispatch = useDispatch()
-    const [modalActive, setModalActive] = useState<boolean>(false);
-    const messageStyle: CSSProperties = userId && +userId === messageData.recipientId ? {
-        backgroundColor: 'rgba(155,5,175,0.3)',
-        float: 'right', margin: '5px', padding: '5px', borderRadius: '5px'
-    } : {backgroundColor: 'rgba(52,124,245,0.3)', float: 'left', margin: '5px', padding: '5px', borderRadius: '5px'}
-    const buttonStyle: CSSProperties = {
-        border: '1px solid #fff',
-        outline: 'none',
-        textDecoration: 'none',
-        backgroundColor: 'rgba(255,255,255,.1)',
-        borderRadius: '5px'
-    }
-    const withPhoto = userId && +userId === messageData.recipientId ? mePhoto : photos && photos.small
-
-    useEffect(() => {
-        dispatch(isViewedMessageTC(messageData.id))
-    }, [])
+    const [modalActive, setModalActive] = useState<boolean>(false)
+    const messageStyle = userId && +userId === messageData.recipientId ? s.recipient : s.sender
+    const withPhoto = userId && +userId === messageData.recipientId ? myPhoto : photos && photos.small
+console.log(messageData)
 
     const onMessageSpam = () => {
         dispatch(messageIsSpamTC(messageData.id))
@@ -54,8 +38,8 @@ const MessagePrivate = React.memo(({messageData, photos, userId}: PropsType) => 
     }
 
     return (
-        <div style={{width: '100%'}}>
-            <div style={messageStyle}>
+        <div className={s.content}>
+            <div className={`${s.message} ${messageStyle}`}>
                 {photos && <div>
                     {<img src={withPhoto} alt={''} width={50}/> ?
                         <img src={withPhoto} alt={''} width={50}/> : <Avatar width={50}/>}
@@ -65,14 +49,15 @@ const MessagePrivate = React.memo(({messageData, photos, userId}: PropsType) => 
                         <span> {'Deleted by companion'} </span> : messageData.deletedBySender ?
                             <span> {'Deleted by you'} </span> :
                             <div>
-                                <div className={classes.message}> {messageData.body} </div>
+                                <div> {messageData.body} </div>
                                 <div> {messageData.addedAt} </div>
-                                <div style={{fontWeight: "bold"}}> {!messageData.viewed && 'Message not viewed'} </div>
+                                {/* TODO: сделать красивую дату */}
+                                <div className={s.bold}> {!messageData.viewed && 'Message not viewed'} </div>
                                 <div>
                                     {userId && +userId === messageData.recipientId ?
-                                        <button onClick={() => setModalActive(true)} style={buttonStyle}><img
+                                        <button onClick={() => setModalActive(true)} className={s.button}><img
                                             src={deleteScr} alt={'delete'} width={35} height={35}/></button> :
-                                        <button onClick={() => setModalActive(true)} style={buttonStyle}><img
+                                        <button onClick={() => setModalActive(true)} className={s.button}><img
                                             src={spamScr} alt={'spam'} width={35} height={35}/></button>}
                                 </div>
                             </div>}

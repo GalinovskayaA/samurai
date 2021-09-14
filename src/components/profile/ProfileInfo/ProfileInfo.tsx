@@ -1,18 +1,18 @@
 import React, {useState} from "react";
 import s from './ProfileInfo.module.css';
 import {ProfileType, savePhotoTC, saveProfileTC} from "../../../redux/ProfileReducer";
-import Preloader from "../../common/preloader";
+import Preloader from "../../common/Preloader";
 import {useDispatch, useSelector} from "react-redux";
 import {StoreStateType} from "../../../redux/redux-store";
-import Avatar from "../../common/avatar";
-import {ProfilePropsType} from "../profile";
+import Avatar from "../../common/Avatar";
+import {ProfilePropsType} from "../Profile";
 import {ProfileData} from "./ProfileData";
 import ProfileDataFormReduxForm from "./ProfileDataForm";
 
 
 const ProfileInfo = ({isOwner}: ProfilePropsType) => {
-    let dispatch = useDispatch()
-    let profile = useSelector<StoreStateType, ProfileType>(state => state.profilePage.profile)
+    const dispatch = useDispatch()
+    const profile = useSelector<StoreStateType, ProfileType>(state => state.profilePage.profile)
 
     let [editMode, setEditMode] = useState(false);
 
@@ -32,7 +32,6 @@ const ProfileInfo = ({isOwner}: ProfilePropsType) => {
     }
 
     const onSubmit = (formData: ProfileType) => {
-        console.log(formData)
         dispatch(saveProfileTC(formData))
         setEditMode(false)
     }

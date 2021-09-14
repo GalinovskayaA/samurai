@@ -1,7 +1,7 @@
 import React from "react";
 import TestRenderer from 'react-test-renderer';
 import ShallowRenderer from 'react-test-renderer/shallow';
-import NavBar from "../../nav/navBar";
+import NavBar from "../../nav/NavBar";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 import {Provider} from "react-redux";
 import configureStore from 'redux-mock-store'
@@ -18,7 +18,7 @@ describe("NavBar", () => {
 describe("Profile", () => {
   const initialState = {status: 'Test'}
   const mockStore = configureStore()
-  let store,wrapper
+  let store, wrapper
   store = mockStore(initialState)
 
   test("component should display name", () => {

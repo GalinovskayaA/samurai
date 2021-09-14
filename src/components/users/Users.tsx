@@ -1,10 +1,5 @@
 import React, {useEffect} from "react";
-import {
-    FilterType,
-    followTC,
-    getUsersTC,
-    unfollowTC
-} from "../../redux/UsersReducer";
+import {FilterType, getUsersTC} from "../../redux/UsersReducer";
 import Paginator from "../common/paginator/Paginator";
 import User from "./User";
 import {SearchForm} from "../common/SearchForm";
@@ -13,10 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {StoreStateType} from "../../redux/redux-store";
 import { useHistory } from "react-router-dom";
 import * as queryString from "querystring";
-import PhotoAction from "./PhotoAction";
 import {startDialogAC} from "../../redux/DialogsReducer";
-import s from "../dialogs/Dialogs.module.css";
-import {DialogsMessages} from "../dialogs/DialogsMessages";
 
 
 type QueryParamsType = {
@@ -32,9 +24,7 @@ export const Users = () => {
         pageSize, currentPage,
         followingInProgress, users, filter
     } = useSelector((state: StoreStateType) => state.usersPage)
-    const {
-        isStartDialog, page, count
-    } = useSelector((state: StoreStateType) => state.dialogPage)
+    const { page, count } = useSelector((state: StoreStateType) => state.dialogPage)
     const history = useHistory()
 
     useEffect(() => {
@@ -49,7 +39,7 @@ export const Users = () => {
         if (!!parsed.friend) actualFilter = {...actualFilter, friend: parsed.friend === 'null' ? null : parsed.friend === 'true' ? true : false}
 
         dispatch(getUsersTC(actualPage, actualPageSize, actualFilter))
-    }, []);
+    }, [dispatch, currentPage, pageSize, filter, history.location.search]);
     useEffect(() => {
         const query: QueryParamsType = {}
         if(!!filter.term) query.term = filter.term
@@ -61,7 +51,7 @@ export const Users = () => {
             pathname: '/users',
             search: queryString.stringify(query)
         })
-    }, [filter, currentPage, pageSize])
+    }, [filter, currentPage, pageSize, history])
 
     const onPageChanged = (currentPage: number) => {
         dispatch(getUsersTC(currentPage, pageSize, filter));
@@ -69,12 +59,7 @@ export const Users = () => {
     const onFilterChanged = (filter: FilterType) => {
         dispatch(getUsersTC(1, pageSize, filter))
     }
-    const follow = (usersID: string) => {
-        dispatch(followTC(usersID))
-    }
-    const unfollow = (usersID: string) => {
-        dispatch(unfollowTC(usersID))
-    }
+
     const startDialog = () => {
         dispatch(startDialogAC(true))
     }
@@ -86,8 +71,8 @@ export const Users = () => {
                    onPageChanged={onPageChanged}/>
 
         {users.map((u, index) => <div>
-                <User user={u} key={u.id} followingInProgress={followingInProgress}
-                      follow={follow} unfollow={unfollow} startDialog={startDialog} page={page} count={count} navLink={'/profile/'}/>
+                <User user={u} key={index} followingInProgress={followingInProgress}
+                      startDialog={startDialog} page={page} count={count} navLink={'/profile/'}/>
         </div>
             )}
         {/*{isStartDialog && <div className={s.messages}>

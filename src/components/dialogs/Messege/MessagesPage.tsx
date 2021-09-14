@@ -1,23 +1,17 @@
-import React, {CSSProperties, useEffect, useState} from "react";
-import s from "./Dialogs.module.css"
+import React, {CSSProperties, useEffect} from "react";
+import s from "../Dialogs.module.css"
 import {useDispatch, useSelector} from "react-redux";
 import {
-    followTC,
     getUsersTC,
     LocationUsersType,
-    PhotoUsersType,
-    setUsersAC,
-    unfollowTC,
-    UsersType
-} from "../../redux/UsersReducer";
-import {StoreStateType} from "../../redux/redux-store";
-import User from "../users/User";
-import {getAllDialogsTC, getFriendMessagesTC, startDialogAC, startDialogsTC} from "../../redux/DialogsReducer";
+    PhotoUsersType
+} from "../../../redux/UsersReducer";
+import {StoreStateType} from "../../../redux/redux-store";
+import User from "../../users/User";
+import {getAllDialogsTC, startDialogAC, startDialogsTC} from "../../../redux/DialogsReducer";
 import {Redirect, useParams} from "react-router-dom";
 import {DialogsMessages} from "./DialogsMessages";
-import InfiniteScroll from "react-infinite-scroll-component";
-import Preloader from "../common/preloader";
-import ActionDialogs from "./Messege/MaybeNewFriend";
+import ActionDialogs from "./ActionDialogs";
 
 export type FriendNewMessageType = {
     id: string,
@@ -33,31 +27,21 @@ export type FriendNewMessageType = {
 
 
 const MessagesPage = () => {
-    console.log('MessagesPage MessagesPage MessagesPage') // все ок !!!
     let dispatch = useDispatch()
     let {userId} = useParams<{ userId?: string | undefined }>()
-    console.log(userId)
+    const { followingInProgress, users } = useSelector((state: StoreStateType) => state.usersPage)
     const {
-        pageSize, currentPage, followingInProgress, users
-    } = useSelector((state: StoreStateType) => state.usersPage)
-    const {
-        isStartDialog, messageData, friendsDialogs, page, count
+        isStartDialog, friendsDialogs, page, count
     } = useSelector((state: StoreStateType) => state.dialogPage)
     const isAuth = useSelector<StoreStateType, boolean>(state => state.auth.isAuth)
 
     useEffect(() => {
-        dispatch(getUsersTC(1, 100, {term: '', friend: true}))
+        dispatch(getUsersTC(1, 30, {term: '', friend: true}))
         dispatch(getAllDialogsTC())
-    },[])
+    },[dispatch])
 
-    const follow = (usersID: string) => { // FIXME: !!! дублирование
-        dispatch(followTC(usersID))
-    }
-    const unfollow = (usersID: string) => { // FIXME: !!! дублирование
-        dispatch(unfollowTC(usersID))
-    }
     const startDialog = (usersID: string) => {
-        dispatch(startDialogAC(false)) // show dialog window
+        dispatch(startDialogAC(false))
         dispatch(startDialogsTC(+usersID))
         dispatch(startDialogAC(true)) // show dialog window
     }
@@ -104,14 +88,13 @@ const MessagesPage = () => {
                     <div style={style}> {'New messages: ' + numberOfNewMessages} </div>
                     {friendsAll.map((u, index) => <div>
                         <User key={index} user={u} followingInProgress={followingInProgress}
-                              follow={follow} unfollow={unfollow} startDialog={startDialog} page={page} count={count}
+                              startDialog={startDialog} page={page} count={count}
                               navLink={'/dialogs/'} hasNewMessages={u.hasNewMessages}
                               newMessagesCount={u.newMessagesCount}/>
                     </div>)}
                     <div style={style}>{'Action dialogs: '}</div>
                     {friendsDialogs.filter(f => f.hasNewMessages).map((u, index) => <div>
-                        <ActionDialogs key={index} user={u} followingInProgress={followingInProgress}
-                                       follow={follow} unfollow={unfollow} startDialog={startDialog} page={page} count={count}
+                        <ActionDialogs key={index} user={u} startDialog={startDialog} page={page} count={count}
                                        navLink={'/dialogs/'} />
                     </div>)}
 

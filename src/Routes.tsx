@@ -2,12 +2,12 @@ import React from 'react';
 import {Redirect, Route, Switch} from "react-router-dom"
 import classes from './App.module.css';
 import {UsersPageComponent} from "./components/users/UsersContainer";
-import {withSuspense} from "./Hoc/withSuspense";
+import {withSuspense} from "./hoc/withSuspense";
 import {Login} from "./components/login/Login";
 import {ProfileComponent} from "./components/profile/ProfileComponent";
 
 
-const Messages = React.lazy(() => import('./components/dialogs/MessagesPage'));
+const Messages = React.lazy(() => import('./components/dialogs/Messege/MessagesPage'));
 const ChatPage = React.lazy(() => import('./components/chat/ChatPage'));
 const News = React.lazy(() => import('./components/news/News'));
 const Music = React.lazy(() => import('./components/music/Music'));

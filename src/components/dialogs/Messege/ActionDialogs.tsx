@@ -2,17 +2,14 @@ import React from "react";
 import {NavLink} from "react-router-dom";
 import email from './../../../image/email3.png'
 import {FriendDialogsType} from "../../../redux/DialogsReducer";
-import Avatar from "../../common/avatar";
+import Avatar from "../../common/Avatar";
 
 
 type PropsType = {
     user: FriendDialogsType
-    followingInProgress: Array<string>
     page: number
     count: number
     navLink?: string
-    follow: (userID: string) => void
-    unfollow: (userID: string) => void
     startDialog: (userID: string, page: number, count: number) => void
 }
 

@@ -54,7 +54,6 @@ export const MessagesChat: React.FC = React.memo(() => {
     }
 
     useEffect(() => {
-        console.log(messages.length)
         if (isAutoScroll) {
             messageAnchorRef.current?.scrollIntoView({behavior: 'smooth'})
         }
@@ -62,7 +61,7 @@ export const MessagesChat: React.FC = React.memo(() => {
 
     return <>
         <div style={{height: '25em', overflowY: 'auto'}} onScroll={scrollHandler}>
-            {messages.map((m) => <MessageChat key={m.id} userId={m.userId} message={m.message}
+            {messages.map((m, index) => <MessageChat key={index} userId={m.userId} message={m.message}
                                               userName={m.userName} photo={m.photo}/>)}
             <div ref={messageAnchorRef}> </div>
         </div>

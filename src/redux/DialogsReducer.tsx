@@ -105,9 +105,8 @@ export const setIsViewedAC = (isViewed: boolean) => {
 // ----- Thunk -----
 
 export const startDialogsTC = (userId: number) => {
-    return async (dispatch: Dispatch) => {
-        let data = await dialogsAPI.dialogPUT(userId)
-    //    dispatch(setMessagesAC(data.data.messages)) // массив сообщений
+    return async () => {
+        await dialogsAPI.dialogPUT(userId)
     }
 }
 
@@ -124,15 +123,8 @@ export const getFriendMessagesTC = (userId: number, page: number, count: number)
     }
 }
 export const sendFriendMessageTC = (userId: number, message: string) => {
-    return async (dispatch: Dispatch) => { // отправить сообщение
+    return async () => { // отправить сообщение
         await dialogsAPI.sendFriendMessagePOST(userId, message)
-    }
-}
-
-export const isViewedMessageTC = (messageId: string) => {
-    return async (dispatch: Dispatch) => {
-        let data = await dialogsAPI.isViewedMessageGET(messageId)
-        dispatch(setIsViewedAC(data.data))
     }
 }
 

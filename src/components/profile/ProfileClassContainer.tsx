@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux";
-import Profile from "./profile";
+import Profile from "./Profile";
 import {
     addPostAC, getUserProfileTC,
     MyPostsType,
@@ -11,8 +11,8 @@ import {
 import {StoreStateType} from "../../redux/redux-store";
 import {compose} from "redux";
 import {RouteComponentProps, withRouter} from 'react-router-dom';
-import Preloader from "../common/preloader";
-import {withAuthRedirect} from "../../Hoc/withAuthRedirect";
+import Preloader from "../common/Preloader";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {AuthPropsType} from "../../redux/AuthReducer";
 
 
@@ -21,8 +21,6 @@ class ProfileClassContainer extends React.Component<PropsType> {
     refreshProfile() {
         let meId = this.props.user.id;
         let userId = this.props.match.params.userId; // благодаря withRouter, который законектил к URL, взялись
-        console.log(this.props)                      // данные из match
-        console.log(userId)
         if (!userId) {
             userId = meId.toString()
         }

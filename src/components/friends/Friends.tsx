@@ -7,8 +7,8 @@ import {StoreStateType} from "../../redux/redux-store";
 
 const Friends = () => {
     const friends = useSelector<StoreStateType, Array<FriendsType>>(state => state.friendPage.friends)
-  const friend = friends.map ((f) => (
-    <Friend key={f.id} id={f.id} avatar={f.avatar} name={f.name}/>
+  const friend = friends.map ((f, index) => (
+    <Friend key={index} id={f.id} avatar={f.avatar} name={f.name}/>
   ))
     return (
         <div className={classes.friendBlock}>

@@ -15,7 +15,10 @@ export const ProfileData = ({isOwner, goToEditMode}: ProfileDataFormPropsType) =
     let profile = useSelector<StoreStateType, ProfileType>(state => state.profilePage.profile)
     return <>
         {isOwner && <div>
-          <button onClick={() => { goToEditMode() }}> edit </button>
+          <button onClick={() => {
+              goToEditMode()
+          }}> edit
+          </button>
         </div>}
         <Error/>
         <div>
@@ -34,7 +37,7 @@ export const ProfileData = ({isOwner, goToEditMode}: ProfileDataFormPropsType) =
         </div>
         {profile.contacts && <div>
           <b>Contacts:</b> {Object.keys(profile.contacts).map(key => {
-          return <Contacts key={key} contactTitle={key} contactValue={profile.contacts[key]}/>
+            return <Contacts key={key} contactTitle={key} contactValue={profile.contacts[key]}/>
         })}
         </div>}
     </>

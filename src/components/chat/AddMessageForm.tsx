@@ -1,9 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {IEmojiData} from 'emoji-picker-react';
 import {StatusChatType} from "../../api/chat-api";
-import {useSelector} from "react-redux";
-import {StoreStateType} from "../../redux/redux-store";
-import {ModalInfo} from "../common/Modals/ModalInfo";
+import {ModalInfo} from "../common/modals/ModalInfo";
 import {Emoji} from "../common/Emoji";
 
 type AddMessageFormType = {
@@ -13,7 +11,7 @@ type AddMessageFormType = {
     showEmoji: boolean
 }
 
-export const AddMessageForm = ({sendMessageForm, status, userId, showEmoji}: AddMessageFormType) => {
+export const AddMessageForm = React.memo(({sendMessageForm, status, userId, showEmoji}: AddMessageFormType) => {
 
     const [message, setMessage] = useState<string>('')
     const [img, setImage] = useState<string>()
@@ -51,7 +49,6 @@ export const AddMessageForm = ({sendMessageForm, status, userId, showEmoji}: Add
         const formInput = (e.target as HTMLFormElement).files;
         if (formInput.length) {
             fr.readAsDataURL(formInput[0]);
-            console.log(formInput[0])
         }
     }
 
@@ -67,4 +64,4 @@ export const AddMessageForm = ({sendMessageForm, status, userId, showEmoji}: Add
         {showEmoji && <Emoji chosenEmoji={chosenEmoji} onEmojiClick={onEmojiClick}/>}
         <ModalInfo title={'Отправка файлов не реализовано'} active={modalActive} setActive={setModalActive}/>
     </>
-}
+})

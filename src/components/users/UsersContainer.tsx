@@ -1,7 +1,7 @@
 import React from "react";
 import {useSelector} from "react-redux";
 import {StoreStateType} from "../../redux/redux-store";
-import Preloader from "../common/preloader";
+import Preloader from "../common/Preloader";
 import {Users} from "./Users";
 import {Redirect} from "react-router-dom";
 

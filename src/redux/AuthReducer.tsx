@@ -65,7 +65,6 @@ export const getAuthUserDataTC = (): ThunkType => async (dispatch) => {
   let response = await authAPI.me();
   if (response.data.resultCode === ResultCodesEnum.Success) {
     let {id, email, login} = response.data.data
-    console.log(response.data.data)
     dispatch(setAuthUserDataAC(id, email, login, true));
   }
 }

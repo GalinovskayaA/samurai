@@ -59,11 +59,11 @@ const Paginator = ({portionSize, onPageChanged}: PaginatorPropsType) => {
     }
     const endPages = pages
         .filter(p => p >= pages.length)
-        .map((p) => <ShowButton currentPage={currentPage} page={p} onPageChanged={onClickPageChanged} key={p}/>
+        .map((p, index) => <ShowButton currentPage={currentPage} page={p} onPageChanged={onClickPageChanged} key={index}/>
         )
     const startPages = pages
         .filter(p => p <= 1)
-        .map((p) => <ShowButton currentPage={currentPage} page={p} onPageChanged={onClickPageChanged} key={p}/>)
+        .map((p, index) => <ShowButton currentPage={currentPage} page={p} onPageChanged={onClickPageChanged} key={index}/>)
 
     return <div>
         <div>
@@ -77,8 +77,8 @@ const Paginator = ({portionSize, onPageChanged}: PaginatorPropsType) => {
                 {currentPage > 2 && startPages}
                 {currentPage > 2 && <span> ... </span>}
 
-                {pages.filter(p => p >= currentPage - 1 && p <= currentPage + 1).map((p) => <ShowButton
-                    currentPage={currentPage} page={p} onPageChanged={onClickPageChanged} key={p}/>)}
+                {pages.filter(p => p >= currentPage - 1 && p <= currentPage + 1).map((p, index) => <ShowButton
+                    currentPage={currentPage} page={p} onPageChanged={onClickPageChanged} key={index}/>)}
 
                 {currentPage < (pagesCount - 1) && <span> ... </span>}
                 {currentPage < (pagesCount - 1) && endPages}

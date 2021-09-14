@@ -1,5 +1,5 @@
 import React, {ComponentType} from "react";
-import Preloader from "../components/common/preloader";
+import Preloader from "../components/common/Preloader";
 
 type MapStatePropsType = {
 

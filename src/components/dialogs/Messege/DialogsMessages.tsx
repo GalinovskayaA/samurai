@@ -1,23 +1,23 @@
 import React, {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {getFriendMessagesTC, MessageDataType, sendFriendMessageTC} from "../../redux/DialogsReducer";
-import {AddMessageForm} from "../chat/AddMessageForm";
-import {StoreStateType} from "../../redux/redux-store";
-import MessagePrivate from "./Messege/MessagePrivate";
-import {UsersType} from "../../redux/UsersReducer";
+import {getFriendMessagesTC, MessageDataType, sendFriendMessageTC} from "../../../redux/DialogsReducer";
+import {AddMessageForm} from "../../chat/AddMessageForm";
+import {StoreStateType} from "../../../redux/redux-store";
+import MessagePrivate from "./MessagePrivate";
 import {NavLink} from "react-router-dom";
-import Avatar from "../common/avatar";
+import Avatar from "../../common/Avatar";
 import {FriendNewMessageType} from "./MessagesPage";
+import {getUserProfileTC, ProfileType} from "../../../redux/ProfileReducer";
 
 type DialogsMessagesType = {
     userId: string,
     friendsAll: FriendNewMessageType[]
 }
 export const DialogsMessages = React.memo(({userId, friendsAll}: DialogsMessagesType) => {
-    console.log('DialogsMessages DialogsMessages DialogsMessages')
     const dispatch = useDispatch()
     const messageData = useSelector<StoreStateType, Array<MessageDataType>>(state => state.dialogPage.messageData)
-    const users = useSelector<StoreStateType, Array<UsersType>>(state => state.usersPage.users)
+    const id = useSelector<StoreStateType, number>(state => state.auth.id)
+    const profile = useSelector<StoreStateType, ProfileType>(state => state.profilePage.profile)
     const messageAnchorRef = useRef<HTMLDivElement>(null)
     const [isAutoScroll, setIsAutoScroll] = useState<boolean>(true)
 
@@ -32,11 +32,10 @@ export const DialogsMessages = React.memo(({userId, friendsAll}: DialogsMessages
 
     useEffect(() => {
         dispatch(getFriendMessagesTC(Number(userId), 1, 20))
-    }, [dispatch, userId])
-
+        dispatch(getUserProfileTC(String(id)))
+    }, [dispatch, userId, id])
 
     const itIsCompanion = friendsAll.filter(p => String(p.id) === userId)
-    console.log(itIsCompanion)
 
     const addNewMessage = (message: string) => {
         dispatch(sendFriendMessageTC(Number(userId), message))
@@ -63,7 +62,7 @@ export const DialogsMessages = React.memo(({userId, friendsAll}: DialogsMessages
 <div style={{height: '28em', overflowY: 'auto'}}  onScroll={scrollHandler}>
                             {messageData && messageData.map((m, index) => <div style={{display: 'flex'}}>
                                 <MessagePrivate messageData={m} key={index} photos={itIsCompanion[0].photos}
-                                                userId={userId}/></div>)}
+                                                userId={userId} myPhoto={profile.photos.large}/></div>)}
     <div ref={messageAnchorRef}> </div>
 
 </div>

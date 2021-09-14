@@ -1,9 +1,10 @@
 import React from "react";
-import {UsersType} from "../../redux/UsersReducer";
+import {followTC, unfollowTC, UsersType} from "../../redux/UsersReducer";
 import {NavLink} from "react-router-dom";
-import Avatar from "../common/avatar";
+import Avatar from "../common/Avatar";
 import email from './../../image/email3.png'
-import {FriendNewMessageType} from "../dialogs/MessagesPage";
+import {FriendNewMessageType} from "../dialogs/Messege/MessagesPage";
+import {useDispatch} from "react-redux";
 
 type PropsType = {
     user: FriendNewMessageType | UsersType
@@ -13,19 +14,24 @@ type PropsType = {
     hasNewMessages?: boolean
     newMessagesCount?: number
     navLink?: string
-    follow: (userID: string) => void
-    unfollow: (userID: string) => void
     startDialog: (userID: string, page: number, count: number) => void
 }
 
 const User = (
     {
         user, followingInProgress,
-        follow, unfollow, startDialog,
-        page, count, navLink,
+        startDialog, page, count, navLink,
         hasNewMessages, newMessagesCount
     }: PropsType
 ) => {
+    const dispatch = useDispatch()
+
+    const follow = (usersID: string) => {
+        dispatch(followTC(usersID))
+    }
+    const unfollow = (usersID: string) => {
+        dispatch(unfollowTC(usersID))
+    }
 
     return (
         <>

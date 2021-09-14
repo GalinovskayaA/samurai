@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './nav.module.css';
-import NavBar from "./navBar";
+import NavBar from "./NavBar";
 import {NavLink} from "react-router-dom";
 import {PATH} from "../../Routes";
 import Friends from "../friends/Friends";

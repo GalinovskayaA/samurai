@@ -12,9 +12,9 @@ export type PostsProps = {
 }
 
 const Post = (props: PostsProps) => {
-  const a = props.arrayMyPosts.map(p => {
+  const a = props.arrayMyPosts.map((p, index) => {
     return (
-      <div key={p.id} className={classes.postsItem}>
+      <div key={index} className={classes.postsItem}>
         <img src={p.avatar} alt={''}/>
         {p.message}
         <div>

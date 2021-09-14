@@ -30,8 +30,8 @@ export type ContactsUserProfileType = {
     mainLink?: null | string,
 }
 export type PhotosUserProfileType = {
-    small: string | null,
-    large: string | null
+    small: string,
+    large: string
 }
 export type ProfileType = {
     aboutMe: string,

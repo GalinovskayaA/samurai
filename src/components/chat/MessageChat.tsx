@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "../dialogs/Dialogs.module.css"
-import Avatar from "../common/avatar";
+import Avatar from "../common/Avatar";
 import {ChatMessageAPIType} from "../../api/chat-api";
 import { NavLink } from "react-router-dom";
 
