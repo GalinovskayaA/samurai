@@ -169,6 +169,14 @@ export const unfollowTC = (userID: string): ThunkType => {
     }
 }
 
+export const getFriendsTC = (page: number, pageSize: number, filter: FilterType): ThunkType => {
+    return async (dispatch) => {
+        let data = await getUsersAPI.getUsers(page, pageSize, filter.term, filter.friend);
+        dispatch(setUsersAC(data.items)); // TODO исправить на френдов
+        dispatch(setUsersTotalCountAC(data.totalCount)); // TODO исправить на френдов
+    }
+}
+
 // ----- Helper -----
 
 const _followUnfollowFlow =

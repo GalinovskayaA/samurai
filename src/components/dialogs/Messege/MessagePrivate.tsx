@@ -12,6 +12,7 @@ import deleteScr from './../../../image/deleteSrc.png'
 import spamScr from './../../../image/spamSrc.png'
 import {useDispatch} from "react-redux"
 import {ModalQuestion} from "../../common/modals/ModalQuestion"
+import {DateTime} from 'luxon';
 
 
 type PropsType = {
@@ -26,7 +27,8 @@ const MessagePrivate = React.memo(({messageData, photos, userId, myPhoto}: Props
     const [modalActive, setModalActive] = useState<boolean>(false)
     const messageStyle = userId && +userId === messageData.recipientId ? s.recipient : s.sender
     const withPhoto = userId && +userId === messageData.recipientId ? myPhoto : photos && photos.small
-console.log(messageData)
+    const data = DateTime.fromISO(messageData.addedAt)
+
 
     const onMessageSpam = () => {
         dispatch(messageIsSpamTC(messageData.id))
@@ -50,8 +52,7 @@ console.log(messageData)
                             <span> {'Deleted by you'} </span> :
                             <div>
                                 <div> {messageData.body} </div>
-                                <div> {messageData.addedAt} </div>
-                                {/* TODO: сделать красивую дату */}
+                                <div> {data.setLocale('ru').toFormat('dd LLL yyyy HH:mm ')} </div>
                                 <div className={s.bold}> {!messageData.viewed && 'Message not viewed'} </div>
                                 <div>
                                     {userId && +userId === messageData.recipientId ?

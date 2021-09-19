@@ -39,7 +39,7 @@ export const initializeAppTC = (): ThunkType => async (dispatch) => {
             dispatch(initializedSuccessAC(true))
         })
         .catch((error) => {
-                alert(error.message)
+                console.error(error.message)
             }
         )
 }

@@ -2,16 +2,18 @@ import React, {CSSProperties, useEffect} from "react";
 import s from "../Dialogs.module.css"
 import {useDispatch, useSelector} from "react-redux";
 import {
+    getFriendsTC,
     getUsersTC,
     LocationUsersType,
     PhotoUsersType
 } from "../../../redux/UsersReducer";
 import {StoreStateType} from "../../../redux/redux-store";
 import User from "../../users/User";
-import {getAllDialogsTC, startDialogAC, startDialogsTC} from "../../../redux/DialogsReducer";
+import {getAllDialogsTC, getFriendMessagesTC, startDialogAC, startDialogsTC} from "../../../redux/DialogsReducer";
 import {Redirect, useParams} from "react-router-dom";
 import {DialogsMessages} from "./DialogsMessages";
 import ActionDialogs from "./ActionDialogs";
+import {getUserProfileTC, ProfileType} from "../../../redux/ProfileReducer";
 
 export type FriendNewMessageType = {
     id: string,
@@ -34,15 +36,18 @@ const MessagesPage = () => {
         isStartDialog, friendsDialogs, page, count
     } = useSelector((state: StoreStateType) => state.dialogPage)
     const isAuth = useSelector<StoreStateType, boolean>(state => state.auth.isAuth)
+    const id = useSelector<StoreStateType, number>(state => state.auth.id)
+    const profile = useSelector<StoreStateType, ProfileType>(state => state.profilePage.profile)
 
     useEffect(() => {
-        dispatch(getUsersTC(1, 30, {term: '', friend: true}))
+        dispatch(getUserProfileTC(String(id)))
+        dispatch(getFriendsTC(1, 30, {term: '', friend: true}))
         dispatch(getAllDialogsTC())
-    },[dispatch])
+    },[dispatch, id])
 
-    const startDialog = (usersID: string) => {
+    const startDialog = (userId: string) => {
         dispatch(startDialogAC(false))
-        dispatch(startDialogsTC(+usersID))
+        dispatch(startDialogsTC(+userId))
         dispatch(startDialogAC(true)) // show dialog window
     }
 
@@ -82,25 +87,25 @@ const MessagesPage = () => {
 
     return (
         <div className={s.dialogsContent}>
-                <div className={s.dialogItems} style={{height: 700, overflow: "auto"}}> {/*имена друзей*/}
+            <div className={s.dialogItems} style={{height: 700, overflow: "auto"}}> {/*имена друзей*/}
 
-                    <div style={style}> {'Number of friends: ' + friendsAll.length} </div>
-                    <div style={style}> {'New messages: ' + numberOfNewMessages} </div>
-                    {friendsAll.map((u, index) => <div>
-                        <User key={index} user={u} followingInProgress={followingInProgress}
-                              startDialog={startDialog} page={page} count={count}
-                              navLink={'/dialogs/'} hasNewMessages={u.hasNewMessages}
-                              newMessagesCount={u.newMessagesCount}/>
-                    </div>)}
-                    <div style={style}>{'Action dialogs: '}</div>
-                    {friendsDialogs.filter(f => f.hasNewMessages).map((u, index) => <div>
-                        <ActionDialogs key={index} user={u} startDialog={startDialog} page={page} count={count}
-                                       navLink={'/dialogs/'} />
-                    </div>)}
+                <div style={style}> {'Number of friends: ' + friendsAll.length} </div>
+                <div style={style}> {'New messages: ' + numberOfNewMessages} </div>
+                {friendsAll.map((u, index) => <div key={`user-${index}`}>
+                    <User user={u} followingInProgress={followingInProgress}
+                          startDialog={startDialog} page={page} count={count}
+                          navLink={'/dialogs/'} hasNewMessages={u.hasNewMessages}
+                          newMessagesCount={u.newMessagesCount}/>
+                </div>)}
+                <div style={style}>{'Action dialogs: '}</div>
+                {friendsDialogs.filter(f => f.hasNewMessages).map((u, index) => <div key={`dialog-${index}`}>
+                    <ActionDialogs user={u} startDialog={startDialog} page={page} count={count}
+                                   navLink={'/dialogs/'} />
+                </div>)}
 
-                </div>
+            </div>
             {isStartDialog && userId && <div className={s.messages}>
-              <DialogsMessages userId={userId} friendsAll={friendsAll}/> {/*диалоговая часть*/}
+              <DialogsMessages userId={userId} friendsAll={friendsAll} profile={profile}/> {/*диалоговая часть*/}
             </div>}
         </div>
     )

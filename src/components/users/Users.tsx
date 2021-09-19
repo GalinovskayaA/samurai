@@ -75,8 +75,5 @@ export const Users = () => {
                       startDialog={startDialog} page={page} count={count} navLink={'/profile/'}/>
         </div>
             )}
-        {/*{isStartDialog && <div className={s.messages}>
-          <DialogsMessages /> диалоговая часть
-        </div>}*/}
     </div>
 }
