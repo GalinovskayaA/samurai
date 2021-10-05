@@ -26,7 +26,7 @@ const ActionDialogs = (
             <div> {user.userName} </div>
             <NavLink to={navLink + String(user.id)}>
                 {user.photos.small ? <img src={user.photos.small} alt={''} width={75}/> : user.photos.big ?
-                    <img src={user.photos.big} alt={''} width={75}/> : <Avatar width={75}/>}
+                    <img src={user.photos.big} alt={''} width={75}/> : <Avatar />}
             </NavLink>
         </div>
         <div>
