@@ -25,7 +25,7 @@ export const ProfileComponent = () => {
         }
     }, [dispatch, userId, user])
 
-    if (!user.isAuth) return <Redirect to={'/login'}/>
+    if (!user.isAuth && !userId) return <Redirect to={'/login'}/>
     return (
         <>
             <div>{isFetching && <Preloader/>}</div>

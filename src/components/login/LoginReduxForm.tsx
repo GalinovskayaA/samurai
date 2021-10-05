@@ -13,7 +13,7 @@ const LoginForm: React.FC<InjectedFormProps<FormLoginDataType>> = ({handleSubmit
     const captchaUrl = useSelector<StoreStateType, string | null>(state => state.auth.captchaUrl)
     return <>
         <form onSubmit={handleSubmit}>
-            <div>
+            <div className={`padding-s-tb`}>
                 {createField<ForCreateFieldPropertiesType<FormLoginDataType>>("Email", "email", [required], InputFormsController)}
             </div>
             <div>

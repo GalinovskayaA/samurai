@@ -26,6 +26,8 @@ export const Login = () => {
   return <> <div>
     <h1> Login </h1>
     <LoginReduxForm onSubmit={onSubmit}/>
+    <p>email: galiale@bk.ru</p>
+    <p>password: 123456789</p>
   </div>
   </>
 }
