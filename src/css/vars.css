@@ -1,0 +1,29 @@
+:root {
+    --offset: 1rem;
+    --offset-m: calc(var(--offset) * 1.5);
+    --offset-s: calc(var(--offset) / 2);
+    --offset-xs: calc(var(--offset) / 4);
+    --offset-l: calc(var(--offset) * 2);
+    --offset-xl: calc(var(--offset) * 4);
+
+    --border-radius: 1rem;
+    --border-radius-s: calc(var(--border-radius) / 4);
+    --border: 1px solid var(--gray-light);
+
+    --transparent-color: hsla(0, 0%, 0%, 0);
+
+    --black: #000;
+    --white: #FFF;
+    --gray: hsl(60, 4%, 38%);
+    --gray-light: hsl(60, 4%, 90%);
+    --blue: #7D80DA;
+    --blue-gray: #B0A3D4;
+    --light: #EAE0CC;
+    --red: #DB222A;
+
+    --font-m: 400 1rem "Noto Sans Display", sans-serif;
+    --font-l: 400 1.8rem "Noto Sans Display", sans-serif;
+    --font-s: 400 .8rem "Noto Sans Display", sans-serif;
+
+    --flex: 1;
+}

@@ -28,6 +28,7 @@ export const SearchForm = React.memo(({onFilterChanged}: SearchFormPropsType) =>
     }
     return <>
         <div>
+            <h2> Filters </h2>
             <Formik
                 enableReinitialize
                 initialValues={{term: filter.term, friend: String(filter.friend) as FriendFormType}}
@@ -40,11 +41,11 @@ export const SearchForm = React.memo(({onFilterChanged}: SearchFormPropsType) =>
                       handleBlur,
                       handleSubmit
                   }) => (
-                    <form onSubmit={handleSubmit}>
-                        <span> find users </span>
+                    <form onSubmit={handleSubmit} className={`row left gap-offset`}>
                         <input
                             type="text"
                             name="term"
+                            placeholder="find users"
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.term}

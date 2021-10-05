@@ -1,0 +1,38 @@
+.button {
+    position: relative;
+    border: none;
+    border-radius: 50%;
+    height: 4rem;
+    width: 4rem;
+    padding: var(--offset);
+}
+
+.button img {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    width: 60%;
+    height: 60%;
+}
+
+.recipient {
+    align-items: flex-end;
+}
+
+.sender {
+
+}
+
+.message {
+    display: flex;
+    flex-direction: column;
+    gap: var(--offset-xs);
+    padding: var(--offset-s) var(--offset);
+    border-bottom: var(--border);
+}
+
+.messageBody {
+    max-width: 80%;
+    overflow-wrap: break-word;
+}

@@ -1,0 +1,10 @@
+.users {
+    flex-wrap: wrap;
+    gap: var(--offset)
+}
+
+.users > div {
+    width: 10rem;
+    padding: var(--offset);
+    border: var(--border);
+}

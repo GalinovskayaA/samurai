@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {withRouter} from "react-router-dom"
-import classes from './App.module.css';
+import s from './App.module.css';
 import Nav from "./components/nav/Nav";
 import HeaderContainer from "./components/header/HeaderContainer";
 import {useDispatch, useSelector} from "react-redux";
@@ -29,10 +29,12 @@ const App = () => {
         return <Preloader/>
     }
     return (
-        <div className={classes.appWrapper}>
+        <div className={`full-size col gap-offset ${s.appWrapper}`}>
             <HeaderContainer/>
-            <Nav/>
-            <Routes/>
+            <main className={`row top ${s.main}`}>
+                <Nav/>
+                <Routes/>
+            </main>
         </div>
     );
 }

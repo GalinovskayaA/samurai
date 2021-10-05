@@ -3,7 +3,7 @@ import React, {FC} from "react";
 import {Field, WrappedFieldProps} from "redux-form";
 
 
-export function createField<T extends string>(placeholder: string | undefined,
+export function createField<T extends string>(placeholder: string | number | undefined,
                                               name: T,
                                               validators: Array<FieldValidatorType>,
                                               component: FC<WrappedFieldProps>,

@@ -11,15 +11,13 @@ type PaginatorPropsType = {
     onPageChanged: (selectedPage: number) => void
 }
 
-
-const Paginator = ({portionSize, onPageChanged}: PaginatorPropsType) => {
+const Paginator = ({onPageChanged}: PaginatorPropsType) => {
     let dispatch = useDispatch()
     const {totalUsersCount, pageSize, currentPage, filter} = useSelector((state: StoreStateType) => state.usersPage)
     useEffect(() => {
         dispatch(getUsersTC(currentPage, pageSize, filter))
     }, [dispatch, currentPage, pageSize, filter])
 
-    /*  let [portionNumber, setPortionNumber] = useState(1) // номер порции*/
     let [value, setValue] = useState(() => '')
 
     let currentValue = +value
@@ -29,10 +27,6 @@ const Paginator = ({portionSize, onPageChanged}: PaginatorPropsType) => {
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)
     }
- //   const portionCount = Math.ceil(pagesCount / portionSize) // кол-во стр / кол-во кнопок на ленте = кол-во порций
-
-    /*const leftPortionPageNumber = (portionNumber - 1) * portionSize + 1 // 1, 11, 21, 31 ...
-    const rightPortionPageNumber = portionNumber * portionSize // 10, 20, 30 ...*/
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
         Number(setValue(e.currentTarget.value))
@@ -59,19 +53,22 @@ const Paginator = ({portionSize, onPageChanged}: PaginatorPropsType) => {
     }
     const endPages = pages
         .filter(p => p >= pages.length)
-        .map((p, index) => <ShowButton currentPage={currentPage} page={p} onPageChanged={onClickPageChanged} key={index}/>
+        .map((p, index) => <ShowButton currentPage={currentPage} page={p} onPageChanged={onClickPageChanged}
+                                       key={index}/>
         )
     const startPages = pages
         .filter(p => p <= 1)
-        .map((p, index) => <ShowButton currentPage={currentPage} page={p} onPageChanged={onClickPageChanged} key={index}/>)
+        .map((p, index) => <ShowButton currentPage={currentPage} page={p} onPageChanged={onClickPageChanged}
+                                       key={index}/>)
 
-    return <div>
+    return <div className={`offset-s-t`}>
         <div>
-            enter page
-            <input value={value} onChange={onChange} onKeyPress={onKeyPressHandler}/>
-            <button onClick={onClickButtonGo}> go</button>
+            <div className={`row left gap-offset`}>
+                <input value={value} onChange={onChange} onKeyPress={onKeyPressHandler} placeholder={'enter page'}/>
+                <button onClick={onClickButtonGo}> go</button>
+            </div>
             <p> Число пользователей: {totalUsersCount}</p>
-            <div>
+            <div className="row">
                 {currentPage > 1 &&
                 <button onClick={() => onClickPageChanged(currentPage - 1)}> prev </button>}
                 {currentPage > 2 && startPages}
@@ -85,32 +82,15 @@ const Paginator = ({portionSize, onPageChanged}: PaginatorPropsType) => {
                 {currentPage < pagesCount &&
                 <button onClick={() => onClickPageChanged(currentPage + 1)}> next </button>}
             </div>
-            <input type="range" id="range" value={currentPage} step={1}
-                   onChange={e => dispatch(setCurrentPageAC(Number(e.currentTarget.value)))}
-                   onClick={onChangeSliderPage} min={1} max={pagesCount} style={{width: '50%'}}/>
-            <label htmlFor="range"> {'current page: ' + currentPage} </label>
+            <div className="row">
+                <input type="range" id="range" value={currentPage} step={1}
+                       onChange={e => dispatch(setCurrentPageAC(Number(e.currentTarget.value)))}
+                       onClick={onChangeSliderPage} min={1} max={pagesCount} className={s.range}/>
+            </div>
+            <div>
+                <h1> {'Page: ' + currentPage} </h1>
+            </div>
         </div>
-        {/*    <div>
-      {portionNumber > 1 &&
-      <button onClick={() => {
-        setPortionNumber(portionNumber - 1)
-      }}> prev </button>}
-      {portionNumber > 1 && startPages}
-      {portionNumber > 1 && <span> ... </span>}
-
-      {pages
-        .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
-        .map((p) => <ShowButton currentPage={currentPage} page={p} onPageChanged={onClickPageChanged} />
-        )}
-
-      {portionCount > portionNumber && <span> ... </span>}
-      {portionCount > portionNumber && endPages}
-      {portionCount > portionNumber &&
-      <button onClick={() => {
-        setPortionNumber(portionNumber + 1)
-      }}> next </button>}
-
-    </div>*/} {/*прокрутка по 10*/}
     </div>
 }
 

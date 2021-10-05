@@ -14,31 +14,31 @@ type ProfileDataFormPropsType = {
 export const ProfileData = ({isOwner, goToEditMode}: ProfileDataFormPropsType) => {
     let profile = useSelector<StoreStateType, ProfileType>(state => state.profilePage.profile)
     return <>
-        {isOwner && <div>
+        <Error/>
+        <div className={`border-b padding-s-tb`}>
+            <h2>Full name:</h2> {profile.fullName}
+        </div>
+        <ProfileStatusWithHooks/>
+        <div className={`border-b padding-s-tb`}>
+            <h2>Looking for a job:</h2> {profile.lookingForAJob ? 'yes' : 'no'}
+        </div>
+        {profile.lookingForAJob &&
+        <div className={`border-b padding-s-tb`}>
+            <h2>My professionals skills:</h2> {profile.lookingForAJobDescription}
+        </div>}
+        <div className={`border-b padding-s-tb`}>
+            <h2>About me:</h2> {profile.aboutMe}
+        </div>
+        {profile.contacts && <div>
+            <h2>Contacts:</h2> {Object.keys(profile.contacts).filter(i => profile.contacts[i]).map(key => {
+               return <Contacts key={key} contactTitle={key} contactValue={profile.contacts[key]}/>
+        })}
+        </div>}
+        {isOwner && <div className={`offset-t`}>
           <button onClick={() => {
               goToEditMode()
           }}> edit
           </button>
-        </div>}
-        <Error/>
-        <div>
-            <b>Full name:</b> {profile.fullName}
-        </div>
-        <ProfileStatusWithHooks/>
-        <div>
-            <b>Looking for a job:</b> {profile.lookingForAJob ? 'yes' : 'no'}
-        </div>
-        {profile.lookingForAJob &&
-        <div>
-          <b>My professionals skills:</b> {profile.lookingForAJobDescription}
-        </div>}
-        <div>
-            <b>About me:</b> {profile.aboutMe}
-        </div>
-        {profile.contacts && <div>
-          <b>Contacts:</b> {Object.keys(profile.contacts).map(key => {
-            return <Contacts key={key} contactTitle={key} contactValue={profile.contacts[key]}/>
-        })}
         </div>}
     </>
 }

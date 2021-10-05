@@ -37,9 +37,9 @@ const ProfileInfo = ({isOwner}: ProfilePropsType) => {
     }
 
     return <div>
-        <div className={s.ava}>
-            {profile.photos?.large ? <img src={profile.photos?.large} alt={''}/> : <Avatar width={250}/>}
-            {isOwner && <input type="file" onChange={onMainPhotoSelected}/>}
+        <div className={`col ${s.ava}`}>
+            {profile.photos?.large ? <img src={profile.photos?.large} alt={''} className="img-circle large"/> : <Avatar />}
+            {isOwner && <input type="file" onChange={onMainPhotoSelected} className={s.selectInput}/>}
             {editMode ? <ProfileDataFormReduxForm initialValues={profile} onSubmit={onSubmit}/> :
                 <ProfileData isOwner={isOwner} goToEditMode={goToEditMode}/>}
         </div>

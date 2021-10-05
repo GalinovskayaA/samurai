@@ -1,46 +1,34 @@
 import React from 'react';
 import {Redirect, Route, Switch} from "react-router-dom"
-import classes from './App.module.css';
+import s from './App.module.css';
 import {UsersPageComponent} from "./components/users/UsersContainer";
 import {withSuspense} from "./hoc/withSuspense";
 import {Login} from "./components/login/Login";
 import {ProfileComponent} from "./components/profile/ProfileComponent";
 
 
-const Messages = React.lazy(() => import('./components/dialogs/Messege/MessagesPage'));
+const Messages = React.lazy(() => import('./components/dialogs/Message/MessagesPage'));
 const ChatPage = React.lazy(() => import('./components/chat/ChatPage'));
-const News = React.lazy(() => import('./components/news/News'));
-const Music = React.lazy(() => import('./components/music/Music'));
-const Setting = React.lazy(() => import('./components/setting/Setting'));
-const Friends = React.lazy(() => import('./components/friends/Friends'));
 
 export const PATH = {
     PROFILE: "/profile",
     LOGIN: "/login",
     MESSAGES: "/dialogs",
     CHAT: "/chat",
-    NEWS: "/news",
-    MUSIC: "/music",
-    SETTING: "/setting",
     USERS: "/users",
-    FRIENDS: "/friends",
     //  ERROR: "/error404",
 }
 
 const Routes = () => {
     return (
-        <div className={classes.appWrapperContent}>
+        <div className={s.appWrapperContent}>
             <Switch>
                 <Route exact path={'/'} render={() => <Redirect to={PATH.PROFILE}/>}/>
                 <Route path={PATH.PROFILE + '/:userId?'} render={() => <ProfileComponent/>}/>
                 <Route path={PATH.LOGIN} render={() => <Login/>}/>
                 <Route path={PATH.MESSAGES + '/:userId?'} render={withSuspense(Messages)}/>
                 <Route path={PATH.CHAT} render={withSuspense(ChatPage)}/>
-                <Route path={PATH.NEWS} render={withSuspense(News)}/>
-                <Route path={PATH.MUSIC} render={withSuspense(Music)}/>
-                <Route path={PATH.SETTING} render={withSuspense(Setting)}/>
                 <Route path={PATH.USERS} render={() => <UsersPageComponent/>}/>
-                <Route path={PATH.FRIENDS} render={withSuspense(Friends)}/>
                 <Route path={'*'} render={() => <div> Error 404 </div>}/>
             </Switch>
         </div>

@@ -6,10 +6,10 @@ import SamuraiAppContainer from "./AppContainer";
 
 
 ReactDOM.render(
-  <React.StrictMode>
-    <SamuraiAppContainer/>
-  </React.StrictMode>,
-  document.getElementById('root')
+    <React.StrictMode>
+        <SamuraiAppContainer/>
+    </React.StrictMode>,
+    document.getElementById('root')
 );
 
 

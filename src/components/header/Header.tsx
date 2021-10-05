@@ -1,16 +1,14 @@
 import React from 'react';
 import s from './header.module.css';
-import logo from "./../../image/logo.png"
 import {NavLink} from 'react-router-dom';
 import {HeaderContainerPropsType} from "./HeaderContainer";
 
 
 const Header = (props: HeaderContainerPropsType) => {
-    return <header className={s.header}>
-        <img src={logo} alt="logo"/>
+    return <header className={`row ${s.header}`}>
         <div className={s.loginBlock}>
             {props.isAuth
-                ? <div>{props.login} - <button onClick={props.logoutTC}> Log out </button></div>
+                ? <div>{props.login} <button onClick={props.logoutTC} className="offset-l"> Log out </button></div>
                 : <NavLink to={'login'}> Login </NavLink>}
         </div>
     </header>

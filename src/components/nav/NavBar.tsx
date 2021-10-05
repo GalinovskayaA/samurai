@@ -1,5 +1,5 @@
 import React from 'react';
-import classes from './nav.module.css';
+import s from './nav.module.css';
 
 type NavBarType = {
   name: string
@@ -7,7 +7,7 @@ type NavBarType = {
 
 const NavBar = (props: NavBarType) => {
 
-  return <div className={classes.item}>
+  return <div className={s.item}>
     {props.name}
   </div>
 }

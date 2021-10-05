@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import DialogsPage from "./Messege/MessagesPage";
+import DialogsPage from "./Message/MessagesPage";
 import {MessageDataType} from "../../redux/DialogsReducer";
 import {StoreStateType} from "../../redux/redux-store";
 import {compose} from "redux";

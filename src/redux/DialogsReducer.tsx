@@ -1,8 +1,14 @@
 import {Dispatch} from "redux";
 import {dialogsAPI} from "../api/dialogs-api";
-import {PhotoUsersType} from "./UsersReducer";
+import {
+    FilterType,
+    PhotoUsersType,
+    UsersType
+} from "./UsersReducer";
+import {getUsersAPI} from "../api/users-api";
+import {combineMessages} from "../utils/messages.helper";
 
-
+export type MessageLoadingStatusType = 'loading' | 'failed' | 'success' | null
 export type MessageDataType = {
     addedAt: string //"2021-08-25T16:01:39.11"
     body: string //"Hello"
@@ -32,17 +38,25 @@ export type FriendDialogsType = {
 export type DialogsType = {
     messageData: Array<MessageDataType>
     friendsDialogs: Array<FriendDialogsType>
+    friends: Array<UsersType>
+    totalFriendsCount: number
     page: number
     count: number
     isStartDialog: boolean
+    isLoadingMessage: MessageLoadingStatusType
+    isNoMessage: boolean
 }
 
 const initialState: DialogsType = {
     messageData: [] as Array<MessageDataType>,
     friendsDialogs: [] as Array<FriendDialogsType>,
+    friends: [] as Array<UsersType>,
+    totalFriendsCount: 0,
     page: 1,
-    count: 20,
+    count: 30,
     isStartDialog: false,
+    isLoadingMessage: null,
+    isNoMessage: false
 }
 
 export const dialogsReducer = (state = initialState, action: ActionDialogType): DialogsType => {
@@ -59,10 +73,35 @@ export const dialogsReducer = (state = initialState, action: ActionDialogType): 
                 friendsDialogs: action.friendsDialogs,
             }
         }
+        case 'SN/DIALOGS/SET-FRIENDS': {
+            return {
+                ...state,
+                friends: action.friends
+            }
+        }
+        case 'SN/DIALOGS/SET-PAGE': {
+            return {
+                ...state,
+                page: action.page
+            }
+        }
+        case 'SN/DIALOGS/SET-COUNT': {
+            return {
+                ...state,
+                count: action.count
+            }
+        }
+        case 'SN/DIALOGS/SET-TOTAL-FRIENDS-COUNT': {
+            return {
+                ...state,
+                totalFriendsCount: action.totalFriendsCount
+            }
+        }
         case 'SN/DIALOGS/SET-MESSAGES': {
             return {
                 ...state,
                 messageData: action.messageData,
+
             }
         }
         case 'SN/DIALOGS/IS-VIEWED': {
@@ -71,6 +110,24 @@ export const dialogsReducer = (state = initialState, action: ActionDialogType): 
                 messageData: state.messageData.map(m => {
                     return {...m, ...{isViewed: action.isViewed}}
                 }),
+            }
+        }
+        case 'SN/DIALOGS/IS-LOADING-MESSAGE': {
+            return {
+                ...state,
+                isLoadingMessage: action.isLoadingMessage,
+            }
+        }
+        case 'SN/DIALOGS/IS-NO-MESSAGE': {
+            return {
+                ...state,
+                isNoMessage: action.isNoMessage,
+            }
+        }
+        case 'SN/DIALOGS/SEND-MESSAGE': {
+            return {
+                ...state,
+                messageData: [...state.messageData, action.message],
             }
         }
         default:
@@ -90,6 +147,18 @@ export const getAllDialogsAC = (friendsDialogs: Array<FriendDialogsType>) => {
         type: 'SN/DIALOGS/GET-FRIENDS-DIALOGS', friendsDialogs: friendsDialogs
     } as const
 }
+export const setFriendsAC = (friends: Array<UsersType>) => {
+    return {type: 'SN/DIALOGS/SET-FRIENDS', friends: friends} as const
+}
+export const setPageAC = (page: number) => {
+    return {type: 'SN/DIALOGS/SET-PAGE', page: page} as const
+}
+export const setCountAC = (count: number) => {
+    return {type: 'SN/DIALOGS/SET-COUNT', count: count} as const
+}
+export const setTotalFriendsCountAC = (totalFriendsCount: number) => {
+    return {type: 'SN/DIALOGS/SET-TOTAL-FRIENDS-COUNT', totalFriendsCount: totalFriendsCount} as const
+}
 export const setMessagesAC = (messageData: Array<MessageDataType>) => {
     return {
         type: 'SN/DIALOGS/SET-MESSAGES', messageData: messageData
@@ -98,6 +167,21 @@ export const setMessagesAC = (messageData: Array<MessageDataType>) => {
 export const setIsViewedAC = (isViewed: boolean) => {
     return {
         type: 'SN/DIALOGS/IS-VIEWED', isViewed: isViewed
+    } as const
+}
+export const isLoadingMessageAC = (isLoadingMessage: MessageLoadingStatusType) => {
+    return {
+        type: 'SN/DIALOGS/IS-LOADING-MESSAGE', isLoadingMessage: isLoadingMessage
+    } as const
+}
+export const isNoMessageAC = (isNoMessage: boolean) => {
+    return {
+        type: 'SN/DIALOGS/IS-NO-MESSAGE', isNoMessage: isNoMessage
+    } as const
+}
+export const sendMessageAC = (message: MessageDataType) => {
+    return {
+        type: 'SN/DIALOGS/SEND-MESSAGE', message: message
     } as const
 }
 
@@ -116,15 +200,28 @@ export const getAllDialogsTC = () => { // активность, наличие �
         dispatch(getAllDialogsAC(data.data))
     }
 }
-export const getFriendMessagesTC = (userId: number, page: number, count: number) => {
+export const getFriendMessagesTC = (userId: number, page: number, count: number, messageData: MessageDataType[] = []) => {
     return async (dispatch: Dispatch) => { // сообщения друга не больше 20
         let data = await dialogsAPI.getFriendMessagesGET(userId, page, count)
-        dispatch(setMessagesAC(data.data.items))
+        const newMessageData = combineMessages(messageData, data.data.items)
+        if (data.data.items.length === 0) {
+            dispatch(isNoMessageAC(true))
+            return
+        }
+        dispatch(setMessagesAC(newMessageData))
+        dispatch(startDialogAC(true))
     }
 }
 export const sendFriendMessageTC = (userId: number, message: string) => {
-    return async () => { // отправить сообщение
-        await dialogsAPI.sendFriendMessagePOST(userId, message)
+    return async (dispatch: Dispatch) => {
+        dispatch(isLoadingMessageAC('loading'))
+        let data = await dialogsAPI.sendFriendMessagePOST(userId, message)
+        if (data.data.resultCode === 0) {
+            dispatch(isLoadingMessageAC('success'))
+            dispatch(sendMessageAC(data.data.data.message))
+        } else {
+            dispatch(isLoadingMessageAC('failed'))
+        }
     }
 }
 
@@ -140,13 +237,38 @@ export const messageDeleteTC = (messageId: string) => {
     }
 }
 
+export const getFriendsTC = (page: number, count: number, filter: FilterType) => {
+    return async (dispatch: Dispatch) => {
+        dispatch(setPageAC(page))
+        dispatch(setCountAC(count))
+        let data = await getUsersAPI.getUsers(page, count, filter.term, filter.friend);
+        dispatch(setFriendsAC(data.items))
+        dispatch(setTotalFriendsCountAC(data.totalCount))
+    }
+}
+
 // ----- Types -----
 
-type ActionDialogType = StartDialogACType | GetAllDialogACType | SetMessagesACType | SetIsViewedACType
+type ActionDialogType =
+    StartDialogACType
+    | GetAllDialogACType
+    | SetFriendsACType
+    | SetPageACType
+    | SetCountACType
+    | SetTotalFriendsCountACType
+    | SetMessagesACType
+    | SetIsViewedACType
+    | IsLoadingMessageACType
+    | SendMessageACType
+    | IsNoMessageACType
 type StartDialogACType = ReturnType<typeof startDialogAC>
 type GetAllDialogACType = ReturnType<typeof getAllDialogsAC>
+type SetFriendsACType = ReturnType<typeof setFriendsAC>
+type SetPageACType = ReturnType<typeof setPageAC>
+type SetCountACType = ReturnType<typeof setCountAC>
+type SetTotalFriendsCountACType = ReturnType<typeof setTotalFriendsCountAC>
 type SetMessagesACType = ReturnType<typeof setMessagesAC>
 type SetIsViewedACType = ReturnType<typeof setIsViewedAC>
-
-
-
+type IsLoadingMessageACType = ReturnType<typeof isLoadingMessageAC>
+type IsNoMessageACType = ReturnType<typeof isNoMessageAC>
+type SendMessageACType = ReturnType<typeof sendMessageAC>

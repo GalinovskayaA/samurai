@@ -17,7 +17,7 @@ const LoginForm: React.FC<InjectedFormProps<FormLoginDataType>> = ({handleSubmit
                 {createField<ForCreateFieldPropertiesType<FormLoginDataType>>("Email", "email", [required], InputFormsController)}
             </div>
             <div>
-                {createField<ForCreateFieldPropertiesType<FormLoginDataType>>("Password", "password", [required], InputFormsController, {type: "password"})}
+                {createField<ForCreateFieldPropertiesType<FormLoginDataType>>("password", "password", [required], InputFormsController, {type: "password"})}
             </div>
             <div>
                 {createField<ForCreateFieldPropertiesType<FormLoginDataType>>("", "rememberMe", [], InputFormsController, {type: "checkbox"}, 'remember me')}

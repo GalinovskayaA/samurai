@@ -1,7 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import s from "./chat.module.css"
 import {IEmojiData} from 'emoji-picker-react';
 import {StatusChatType} from "../../api/chat-api";
-import {ModalInfo} from "../common/modals/ModalInfo";
 import {Emoji} from "../common/Emoji";
 
 type AddMessageFormType = {
@@ -11,12 +11,12 @@ type AddMessageFormType = {
     showEmoji: boolean
 }
 
-export const AddMessageForm = React.memo(({sendMessageForm, status, userId, showEmoji}: AddMessageFormType) => {
+export const AddMessageForm = React.memo(({sendMessageForm, status, showEmoji}: AddMessageFormType) => {
 
     const [message, setMessage] = useState<string>('')
     const [img, setImage] = useState<string>()
     const [chosenEmoji, setChosenEmoji] = useState<IEmojiData>();
-    const [modalActive, setModalActive] = useState<boolean>(false);
+    const [, setModalActive] = useState<boolean>(false);
     const fr = new FileReader();
     fr.onload = function () {
         setImage(fr.result as string)
@@ -45,23 +45,10 @@ export const AddMessageForm = React.memo(({sendMessageForm, status, userId, show
         setChosenEmoji(emojiObject);
         setMessage(message + emojiObject.emoji);
     }
-    const onFileSelected = (e: React.SyntheticEvent<EventTarget>) => {
-        const formInput = (e.target as HTMLFormElement).files;
-        if (formInput.length) {
-            fr.readAsDataURL(formInput[0]);
-        }
-    }
 
-    return <>
-        <div style={{marginTop: '20px'}}>
-            <textarea onChange={onChange} onKeyPress={onKeyPressHandler} value={message}> </textarea>
-        </div>
-        <input multiple type='file' onChange={onFileSelected}/>
-        <img src={img} alt=''/>
-        <div>
+    return <div className={s.addMessageContent}>
+            <textarea onChange={onChange} onKeyPress={onKeyPressHandler} value={message} className={`${s.textarea}`}> </textarea>
             <button onClick={sendMessage} disabled={status !== 'ready'}>Send</button>
-        </div>
         {showEmoji && <Emoji chosenEmoji={chosenEmoji} onEmojiClick={onEmojiClick}/>}
-        <ModalInfo title={'Отправка файлов не реализовано'} active={modalActive} setActive={setModalActive}/>
-    </>
+    </div>
 })

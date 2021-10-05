@@ -1,10 +1,4 @@
-.ava {
-    padding: 10px;
-    font-size: 40px;
-    color: #3616ab;
-}
-
-.contact {
-    padding: 0 1em;
-    font-size: 30px;
+.selectInput {
+    padding: var(--offset) 0;
+    border: none;
 }

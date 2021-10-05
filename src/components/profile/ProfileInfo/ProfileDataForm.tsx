@@ -13,9 +13,6 @@ const ProfileDataForm: React.FC<InjectedFormProps<ProfileType>> = ({handleSubmit
     let profile = useSelector<StoreStateType, ProfileType>(state => state.profilePage.profile)
     return <>
         <form onSubmit={handleSubmit}>
-            <div>
-                <button> save </button>
-            </div>
             {error && <div className={s.formSummaryError}> {error} </div>}
             <div>
                 <b>Full name:</b>
@@ -41,6 +38,9 @@ const ProfileDataForm: React.FC<InjectedFormProps<ProfileType>> = ({handleSubmit
                 </div>
             })}
             </div>}
+            <div className={`offset-t`}>
+                <button> save </button>
+            </div>
         </form>
     </>
 }

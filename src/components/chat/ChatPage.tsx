@@ -1,17 +1,21 @@
-import React, {useEffect, useRef, useState} from 'react';
-import MessageChat from "./MessageChat";
-import {StatusChatType} from "../../api/chat-api";
-import {useDispatch, useSelector} from "react-redux";
+import React, {useEffect, useRef, useState} from 'react'
+import s from "./chat.module.css"
+import MessageChat from "./MessageChat"
+import {StatusChatType} from "../../api/chat-api"
+import {useDispatch, useSelector} from "react-redux"
 import {
     ChatMessageType, sendMessagesTC,
     startMessagesListenerTC,
     stopMessagesListenerTC
-} from "../../redux/ChatReducer";
-import {StoreStateType} from "../../redux/redux-store";
-import {AddMessageForm} from "./AddMessageForm";
+} from "../../redux/ChatReducer"
+import {StoreStateType} from "../../redux/redux-store"
+import {AddMessageForm} from "./AddMessageForm"
+import {Redirect} from "react-router-dom";
 
 
 const ChatPage: React.FC = () => {
+    const isAuth = useSelector<StoreStateType, boolean>(state => state.auth.isAuth)
+    if (!isAuth) return <Redirect to={'/login'}/>
     return <>
         <Chat/>
     </>
@@ -60,9 +64,9 @@ export const MessagesChat: React.FC = React.memo(() => {
     }, [isAutoScroll, messages])
 
     return <>
-        <div style={{height: '25em', overflowY: 'auto'}} onScroll={scrollHandler}>
+        <div className={`col gap-offset ${s.scroll}`} onScroll={scrollHandler}>
             {messages.map((m, index) => <MessageChat key={index} userId={m.userId} message={m.message}
-                                              userName={m.userName} photo={m.photo}/>)}
+                                                     userName={m.userName} photo={m.photo}/>)}
             <div ref={messageAnchorRef}> </div>
         </div>
     </>

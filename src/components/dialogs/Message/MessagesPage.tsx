@@ -1,15 +1,19 @@
-import React, {CSSProperties, useEffect} from "react";
+import React, {useEffect} from "react";
 import s from "../Dialogs.module.css"
 import {useDispatch, useSelector} from "react-redux";
 import {
-    getFriendsTC,
-    getUsersTC,
     LocationUsersType,
     PhotoUsersType
 } from "../../../redux/UsersReducer";
 import {StoreStateType} from "../../../redux/redux-store";
 import User from "../../users/User";
-import {getAllDialogsTC, getFriendMessagesTC, startDialogAC, startDialogsTC} from "../../../redux/DialogsReducer";
+import {
+    getAllDialogsTC,
+    getFriendMessagesTC,
+    getFriendsTC, isNoMessageAC,
+    startDialogAC,
+    startDialogsTC
+} from "../../../redux/DialogsReducer";
 import {Redirect, useParams} from "react-router-dom";
 import {DialogsMessages} from "./DialogsMessages";
 import ActionDialogs from "./ActionDialogs";
@@ -31,9 +35,9 @@ export type FriendNewMessageType = {
 const MessagesPage = () => {
     let dispatch = useDispatch()
     let {userId} = useParams<{ userId?: string | undefined }>()
-    const { followingInProgress, users } = useSelector((state: StoreStateType) => state.usersPage)
+    const {followingInProgress} = useSelector((state: StoreStateType) => state.usersPage)
     const {
-        isStartDialog, friendsDialogs, page, count
+        isStartDialog, friendsDialogs, page, count, friends, messageData
     } = useSelector((state: StoreStateType) => state.dialogPage)
     const isAuth = useSelector<StoreStateType, boolean>(state => state.auth.isAuth)
     const id = useSelector<StoreStateType, number>(state => state.auth.id)
@@ -41,17 +45,22 @@ const MessagesPage = () => {
 
     useEffect(() => {
         dispatch(getUserProfileTC(String(id)))
-        dispatch(getFriendsTC(1, 30, {term: '', friend: true}))
+        dispatch(getFriendsTC(page, count, {term: '', friend: true}))
         dispatch(getAllDialogsTC())
-    },[dispatch, id])
+    }, [dispatch, id, page, count])
 
     const startDialog = (userId: string) => {
+
         dispatch(startDialogAC(false))
-        dispatch(startDialogsTC(+userId))
-        dispatch(startDialogAC(true)) // show dialog window
+        dispatch(isNoMessageAC(false))
+        dispatch(startDialogsTC(Number(userId)))
+        dispatch(getFriendMessagesTC(Number(userId), 1, 20))
+
     }
 
-    const friendsWithNewMessages = users.reduce((acc, u) => {
+
+
+    const friendsWithNewMessages = friends.reduce((acc, u) => {
         friendsDialogs.some((f) => {
             if (f.id === +u.id) {
                 // @ts-ignore
@@ -61,8 +70,7 @@ const MessagesPage = () => {
         return acc
     }, [])
     // @ts-ignore
-    const friendsNoMessages = users.filter(a => friendsWithNewMessages.every(b => a.id !== b.id))
-
+    const friendsNoMessages = friends.filter(a => friendsWithNewMessages.every(b => a.id !== b.id))
 
     // @ts-ignore
     const friendsAll: FriendNewMessageType[] = [...friendsNoMessages, ...friendsWithNewMessages]
@@ -73,40 +81,40 @@ const MessagesPage = () => {
             return acc + u.newMessagesCount
         }
     }, 0)
-    friendsAll.sort(function(b, a) {
-        if(!a.newMessagesCount) {
+    friendsAll.sort(function (b, a) {
+        if (!a.newMessagesCount) {
             a.newMessagesCount = 0
         } else if (!b.newMessagesCount) {
             b.newMessagesCount = 0
         }
         return a.newMessagesCount - b.newMessagesCount
     })
-    const style: CSSProperties = {fontWeight: 'bold', marginTop: '5px'}
 
     if (!isAuth) return <Redirect to={'/login'}/>
 
-    return (
-        <div className={s.dialogsContent}>
-            <div className={s.dialogItems} style={{height: 700, overflow: "auto"}}> {/*имена друзей*/}
 
-                <div style={style}> {'Number of friends: ' + friendsAll.length} </div>
-                <div style={style}> {'New messages: ' + numberOfNewMessages} </div>
-                {friendsAll.map((u, index) => <div key={`user-${index}`}>
-                    <User user={u} followingInProgress={followingInProgress}
-                          startDialog={startDialog} page={page} count={count}
-                          navLink={'/dialogs/'} hasNewMessages={u.hasNewMessages}
-                          newMessagesCount={u.newMessagesCount}/>
-                </div>)}
-                <div style={style}>{'Action dialogs: '}</div>
+    return (
+        <div className={`row top left gap-offset ${s.dialogsContent}`}>
+            <div className={s.dialogItems}> {/*имена друзей*/}
+                <div className={s.messagePageInfo}> {'Number of friends: ' + friendsAll.length} </div>
+                <div className={s.messagePageInfo}> {'New messages: ' + numberOfNewMessages} </div>
+                <div className={`col gap-offset ${s.users}`}>
+                    {friendsAll.map((u, index) => <div key={`user-${index}`}>
+                        <User user={u} followingInProgress={followingInProgress}
+                              startDialog={startDialog} page={page} count={count}
+                              navLink={'/dialogs/'} hasNewMessages={u.hasNewMessages}
+                              newMessagesCount={u.newMessagesCount}/>
+                    </div>)}
+                </div>
+                <div className={s.messagePageInfo}>{'Action dialogs: '}</div>
                 {friendsDialogs.filter(f => f.hasNewMessages).map((u, index) => <div key={`dialog-${index}`}>
                     <ActionDialogs user={u} startDialog={startDialog} page={page} count={count}
-                                   navLink={'/dialogs/'} />
+                                   navLink={'/dialogs/'}/>
                 </div>)}
-
             </div>
-            {isStartDialog && userId && <div className={s.messages}>
-              <DialogsMessages userId={userId} friendsAll={friendsAll} profile={profile}/> {/*диалоговая часть*/}
-            </div>}
+            {isStartDialog && userId ? <div className={s.messages}>
+              <DialogsMessages userId={userId} friendsAll={friendsAll} profile={profile} messageData={messageData}/>
+            </div> : <h2 className={s.messages}> Select dialog </h2>}
         </div>
     )
 }
