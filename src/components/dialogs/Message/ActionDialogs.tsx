@@ -1,7 +1,7 @@
 import React from "react";
 import s from "../Dialogs.module.css"
 import {NavLink} from "react-router-dom";
-import email from './../../../image/email3.png'
+//import email from './../../../image/email3.png' / TODO: вернуть картинки
 import {FriendDialogsType} from "../../../redux/DialogsReducer";
 import Avatar from "../../common/Avatar";
 
@@ -34,7 +34,7 @@ const ActionDialogs = (
                 <button onClick={() => startDialog(String(user.id), page, count)}> To write message</button>
                 {user.hasNewMessages &&
                 <span>
-                   <img src={email} alt={''} height={25}/>
+                   {/*<img src={email} alt={''} height={25}/>*/}
                    <span className={s.newMessagesCount}> {user.newMessagesCount} </span>
                 </span>}
             </NavLink>

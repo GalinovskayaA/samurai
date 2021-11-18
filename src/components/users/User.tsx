@@ -3,7 +3,7 @@ import s from "./users.module.css"
 import {followTC, unfollowTC, UsersType} from "../../redux/UsersReducer"
 import {NavLink} from "react-router-dom"
 import Avatar from "../common/Avatar"
-import email from './../../image/email3.png'
+//import email from './../../image/email3.png' / TODO: вернуть картинки
 import {FriendNewMessageType} from "../dialogs/Message/MessagesPage"
 import {useDispatch} from "react-redux"
 
@@ -58,7 +58,7 @@ const User = (
                     <button onClick={() => startDialog(user.id, page, count)} className={`offset-s-t`}> To write </button>
                     {hasNewMessages &&
                     <span>
-                        <img src={email} alt={''} height={25}/>
+                        {/*<img src={email} alt={''} height={25}/>*/}
                         <span className={s.newMessagesCount}> {newMessagesCount} </span>
                     </span>}
                 </NavLink>

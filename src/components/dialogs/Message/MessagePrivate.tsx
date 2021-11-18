@@ -8,8 +8,8 @@ import {
     messageIsSpamTC,
 } from "../../../redux/DialogsReducer"
 import {PhotoUsersType} from "../../../redux/UsersReducer"
-import deleteScr from './../../../image/deleteSrc.png'
-import spamScr from './../../../image/spamSrc.png'
+//import deleteScr from './../../../image/deleteSrc.png' / TODO: вернуть картинки
+//import spamScr from './../../../image/spamSrc.png' / TODO: вернуть картинки
 import {useDispatch} from "react-redux"
 import {ModalQuestion} from "../../common/modals/ModalQuestion"
 import {DateTime} from 'luxon';
@@ -58,10 +58,10 @@ const MessagePrivate = React.memo(({messageData, photos, userId, myPhoto}: Props
                                 <div className={s.bold}> {!messageData.viewed && 'Message not viewed'} </div>
                                 <div>
                                     {userId && +userId === messageData.recipientId ?
-                                        <button onClick={() => setModalActive(true)} className={s.button}><img
-                                            src={deleteScr} alt={'delete'}/></button> :
-                                        <button onClick={() => setModalActive(true)} className={s.button}><img
-                                            src={spamScr} alt={'spam'}/></button>}
+                                        <button onClick={() => setModalActive(true)} className={s.button}>{/*<img
+                                            src={deleteScr} alt={'delete'}/>*/} del </button> :
+                                        <button onClick={() => setModalActive(true)} className={s.button}>{/*<img
+                                            src={spamScr} alt={'spam'}/>*/} spam </button>}
                                 </div>
                             </>}
 
