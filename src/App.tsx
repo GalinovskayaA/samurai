@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {withRouter} from "react-router-dom"
+import {useHistory, withRouter} from "react-router-dom"
 import s from './App.module.css';
 import Nav from "./components/nav/Nav";
 import HeaderContainer from "./components/header/HeaderContainer";
@@ -10,6 +10,7 @@ import {StoreStateType} from "./redux/redux-store";
 import Preloader from "./components/common/Preloader";
 import {getAuthUserDataTC} from "./redux/AuthReducer";
 import Routes from "./Routes";
+import GoogleAnalytics from "./GoogleAnalytics";
 
 
 const App = () => {
@@ -18,6 +19,10 @@ const App = () => {
     const catchAllUnhandledErrors = (e: PromiseRejectionEvent) => {
         console.log("Some error occurred: " + e)
     }
+
+    const history = useHistory();
+    const selectedPage = history.location.pathname // запись просмотров
+
     useEffect(() => {
         dispatch(initializeAppTC())
         dispatch(getAuthUserDataTC())
@@ -34,6 +39,7 @@ const App = () => {
             <main className={`row top ${s.main}`}>
                 <Nav/>
                 <Routes/>
+                <GoogleAnalytics selectedPage={selectedPage}/>
             </main>
         </div>
     );

@@ -1,10 +1,11 @@
 import React from 'react';
-import {Redirect, Route, Switch} from "react-router-dom"
+import {Redirect, Route, Switch, withRouter} from "react-router-dom"
 import s from './App.module.css';
 import {UsersPageComponent} from "./components/users/UsersContainer";
 import {withSuspense} from "./hoc/withSuspense";
 import {Login} from "./components/login/Login";
 import {ProfileComponent} from "./components/profile/ProfileComponent";
+import {compose} from "redux";
 
 
 const Messages = React.lazy(() => import('./components/dialogs/Message/MessagesPage'));
@@ -35,4 +36,4 @@ const Routes = () => {
     )
 }
 
-export default Routes;
+export default compose<React.ComponentType>(withRouter)(Routes);
