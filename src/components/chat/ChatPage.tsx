@@ -11,6 +11,7 @@ import {
 import {StoreStateType} from "../../redux/redux-store"
 import {AddMessageForm} from "./AddMessageForm"
 import {Redirect} from "react-router-dom";
+import useGaTracker from "../../useGaTracker";
 
 
 const ChatPage: React.FC = () => {
@@ -22,6 +23,7 @@ const ChatPage: React.FC = () => {
 }
 
 const Chat: React.FC = () => {
+    useGaTracker()
     const status = useSelector<StoreStateType, StatusChatType>(state => state.chat.status)
     const dispatch = useDispatch()
 

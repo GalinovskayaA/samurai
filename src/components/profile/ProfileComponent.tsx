@@ -6,9 +6,11 @@ import {StoreStateType} from "../../redux/redux-store";
 import {useParams, Redirect} from 'react-router-dom';
 import Preloader from "../common/Preloader";
 import {AuthPropsType} from "../../redux/AuthReducer";
+import useGaTracker from "../../useGaTracker";
 
 
 export const ProfileComponent = () => {
+    useGaTracker()
     let dispatch = useDispatch()
     const user = useSelector<StoreStateType, AuthPropsType>(state => state.auth)
     const isFetching = useSelector<StoreStateType, boolean>(state => state.profilePage.isFetching)

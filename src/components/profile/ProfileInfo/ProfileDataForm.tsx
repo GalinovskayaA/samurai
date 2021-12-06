@@ -20,10 +20,6 @@ const ProfileDataForm: React.FC<InjectedFormProps<ProfileType>> = ({handleSubmit
             </div>
             <ProfileStatusWithHooks/>
             <div>
-                <b>Looking for a job:</b>
-                {createField<ForCreateFieldPropertiesType<ProfileType>>('', "lookingForAJob", [], InputFormsController, {type: "checkbox"})}
-            </div>
-            <div>
                 <b>My professionals skills:</b>
                 {createField<ForCreateFieldPropertiesType<ProfileType>>('My professionals skills', "lookingForAJobDescription", [], TextareaFormsController)}
             </div>

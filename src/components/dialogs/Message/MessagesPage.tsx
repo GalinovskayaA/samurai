@@ -18,6 +18,7 @@ import {Redirect, useParams} from "react-router-dom";
 import {DialogsMessages} from "./DialogsMessages";
 import ActionDialogs from "./ActionDialogs";
 import {getUserProfileTC, ProfileType} from "../../../redux/ProfileReducer";
+import useGaTracker from "../../../useGaTracker";
 
 export type FriendNewMessageType = {
     id: string,
@@ -33,6 +34,7 @@ export type FriendNewMessageType = {
 
 
 const MessagesPage = () => {
+    useGaTracker()
     let dispatch = useDispatch()
     let {userId} = useParams<{ userId?: string | undefined }>()
     const {followingInProgress} = useSelector((state: StoreStateType) => state.usersPage)

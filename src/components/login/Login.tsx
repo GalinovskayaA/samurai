@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {loginTC} from "../../redux/AuthReducer";
 import {StoreStateType} from "../../redux/redux-store";
 import {Redirect} from "react-router-dom";
+import useGaTracker from "../../useGaTracker";
 
 export type FormLoginDataType = {
   email: string
@@ -13,6 +14,7 @@ export type FormLoginDataType = {
 }
 
 export const Login = () => {
+  useGaTracker()
   const dispatch = useDispatch()
   const isAuth = useSelector<StoreStateType, boolean>(state => state.auth.isAuth)
   const onSubmit = ({email, password, rememberMe, captchaUrl}: FormLoginDataType) => {

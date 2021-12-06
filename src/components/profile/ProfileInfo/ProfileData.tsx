@@ -20,12 +20,8 @@ export const ProfileData = ({isOwner, goToEditMode}: ProfileDataFormPropsType) =
         </div>
         <ProfileStatusWithHooks/>
         <div className={`border-b padding-s-tb`}>
-            <h2>Looking for a job:</h2> {profile.lookingForAJob ? 'yes' : 'no'}
-        </div>
-        {profile.lookingForAJob &&
-        <div className={`border-b padding-s-tb`}>
             <h2>My professionals skills:</h2> {profile.lookingForAJobDescription}
-        </div>}
+        </div>
         <div className={`border-b padding-s-tb`}>
             <h2>About me:</h2> {profile.aboutMe}
         </div>

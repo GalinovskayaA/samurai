@@ -6,6 +6,7 @@ import {withSuspense} from "./hoc/withSuspense";
 import {Login} from "./components/login/Login";
 import {ProfileComponent} from "./components/profile/ProfileComponent";
 import {compose} from "redux";
+import useGaTracker from "./useGaTracker";
 
 
 const Messages = React.lazy(() => import('./components/dialogs/Message/MessagesPage'));
@@ -21,6 +22,7 @@ export const PATH = {
 }
 
 const Routes = () => {
+    useGaTracker()
     return (
         <div className={s.appWrapperContent}>
             <Switch>
