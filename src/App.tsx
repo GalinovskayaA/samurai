@@ -34,7 +34,7 @@ const App = () => {
         return <Preloader/>
     }
     return (
-        <div className={`full-size col gap-offset row ${s.appWrapper}`}>
+        <div className={`full-size col gap-offset ${s.appWrapper}`}>
             <HeaderContainer/>
             <main className={`row top ${s.main}`}>
                 <Nav/>
